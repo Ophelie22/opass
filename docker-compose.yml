@@ -1,0 +1,43 @@
+version: '3.9'
+
+services:
+  # Service pour PostgreSQL
+  db:
+    image: postgres:13
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: mydatabase
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  # Service pour l'API Node.js
+  api:
+    build:
+      context: ./api  # Utilise le dossier api comme contexte de build
+    environment:
+      DATABASE_URL: postgres://postgres:postgres@db:5432/mydatabase
+    depends_on:
+      - db
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./api:/usr/src/app
+      - /usr/src/app/node_modules
+    command: sh -c "npx prisma migrate dev && npm run dev"
+
+
+    
+    # Service Adminer pour gérer PostgreSQL
+  adminer:
+    image: adminer
+    depends_on:
+      - db
+    ports:
+      - "8080:8080"
+
+
+volumes:
+  postgres_data:
