@@ -23,7 +23,7 @@ class AuthService {
     // Fonction pour la génération du token
     const token = jwt.sign(
       { email: user.email, userId: user.id },
-      'SERVICE_TOKEN', // Mettre le token ici
+       process.env.SECRET_KEY ||, // Mettre le token ici
       { expiresIn: '1h' }
     );
     return token;
@@ -31,17 +31,16 @@ class AuthService {
 
   // Fonction d'inscription
   static async register(email: string, password: string) {
-    // Vérification si l'utilisateur déjà existant
-    const existingUser = await prisma.user.findUnique({ where: { email } });
-    if (existingUser) throw new Error('User already exists');
-    const hashedPassword = bcrypt.hashSync(password, 10);
-
-    // Créer un utilisateur dans la base de données
-    const newUser = await prisma.user.create({
-      data: { email, password: hashedPassword }
-    });
-
-    return newUser;
+    try {
+      // Vérification si l'utilisateur déjà existant
+      const existingUser = await prisma.user.findUnique({ where: { email } });
+      if (existingUser) throw new Error('Utilisateur déjà existant');
+      const hashedPassword = bcrypt.hashSync(password, 10);
+      // Création de compte dans la BDD
+      return await prisma.user.create({ data: { email, password: hashedPassword } });
+    } catch (error) {
+      throw new Error(`Échec de l'inscription : ${error.message}`);
+    }
   }
 }
 
