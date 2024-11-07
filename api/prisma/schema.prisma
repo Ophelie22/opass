@@ -20,6 +20,7 @@ model User {
   password    String      
   createAt    DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
   orders      Order[]
 }
 
@@ -31,6 +32,8 @@ model Order {
   status    String   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
   user      User     @relation(fields: [userId], references: [id])
   Passes    Pass[]
 }
@@ -42,7 +45,9 @@ model Pass {
   orderId     Int
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  package     Package?    @relation(fields: [package_id], references: [id])
+
+
+  package     Package?    @relation(fields: [packageId], references: [id])
   order       Order       @relation(fields: [orderId], references: [id])
 }
 
@@ -59,13 +64,7 @@ model Region {
   packages    Package[]
 }
 
-model SiteCategory {
-  id         Int      @id @default(autoincrement())
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  site       Site[]   @relation(fields: [siteId], references: [id])
-}
+
 model Site {
   id            Int         @id @default(autoincrement())
   regionId      Int
@@ -82,17 +81,23 @@ model Site {
   information   String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
   region        Region      @relation(fields: [regionId], references: [id])
+  category      SiteCategory?   @relation(fields: [categoryId], references: [id])
   events        Event[]
   siteUsers     SiteUser[]
-  package       Package    @relation(fields:  [packageId], references: [id])
-  region        Region?     @relation(fields: [region_id], references: [id])
-  category      Category?   @relation(fields: [category_id], references: [id])
+  sitePackage   SitePackage[]
+  
 }
+model SiteCategory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
 
-
-
+  sites       Site[]
+}
 model Event {
   id          Int      @id @default(autoincrement())
   siteId      Int
@@ -113,23 +118,30 @@ model SiteUser {
   name     String
   email    String @unique
   password String
+  
   site     Site   @relation(fields: [site_id], references: [id])
 }
 
 model Package {
-  id            Int
+  id            Int     @id @default(autoincrement())
   region_id     Int?
   price         Decimal @db.Decimal(10,2)
   description   String?
   name          String
+
+  passes        Pass []
   sitePackages  SitePackage[]
   region        Region? @relation(fields: [region_id], references: [id])
 }
 
-model sitePackage {
+model SitePackage {
   siteId      Int
   packageId   Int
+
+
   site        Site      @relation(fields: [siteId], references: [id])
   package     Package   @relation(fields: [packageId], references: [id])
+
+  @@id([siteId,packageId])// Cle primaire compoisite
 }
 
