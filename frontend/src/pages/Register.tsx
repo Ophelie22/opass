@@ -1,6 +1,7 @@
 import { useFormik } from "formik";
 
 const Register = () => {
+
 	const formik = useFormik({
 		initialValues: {
 			name: "",
@@ -93,7 +94,6 @@ const Register = () => {
 							type="checkbox"
 							name="gcu"
 							id="gcu"
-							defaultChecked
 							className="checkbox mr-2"
 							onChange={formik.handleChange}
 							checked={formik.values.gcu}
@@ -108,16 +108,8 @@ const Register = () => {
 				<button
 					type="submit"
 					className="btn"
-					disabled={
-						!formik.values.name ||
-						!formik.values.email ||
-						!formik.values.confirmEmail ||
-						!formik.values.password ||
-						!formik.values.gcu ||
-						formik.isSubmitting
-					}
 				>
-					Je m'inscris
+					Inscription
 				</button>
 			</form>
 		</main>
