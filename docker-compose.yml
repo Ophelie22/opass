@@ -1,5 +1,3 @@
-version: '3.9'
-
 services:
   # Service pour PostgreSQL
   db:
@@ -16,7 +14,7 @@ services:
   # Service pour l'API Node.js
   api:
     build:
-      context: ./api  # Utilise le dossier api comme contexte de build
+      context: ./api
     environment:
       DATABASE_URL: postgres://postgres:postgres@db:5432/mydatabase
     depends_on:
@@ -26,11 +24,8 @@ services:
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
-    command: sh -c "npx prisma migrate dev && npm run dev"
-
-
-    
-    # Service Adminer pour gérer PostgreSQL
+      
+  # Service Adminer pour gérer PostgreSQL
   adminer:
     image: adminer
     depends_on:
