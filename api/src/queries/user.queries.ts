@@ -15,6 +15,7 @@ const prisma = require('@prisma/client').PrismaClient;// Vérification si l'util
 const bcrypt = require('bcrypt');
 const schema = prisma.Schema;
 
+
 const userSchema = schema({
   local: {
     email: { type: String, required: true, unique: true },
@@ -36,6 +37,10 @@ userSchema.statics.hashPassword = async (password) => {
 userSchema.methods.comparePassword = function(password) {
   return bcrypt.compare(password, this.local.password);
 }
+exports.findUserPerId = (id) => {
+    return User.findOne({ _id: id }).exec();
+  }
+
 
 const User = prisma.model('user', userSchema);
 
