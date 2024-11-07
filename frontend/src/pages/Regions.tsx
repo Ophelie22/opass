@@ -1,7 +1,7 @@
 const Regions = () => {
   return (
     <main>
-      <h1>Page des région</h1>
+      <h1>Page des régions</h1>
     </main>
   )
 }
