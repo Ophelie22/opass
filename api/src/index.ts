@@ -1,14 +1,20 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import authController from './auth/auth.routes';
-import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
+
+const cookieParser = require('cookie-parser');
+const app = express();
+exports.app = app;
+
+
 
 // Chargement des variables d'environnement
 dotenv.config();
 
-const app = express();
+
 const PORT = process.env.PORT || 3000;
+
 
 // Partie Middleware
 app.use(cookieParser());

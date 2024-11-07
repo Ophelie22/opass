@@ -1,4 +1,5 @@
-import e from "express";
+const { findUserPerId } = require('../queries/user.queries');
+const { app } = require('../app');
 
  ///https://www.uuidgenerator.net/ pour generer le secret
 const secret ='f80984c2-5132-4a8a-afd0-d3c9abc27
@@ -19,11 +20,13 @@ const extracUserFromToken = (req, res, next    ) => {
 if (token) {
     try {
         const decodedToken =jwt.verify(token, secret);//soit on va avoir les infos du paylod soit une errreur
-        const user = await
+        const user = await findUserPerId(decodedToken.sub)
     } catch (error) {
         res.clearCookie('jwt');// on delete le token si il y a une erreur
         res.redirect('/login');//on le redirigige vers la page de login
-    } else {
+    } 
+}else {
         next();
     }
 }
+//app.use(extractUserFromToken);
