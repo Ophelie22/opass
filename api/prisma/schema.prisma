@@ -59,6 +59,13 @@ model Region {
   packages    Package[]
 }
 
+model SiteCategory {
+  id         Int      @id @default(autoincrement())
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
+  site       Site[]   @relation(fields: [siteId], references: [id])
+}
 model Site {
   id            Int         @id @default(autoincrement())
   regionId      Int
@@ -97,15 +104,6 @@ model Event {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
   site        Site     @relation(fields: [siteId], references: [id])
-}
-
-
-model SiteCategory {
-  id         Int      @id @default(autoincrement())
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  site       Site[]   @relation(fields: [siteId], references: [id])
 }
 
 
