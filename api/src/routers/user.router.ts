@@ -6,11 +6,11 @@ import {
     deleteUserById,
 } from "../controllers/user.controller";
 
-const UserRouter = Router ();
+const userRouter = Router();
 
-UserRouter.get("/", getAllUsers);
-UserRouter.get("/:id", getUserById);
-UserRouter.put("/:id", updatedUserById);
-UserRouter.delete("/:id", deleteUserById);
+userRouter.get("/", getAllUsers);
+userRouter.get("/:id", getUserById);
+userRouter.put("/:id", updatedUserById);
+userRouter.delete("/:id", deleteUserById);
 
-export default UserRouter;
+export default userRouter;

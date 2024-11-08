@@ -1,8 +1,8 @@
 import express, { Request, Response } from 'express';
 import userRouter from './routers/user.router';
-import siteUserRouter from './routers/siteuser.router';
-import sitePackageRouter from './routers/sitepackage.router';
-import siteCategoryRouter from './routers/sitecategory.router';
+import siteUserRouter from './routers/siteUser.router';
+import sitePackageRouter from './routers/sitePackage.router';
+import siteCategoryRouter from './routers/siteCategory.router';
 import siteRouter from './routers/site.router';
 import regionRouter from './routers/region.router';
 import passRouter from './routers/pass.router';

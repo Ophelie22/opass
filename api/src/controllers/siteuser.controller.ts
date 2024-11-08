@@ -1,6 +1,7 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-import bcrypt from 'bcrypt';
+// import bcrypt from 'bcrypt';
+const bcrypt = require('bcrypt');
 
 const prisma = new PrismaClient();
 
@@ -9,7 +10,8 @@ const prisma = new PrismaClient();
 export const getAllSiteUsers = async (req: Request, res: Response) => {
     try {
         const siteUsers = await prisma.siteUser.findMany({
-            include: { site: true }, // Inclure le site associé
+            // Inclure le site associé
+            include: { site: true },
         });
         res.status(200).json({ data: siteUsers });
     } catch (error) {

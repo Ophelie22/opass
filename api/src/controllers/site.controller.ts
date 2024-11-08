@@ -38,7 +38,8 @@ export const getSiteById = async (req: Request, res: Response) => {
 };
 
 // Creation d'un site
-export const createSite = async (req: Request, res: Response):  => {
+
+export const createSite = async (req: Request, res: Response) => {
     try {
         const { regionId, categoryId, name, description, city, postalCode, address, latitude, longitude, media, contact, information } = req.body;
 
@@ -98,6 +99,7 @@ export const updateSiteById = async (req: Request, res: Response) => {
 
 
 // Supprimer un site par ID
+
 export const deleteSiteById = async (req: Request, res: Response) => {
     try {
         const siteId = parseInt(req.params.id, 10);
