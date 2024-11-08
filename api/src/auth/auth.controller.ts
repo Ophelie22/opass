@@ -20,7 +20,7 @@ router.post('/login', async (req: Request, res: Response) => {
 
 router.post('/register', async (req: Request, res: Response) => {
     try {
-      const user = await AuthService.register(req.body.email, req.body.password);
+      const user = await AuthService.register(req.body.email, req.body.name, req.body.password);
       return res.status(201).json(user);
     } catch (error) {
       return res.status(400).json({ message: 'Erreur lors de la création de votre utilisateur' });
