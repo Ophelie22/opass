@@ -4,7 +4,7 @@ import {
   getAllSiteUsers,
   getSiteUserById,
   updateSiteUserById,
-} from "../controllers/siteuser.controller";
+} from "../controllers/siteUser.controller";
 
 const siteUserRouter = Router();
 

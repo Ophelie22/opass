@@ -32,7 +32,7 @@ export const getSitePackageById = async (req: Request, res: Response) => {
             include: { site: true, package: true },
         });
         if (!sitePackage) {
-            return res.status(404).json({ message: "Association Site-Package non trouvée" });
+            res.status(404).json({ message: "Association Site-Package non trouvée" });
         }
         res.status(200).json({ data: sitePackage });
     } catch (error) {

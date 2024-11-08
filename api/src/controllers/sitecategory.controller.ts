@@ -28,7 +28,7 @@ export const getSiteCategoryById = async (req: Request, res: Response) => {
             include: { sites: true },
         });
         if (!siteCategory) {
-            return res.status(404).json({ message: "Catégorie de site non trouvée" });
+            res.status(404).json({ message: "Catégorie de site non trouvée" });
         }
         res.status(200).json({ data: siteCategory });
     } catch (error) {

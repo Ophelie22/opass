@@ -29,7 +29,7 @@ export const getRegionById = async (req: Request, res: Response) => {
             include: { sites: true, packages: true },
         });
         if (!region) {
-            return res.status(404).json({ message: "Région non trouvée" });
+            res.status(404).json({ message: "Région non trouvée" });
         }
         res.status(200).json({ data: region });
     } catch (error) {

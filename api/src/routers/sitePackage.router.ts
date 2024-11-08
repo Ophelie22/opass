@@ -5,7 +5,7 @@ import {
     getAllSitePackages,
     getSitePackageById,
     updateSitePackage
-} from "../controllers/siteCategory.controller";
+} from "../controllers/sitePackage.controller";
 
 const sitePackageRouter = Router();
 

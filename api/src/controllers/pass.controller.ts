@@ -26,7 +26,7 @@ export const getPassById = async (req: Request, res: Response) => {
             include: { order: true, package: true },
         });
         if (!pass) {
-            return res.status(404).json({ message: "Pass non trouvé" });
+            res.status(404).json({ message: "Pass non trouvé" });
         }
         res.status(200).json({ data: pass });
     } catch (error) {

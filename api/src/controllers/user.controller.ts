@@ -1,6 +1,6 @@
-import { Prisma, PrismaClient } from "@prisma/client";
-import { Request, Response } from "express";
-import bcrypt from 'bcrypt';
+import { PrismaClient } from "@prisma/client";
+import { Request, Response, RequestHandler } from "express";
+import * as bcrypt from 'bcryptjs';
 
 const userClient = new PrismaClient().user;
 
@@ -29,7 +29,7 @@ export const getUserById = async (req: Request, res: Response) => {
             where: { id: userId },
         });
         if (!user) {
-            return res.status(404).json({ message: 'Utilisateur non trouvé'});
+            res.status(404).json({ message: 'Utilisateur non trouvé'});
         }
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
         res.status(200).json({ data: user});
@@ -49,7 +49,7 @@ export const updatedUserById = async (req: Request, res: Response) => {
         // Hachage du mdp si modifié
         const hashedPassword = password ? bcrypt.hashSync(password, 10) : undefined;
 
-        const user = await prisma.user.update({
+        const user = await userClient.update({
             where: { id: userId},
             data: {
                 email,
@@ -71,7 +71,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
     try {
         const userId = parseInt(req.params.id, 10);
         
-        await prisma.user.delete({
+        await userClient.delete({
             where: { id: userId},
         });
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé

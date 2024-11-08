@@ -20,7 +20,7 @@ export const getOrderById = async (req: Request, res: Response) => {
             where: { id: orderId },
         });
         if (!order) {
-            return res.status(404).json({ message: 'Commande non trouvée' });
+            res.status(404).json({ message: 'Commande non trouvée' });
         }
         res.status(200).json({ data: order });
     } catch (error) {

@@ -1,7 +1,6 @@
 import { PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
-// import bcrypt from 'bcrypt';
-const bcrypt = require('bcrypt');
+import * as bcrypt from 'bcryptjs';
 
 const prisma = new PrismaClient();
 
@@ -30,7 +29,7 @@ export const getSiteUserById = async (req: Request, res: Response) => {
             include: { site: true },
         });
         if (!siteUser) {
-            return res.status(404).json({ message: "Utilisateur du site non trouvé" });
+            res.status(404).json({ message: "Utilisateur du site non trouvé" });
         }
         res.status(200).json({ data: siteUser });
     } catch (error) {

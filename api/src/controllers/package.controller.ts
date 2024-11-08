@@ -29,7 +29,7 @@ export const getPackageById = async (req: Request, res: Response) => {
             include: { region: true, passes: true },
         });
         if (!packageItem) {
-            return res.status(404).json({ message: "Package non trouvé" });
+            res.status(404).json({ message: "Package non trouvé" });
         }
         res.status(200).json({ data: packageItem });
     } catch (error) {

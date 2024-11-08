@@ -1,14 +1,14 @@
-import { Request, Response } from 'express';
 import { PrismaClient } from '@prisma/client';
+import { Request, Response } from 'express';
 
-const prismaClient = new PrismaClient();
+const prisma = new PrismaClient();
 
 
 // Récuperer tous les sites
 
 export const getAllSites = async (req: Request, res: Response) => {
     try {
-        const sites = await prisma.sites.findMany({
+        const sites = await prisma.site.findMany({
             include: { region: true, category: true, events: true, siteUsers: true, sitePackage: true },
         });
         res.status(200).json({ data: sites})
@@ -28,7 +28,7 @@ export const getSiteById = async (req: Request, res: Response) => {
             include: { region: true, category: true, events: true, siteUsers: true, sitePackage: true },
         })
         if (!site) {
-            return res.status(404).json({ message: "Site non trouvé"});
+            res.status(404).json({ message: "Site non trouvé"});
         }
         res.status(200).json({ data: site});
     } catch (error) {
