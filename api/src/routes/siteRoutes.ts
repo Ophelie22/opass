@@ -5,10 +5,6 @@ const prismaClient = new PrismaClient();
 const app = express();
 
 app.use(express.json());
-const prismaClient = new PrismaClient();
-const app = express();
-
-app.use(express.json());
 
 // Creation du site que l'on visitera
 app.post('/sites', async (req: Request, res: Response): Promise<void> => {
