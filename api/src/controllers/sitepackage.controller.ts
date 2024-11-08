@@ -60,6 +60,34 @@ export const createSitePackage = async (req: Request, res: Response) => {
     }
 };
 
+// Mettre à jour une association Site-Package par ID
+
+export const updateSitePackage = async (req: Request, res: Response) => {
+    try {
+        const { siteId, packageId } = req.params;
+        const { newSiteId, newPackageId } = req.body;
+
+        // Mise à jour de l'association Site-Package
+        const updatedSitePackage = await prisma.sitePackage.update({
+            where: {
+                siteId_packageId: {
+                    siteId: parseInt(siteId, 10),
+                    packageId: parseInt(packageId, 10),
+                },
+            },
+            data: {
+                siteId: newSiteId || undefined,
+                packageId: newPackageId || undefined, 
+            },
+        });
+
+        res.status(200).json({ data: updatedSitePackage });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la mise à jour de l'association Site-Package" });
+    }
+};
+
 // Supprimer une association Site-Package par IDs
 
 export const deleteSitePackageById = async (req: Request, res: Response) => {

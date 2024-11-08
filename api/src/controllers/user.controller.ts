@@ -11,6 +11,8 @@ const userClient = new PrismaClient().user;
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
       const allUsers = await userClient.findMany();
+
+      // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
       res.status(200).json({ data: allUsers });
     } catch (error) {
       console.log(error);

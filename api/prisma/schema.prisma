@@ -142,6 +142,6 @@ model SitePackage {
   site        Site      @relation(fields: [siteId], references: [id])
   package     Package   @relation(fields: [packageId], references: [id])
 
-  @@id([siteId,packageId])// Cle primaire compoisite
+  @@id([siteId,packageId]) // Cle primaires composites
 }
 
