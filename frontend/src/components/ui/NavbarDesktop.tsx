@@ -3,7 +3,7 @@ import { PAGE_LOGIN, PAGE_REGIONS, PAGE_REGISTER } from "../../App";
 
 const NavbarDesktop = () => {
 	return (
-		<nav className="flex items-center gap-8 w-full px-6 h-full">
+		<nav className="navbar flex items-center gap-8 w-full px-6 h-full">
 			<NavLink
 				to={PAGE_REGIONS}
 				className={({ isActive }) => {
