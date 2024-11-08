@@ -5,8 +5,7 @@ const prismaClient = new PrismaClient();
 const app = express();
 
 app.use(express.json());
-const prismaClient = new PrismaClient();
-const app = express();
+
 
 app.use(express.json());
 
