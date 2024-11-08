@@ -1,4 +1,4 @@
-infer { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import { Request, Response } from "express";
 const bcrypt = require('bcrypt')
 
