@@ -65,6 +65,30 @@ export const updatedUserById = async (req: Request, res: Response) => {
     }
 }
 
+// Créer un utilisateur
+
+export const createUser: RequestHandler = async (req, res) => {
+    try {
+        const { name, email, password } = req.body;
+        
+        // Hash the password before saving
+        const hashedPassword = bcrypt.hashSync(password, 10);
+        
+        const newUser = await userClient.create({
+            data: {
+                name,
+                email,
+                password: hashedPassword,
+            },
+        });
+        
+        res.status(201).json({ data: newUser });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de la création de l\'utilisateur' });
+    }
+};
+
 // Supprimer un utilisateur par ID
 
 export const deleteUserById = async (req: Request, res: Response) => {
