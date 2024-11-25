@@ -8,7 +8,11 @@ RUN npm install -g nodemon ts-node
 
 # Copier les fichiers package.json et package-lock.json pour installer les dépendances
 COPY package*.json ./
-
+COPY tsconfig.json ./
+COPY src ./src
+COPY ./src/types ./src/types  
+COPY ./migrate_and_start.sh ./migrate_and_start.shV
+# Copier le dossier `types` contenant vos types personnalisés
 # Installer les dépendances
 RUN npm install
 

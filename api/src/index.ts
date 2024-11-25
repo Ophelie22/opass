@@ -5,16 +5,12 @@ import dotenv from 'dotenv';
 
 const cookieParser = require('cookie-parser');
 const app = express();
-exports.app = app;
-
-
+//exports.app = app;
 
 // Chargement des variables d'environnement
 dotenv.config();
 
-
 const PORT = process.env.PORT || 3000;
-
 
 // Partie Middleware
 app.use(cookieParser());
@@ -25,10 +21,7 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello world !');
 });
 
-
-
 app.use('/auth', authController);
-
 
 // Démarrage du serveur
 app.listen(3000, () => {

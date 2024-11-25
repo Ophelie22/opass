@@ -15,19 +15,19 @@ describe('UserQueries', () => {
     await prisma.$disconnect();
   });
 
-  describe('createUser', () => {
+  describe('create', () => {
     it('should create a new user', async () => {
       const userData = {
         email: 'test@example.com',
         password: 'password123',
-        username: 'testuser'
+        name: 'testuser'
       };
 
-      const user = await UserQueries.createUser(userData);
+      const user = await UserQueries.create(userData);
 
       expect(user).toBeDefined();
       expect(user.email).toBe(userData.email);
-      expect(user.username).toBe(userData.username);
+      expect(user.name).toBe(userData.name);
       // Password should be hashed
       expect(user.password).not.toBe(userData.password);
     });
@@ -36,27 +36,27 @@ describe('UserQueries', () => {
       const userData = {
         email: 'test@example.com',
         password: 'password123',
-        username: 'testuser'
+        name: 'testuser'
       };
 
-      await UserQueries.createUser(userData);
+      await UserQueries.create(userData);
 
-      await expect(UserQueries.createUser(userData)).rejects.toThrow();
+      await expect(UserQueries.create(userData)).rejects.toThrow();
     });
   });
 
-  describe('findUserPerId', () => {
+  describe('findUserById', () => {
     it('should find user by id', async () => {
       // First create a user
       const userData = {
         email: 'test@example.com',
         password: 'password123',
-        username: 'testuser'
+        name: 'testuser'
       };
-      const createdUser = await UserQueries.createUser(userData);
+      const createdUser = await UserQueries.create(userData);
 
       // Then try to find the user
-      const foundUser = await UserQueries.findUserPerId(createdUser.id);
+      const foundUser = await UserQueries.findUserById(createdUser.id);
 
       expect(foundUser).toBeDefined();
       expect(foundUser?.id).toBe(createdUser.id);
@@ -64,7 +64,7 @@ describe('UserQueries', () => {
     });
 
     it('should return null for non-existent id', async () => {
-      const foundUser = await UserQueries.findUserPerId(999);
+      const foundUser = await UserQueries.findUserById(999);
       expect(foundUser).toBeNull();
     });
   });

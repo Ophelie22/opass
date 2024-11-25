@@ -1,47 +1,43 @@
-/// TODO CREER UN MODEL USER PPOUR LES QUERIES
 import { PrismaClient } from '@prisma/client';
-import { User } from '../models/user.model';
-import { UserCreate } from '../models/userCreate.model';
+import { User } from '@prisma/client';
+import * as bcrypt from 'bcryptjs';
+
 
 const prisma = new PrismaClient();
 
+export interface CreateUser {
+  email: string;
+  password: string;
+  name: string;
+}
+
 export class UserQueries {
-    static async create(user: UserCreate): Promise<User> {
-        return prisma.user.create({ data: user });
+    static async create(user: CreateUser): Promise<User> {
+      const hashedPassword = await UserQueries.hashPassword(user.password);
+    
+      return prisma.user.create({
+        data: {
+          email: user.email,
+          password: hashedPassword,
+          name: user.name,
+        },
+      });
     }
-}
-// Methode pour la hshage du mot de passe
-const prisma = require('@prisma/client').PrismaClient;// Vérification si l'utilisateur déjà existant
-const bcrypt = require('bcrypt');
-const schema = prisma.Schema;
-
-
-const userSchema = schema({
-  local: {
-    email: { type: String, required: true, unique: true },
-    password: { type: String },
-  },
-  username: String
-});
-
-
-userSchema.statics.hashPassword = async (password) => {
-  try {
-    const salt = await bcrypt.genSalt(10);
-    return bcrypt.hash(password, salt);
-  } catch(e) {
-    throw e
-  }
+// Methode pour la hashage du mot de passe
+static async findUserById(id: number): Promise<User | null> {
+  return prisma.user.findUnique({
+    where: { id },
+  });
 }
 
-userSchema.methods.comparePassword = function(password) {
-  return bcrypt.compare(password, this.local.password);
+static async hashPassword(password: string): Promise<string> {
+  const salt = await bcrypt.genSalt(10);
+  return bcrypt.hash(password, salt);
 }
-exports.findUserPerId = (id) => {
-    return User.findOne({ _id: id }).exec();
-  }
 
+static async comparePassword(providedPassword: string, storedPassword: string): Promise<boolean> {
+  return bcrypt.compare(providedPassword, storedPassword);
+}
+}
 
-const User = prisma.model('user', userSchema);
-
-module.exports = User;
+export default UserQueries;

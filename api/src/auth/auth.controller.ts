@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express';
+import { Request, Response, RequestHandler } from "express";
 import AuthService from './auth.service';
 import authentificate from './auth.middleware';
 
-const router = express.Router();
+const router = require('express').Router();
 
 // Route pour la connexion
 
