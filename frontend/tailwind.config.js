@@ -10,6 +10,7 @@ module.exports = {
   theme: {
     extend: {
       colors: {
+        // TODO: Etablir la couleur "base" pour le background
         blueText: '#042698', // Bleu foncé du logo
         primary: '#4059AD',  // Bleu foncé
         secondary: '#6B9AC4', // Bleu clair

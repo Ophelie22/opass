@@ -8,13 +8,16 @@ import Regions from "./pages/Regions";
 import RegionDetails from "./pages/RegionDetails";
 import Sites from "./pages/Sites";
 import SiteDetails from "./pages/SiteDetails";
-import LegalNotices from "./pages/LegalNotices";
 import Contact from "./pages/Contact";
 import Header from "./components/ui/Header";
+import Footer from "./components/ui/Footer";
+import PrivacyPolicy from "./pages/PrivacyPolicy";
+import Cgvu from "./pages/Cgvu";
 
 export const PAGE_NOT_FOUND = '*';
 export const PAGE_HOME = '/';
-export const PAGE_LEGAL_NOTICES = '/mentions-legales';
+export const PAGE_CGVU = '/cgvu';
+export const PAGE_PRIVACY_POLICY = '/politique-de-confidentialite';
 export const PAGE_CONTACT = '/contact';
 export const PAGE_LOGIN = '/connexion';
 export const PAGE_REGISTER = '/inscription';
@@ -31,7 +34,8 @@ function App() {
 			<Routes>
 				<Route path={PAGE_NOT_FOUND} element={<NotFound />} />
 				<Route path={PAGE_HOME} element={<Home />} />
-				<Route path={PAGE_LEGAL_NOTICES} element={<LegalNotices />} />
+				<Route path={PAGE_CGVU} element={<Cgvu />} />
+				<Route path={PAGE_PRIVACY_POLICY} element={<PrivacyPolicy />} />
 				<Route path={PAGE_CONTACT} element={<Contact />} />
 				<Route path={PAGE_LOGIN} element={<Login />} />
 				<Route path={PAGE_REGISTER} element={<Register />} />
@@ -43,6 +47,7 @@ function App() {
 					</Route>
 				</Route>
 			</Routes>
+			<Footer />
 		</>
 	);
 
