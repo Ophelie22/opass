@@ -18,6 +18,47 @@ export const getAllRegions = async (req: Request, res: Response) => {
     }
 };
 
+// Récupérer toutes les régions pour les visiteurs
+
+export const getAllRegionsForVisitors = async (req: Request, res: Response) => {
+    try {
+        const regions = await prisma.region.findMany({
+            select: {
+                name: true,
+                description: true,
+                media: true,
+            }
+        })
+        res.status(200).json({ data: regions });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération des régions" });
+    }
+};
+
+// Récupérer les détails pour les régions (détails, catégories, packages)
+
+export const getAllRegionDetails = async (req: Request, res: Response) => {
+    try {
+        const regionId = parseInt(req.params.id, 10);
+        const regionWithRelations = await prisma.region.findUnique({
+            where: {
+              id: regionId,
+            },
+            select: {
+                name: true,
+                description: true,
+                media: true,
+                packages: true,
+            },
+          });
+          res.status(200).json({ data: regionWithRelations });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération des régions" });
+    }
+}
+
 // Récupérer une Région par ID
 
 export const getRegionById = async (req: Request, res: Response) => {
