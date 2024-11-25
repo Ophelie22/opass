@@ -23,7 +23,7 @@ export const PAGE_LOGIN = '/connexion';
 export const PAGE_REGISTER = '/inscription';
 export const PAGE_ACCOUNT_DETAILS = '/mes-informations';
 export const PAGE_REGIONS = '/regions';
-export const PAGE_REGIONS_DETAILS = '/régions/:regionId';
+export const PAGE_REGIONS_DETAILS = '/regions/:regionId';
 export const PAGE_SITES = ':categoryId';
 export const PAGE_SITE_DETAILS = ':siteId';
 
