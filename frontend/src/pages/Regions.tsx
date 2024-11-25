@@ -68,7 +68,7 @@ const Regions = () => {
 	// if (error) return <p>Erreur: {error}</p>
 
 	return (
-		<main className="flex flex-col items-center px-6 mt-12 ">
+		<main className="main">
 			<h1>Nos partenaires</h1>
 
 			<div className="w-full flex flex-col gap-8">

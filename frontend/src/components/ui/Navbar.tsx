@@ -12,8 +12,8 @@ const Navbar = ({
         <nav
             className={
                 isMenuOpen
-                    ? "navbar flex flex-col gap-2 absolute w-fit top-full left-0 right-0 bg-white shadow-md border-t-2 border-[#F5F5F5] transition p-2"
-                    : "navbar flex flex-col gap-2 absolute w-fit top-full left-0 right-0 bg-white shadow-md border-t-2 border-[#F5F5F5] transition p-2 -translate-x-[102%]"
+                    ? "navbar flex flex-col gap-2 absolute w-fit top-full left-0 right-0 bg-white shadow-md border-t-2 border-[#F5F5F5] transition p-2 z-40"
+                    : "navbar flex flex-col gap-2 absolute w-fit top-full left-0 right-0 bg-white shadow-md border-t-2 border-[#F5F5F5] transition p-2 z-40 -translate-x-[102%]"
             }
         >
             <NavLink
