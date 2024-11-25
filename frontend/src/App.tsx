@@ -29,7 +29,7 @@ export const PAGE_SITE_DETAILS = ':siteId';
 
 function App() {
 	return (
-		<>
+		<div className="flex flex-col h-dvh overflow-y-auto">
 			<Header />
 			<Routes>
 				<Route path={PAGE_NOT_FOUND} element={<NotFound />} />
@@ -48,7 +48,7 @@ function App() {
 				</Route>
 			</Routes>
 			<Footer />
-		</>
+		</div>
 	);
 
 }
