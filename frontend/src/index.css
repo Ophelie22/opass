@@ -7,7 +7,7 @@
 }
 
 .h1 {
-	@apply text-blueText text-center text-2xl tracking-wide font-bold mt-7 mb-2;
+	@apply text-blueText text-center text-2xl tracking-wide font-bold mb-4;
 }
 
 .h2 {

@@ -1,6 +1,6 @@
 const RegionDetails = () => {
   return (
-    <main>
+    <main className='main'>
       <h1>Page des détails d'une région</h1>
     </main>
   )

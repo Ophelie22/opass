@@ -26,7 +26,7 @@ const handleSubmit = (values: initialValues) => {
 
 const Login = () => {
 	return (
-		<main className="flex flex-col items-center px-6 mt-12 ">
+		<main className='main'>
 			<Formik
 				initialValues={initialValues}
 				validationSchema={RegisterSchema}
@@ -34,7 +34,7 @@ const Login = () => {
 			>
 				{({ errors, touched, values, handleChange }) => (
 					<Form className="flex flex-col gap-4 items-center">
-						<h1>Page de connexion</h1>
+						<h1 className="h1">Page de connexion</h1>
 
 						<label className="form-control w-full">
 							<div className="label">

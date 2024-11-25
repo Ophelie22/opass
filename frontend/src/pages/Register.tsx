@@ -47,7 +47,7 @@ const handleSubmit = (values: initialValues) => {
 
 const Register = () => {
 	return (
-		<main className="flex flex-col items-center px-6 mt-12 ">
+		<main className='main'>
 			<Formik
 				initialValues={initialValues}
 				validationSchema={RegisterSchema}
@@ -55,7 +55,7 @@ const Register = () => {
 			>
 				{({ errors, touched, values, handleChange }) => (
 					<Form className="flex flex-col gap-4 items-center">
-						<h1>Page d'inscription</h1>
+						<h1 className="h1">Page d'inscription</h1>
 
 						<label className="form-control w-full">
 							<div className="label">
@@ -168,10 +168,10 @@ const Register = () => {
 							}
 							className={
 								!values.gcu ||
-								!values.name ||
-								!values.email ||
-								!values.confirmEmail ||
-								!values.password
+									!values.name ||
+									!values.email ||
+									!values.confirmEmail ||
+									!values.password
 									? "btn btn-disabled"
 									: "btn"
 							}
