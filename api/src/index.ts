@@ -18,6 +18,9 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello world !');
 });
 
+// Middleware pour parser le JSON
+app.use(express.json());
+
 // Routes des 9 tables V.1
 app.use("/api/users", userRouter);
 app.use("/api/siteUser", siteUserRouter);
