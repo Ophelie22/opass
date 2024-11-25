@@ -1,8 +1,9 @@
-import { PrismaClient } from '@prisma/client';
+import {  User, PrismaClient } from '@prisma/client';
 import { UserQueries } from '../user.queries';
 
 // Create a mock PrismaClient
 const prisma = new PrismaClient();
+const userQueries = new UserQueries(prisma);
 
 describe('UserQueries', () => {
   // Clear database before each test
@@ -23,7 +24,7 @@ describe('UserQueries', () => {
         name: 'testuser'
       };
 
-      const user = await UserQueries.create(userData);
+      const user = await userQueries.create(userData);
 
       expect(user).toBeDefined();
       expect(user.email).toBe(userData.email);
@@ -39,9 +40,8 @@ describe('UserQueries', () => {
         name: 'testuser'
       };
 
-      await UserQueries.create(userData);
-
-      await expect(UserQueries.create(userData)).rejects.toThrow();
+      await userQueries.create(userData);
+      await expect(userQueries.create(userData)).rejects.toThrow();
     });
   });
 
@@ -53,10 +53,10 @@ describe('UserQueries', () => {
         password: 'password123',
         name: 'testuser'
       };
-      const createdUser = await UserQueries.create(userData);
+      const createdUser = await userQueries.create(userData);
 
       // Then try to find the user
-      const foundUser = await UserQueries.findUserById(createdUser.id);
+      const foundUser = await userQueries.findUserById(createdUser.id);
 
       expect(foundUser).toBeDefined();
       expect(foundUser?.id).toBe(createdUser.id);
@@ -64,7 +64,7 @@ describe('UserQueries', () => {
     });
 
     it('should return null for non-existent id', async () => {
-      const foundUser = await UserQueries.findUserById(999);
+      const foundUser = await userQueries.findUserById(999);
       expect(foundUser).toBeNull();
     });
   });

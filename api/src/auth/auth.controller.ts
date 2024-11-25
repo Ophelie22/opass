@@ -1,31 +1,34 @@
-import { Request, Response, RequestHandler } from "express";
-import AuthService from './auth.service';
-import authentificate from './auth.middleware';
+import { Request, Response } from "express";
+import AuthService from "./auth.service";
 
-const router = require('express').Router();
-
-// Route pour la connexion
-
-router.post('/login', async (req: Request, res: Response) => {
+class AuthController {
+  static async login(req: Request, res: Response): Promise<void> {
     try {
       const token = await AuthService.login(req.body.email, req.body.password);
-      res.cookie('token', token, {httpOnly: true, secure: process.env.NODE_ENV === 'production' });
-      res.json({ message: 'Connexion réussie'});
+      res.cookie("token", token, {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === "production",
+      });
+      res.status(200).json({ message: "Connexion réussie" });
     } catch (error) {
-      return res.status(401).json({ message: 'Identifiants invalide' });
+      res.status(401).json({ message: "Identifiants invalides" });
     }
-  });
+  }
 
-// Route pour l'inscription
-
-router.post('/register', async (req: Request, res: Response) => {
+  static async register(req: Request, res: Response): Promise<void> {
     try {
-      const user = await AuthService.register(req.body.email, req.body.name, req.body.password);
-      return res.status(201).json(user);
+      const user = await AuthService.register(
+        req.body.name,
+        req.body.email,
+        req.body.password
+      );
+      res.status(201).json(user);
     } catch (error) {
-      return res.status(400).json({ message: 'Erreur lors de la création de votre utilisateur' });
+      res
+        .status(400)
+        .json({ message: "Erreur lors de la création de l'utilisateur" }); 
     }
-  });
+  }
+}
 
-
-export default router;
+export default AuthController;

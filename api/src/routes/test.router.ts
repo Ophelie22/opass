@@ -1,8 +1,8 @@
-//import { Router } from "express";
+import { Router } from "express";
 //const { signinForm, signin, signout} = require('../controllers/auth.controller');
  
 
-//const authRouter = Router();
+const authRouter = Router();
 
 //authRouter.get('/signin/form', signinForm);
 //authRouter.post('/signin', signin);

@@ -1,9 +1,5 @@
-import { PrismaClient } from '@prisma/client';
-import { User } from '@prisma/client';
+import { PrismaClient, User } from '@prisma/client';
 import * as bcrypt from 'bcryptjs';
-
-
-const prisma = new PrismaClient();
 
 export interface CreateUser {
   email: string;
@@ -12,32 +8,47 @@ export interface CreateUser {
 }
 
 export class UserQueries {
-    static async create(user: CreateUser): Promise<User> {
-      const hashedPassword = await UserQueries.hashPassword(user.password);
+  private static readonly SALT_ROUNDS = 10;
+
+  constructor(private prisma: PrismaClient) {}
+
+  async create(user: CreateUser): Promise<User> {
+    const hashedPassword = await UserQueries.hashPassword(user.password);
     
-      return prisma.user.create({
+    try {
+      return await this.prisma.user.create({
         data: {
           email: user.email,
           password: hashedPassword,
           name: user.name,
         },
       });
+    } catch (error: Error | any) {
+      if (error.code === 'P2002') {
+        throw new Error('A user with this email already exists');
+      }
+      throw error;
     }
-// Methode pour la hashage du mot de passe
-static async findUserById(id: number): Promise<User | null> {
-  return prisma.user.findUnique({
-    where: { id },
-  });
-}
+  }
 
-static async hashPassword(password: string): Promise<string> {
-  const salt = await bcrypt.genSalt(10);
-  return bcrypt.hash(password, salt);
-}
+  async findUserById(id: number): Promise<User | null> {
+    try {
+      return await this.prisma.user.findUnique({
+        where: { id },
+      });
+    } catch (error) {
+      console.error('Error finding user:', error);
+      throw new Error('Failed to find user');
+    }
+  }
 
-static async comparePassword(providedPassword: string, storedPassword: string): Promise<boolean> {
-  return bcrypt.compare(providedPassword, storedPassword);
-}
+  static async hashPassword(password: string): Promise<string> {
+    return bcrypt.hash(password, UserQueries.SALT_ROUNDS);
+  }
+
+  static async comparePassword(providedPassword: string, storedPassword: string): Promise<boolean> {
+    return bcrypt.compare(providedPassword, storedPassword);
+  }
 }
 
 export default UserQueries;
