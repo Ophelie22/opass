@@ -1,7 +1,13 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
+import router from './routers'
 //import authController from './auth/auth.routes';
 import dotenv from 'dotenv';
+import { Router } from "express";
+//const { signinForm, signin, signout} = require('../controllers/auth.controller');
+ 
+
+const authRouter = Router();
 
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -20,6 +26,8 @@ app.use(bodyParser.json());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello world !');
 });
+// Mount all routes under /api
+app.use('/api', router);
 
 //app.use('/auth', authController);
 
