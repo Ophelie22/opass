@@ -8,8 +8,8 @@ import regionRouter from './routers/region.router';
 import passRouter from './routers/pass.router';
 import packageRouter from './routers/package.router';
 import orderRouter from './routers/order.router';
+// Test pour le seed
 import '../prisma/seed';
-
 
 const app = express();
 
