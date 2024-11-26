@@ -55,41 +55,29 @@ const [culture, nature, historique] = await Promise.all([
     skipDuplicates: true,
   });
 
+  
   // Créer des packages pour chaque région
-  await prisma.package.createMany({
-    data: [
-      { name: "Pack Découverte", region_id: 1, price: 29.99, description: "Pour explorer les sites" },
-      { name: "Pack VIP", region_id: 2, price: 59.99, description: "Accès VIP pour tous les événements" },
-    ],
-    skipDuplicates: true,
-  });
+  const [packDecouverte, packVIP] = await Promise.all([
+    prisma.package.create({
+      data: { name: "Pack Découverte", region_id: regionNord.id, price: 29.99, description: "Pour explorer les sites" },
+    }),
+    prisma.package.create({
+      data: { name: "Pack VIP", region_id: regionSud.id, price: 59.99, description: "Accès VIP pour tous les événements" },
+    }),
+  ])
 
-  // Créer des associations Site-Package
-  await prisma.sitePackage.createMany({
-    data: [
-      { siteId: 1, packageId: 1 },
-      { siteId: 2, packageId: 2 },
-    ],
-    skipDuplicates: true,
-  });
 
-  // Créer des commandes pour les utilisateurs (assurez-vous que ces commandes existent avant d'insérer les passes)
-  const orders = await prisma.order.createMany({
-    data: [
-      { userId: 1, date: new Date(), amount: 29.99, status: "paid" },
-      { userId: 2, date: new Date(), amount: 59.99, status: "pending" },
-    ],
-    skipDuplicates: true,
-  });
+ // Créer des commandes pour les utilisateurs
+ const [order1, order2] = await Promise.all([
+  prisma.order.create({ data: { userId: alice.id, amount: 29.99, status: "paid" } }),
+  prisma.order.create({ data: { userId: bob.id, amount: 59.99, status: "pending" } }),
+]);
 
-  // Créer des passes pour les utilisateurs après avoir créé les commandes (l'orderId doit correspondre)
-  await prisma.pass.createMany({
-    data: [
-      { codePass: "PASS2024A", orderId: 1, packageId: 1 },
-      { codePass: "PASS2024B", orderId: 2, packageId: 2 },
-    ],
-    skipDuplicates: true,
-  });
+  // Créer des passes pour les utilisateurs
+  await Promise.all([
+    prisma.pass.create({ data: { codePass: "PASS2024A", orderId: order1.id, packageId: packDecouverte.id } }),
+    prisma.pass.create({ data: { codePass: "PASS2024B", orderId: order2.id, packageId: packVIP.id } }),
+  ]);
 
   // Associer des utilisateurs à des sites (SiteUser)
   await prisma.siteUser.createMany({
