@@ -2,7 +2,7 @@ import { PrismaClient } from "@prisma/client";
 import { Request, Response, RequestHandler } from "express";
 import * as bcrypt from 'bcryptjs';
 
-const userClient = new PrismaClient().user;
+const prisma = new PrismaClient();
 
 // expressjs.com/fr/starter/basic-routing.html = await userClient.findMany();
 
@@ -10,8 +10,15 @@ const userClient = new PrismaClient().user;
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
-      const allUsers = await userClient.findMany();
+      const allUsers = await prisma.user.findMany({
+        select: {
+          id: true,
+          name: true,
+          email: true,
+          // Exclude password for security
 
+        },
+    });
       // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
       res.status(200).json({ data: allUsers });
     } catch (error) {
@@ -25,8 +32,14 @@ export const getAllUsers = async (req: Request, res: Response) => {
 export const getUserById = async (req: Request, res: Response) => {
     try {
         const userId = parseInt(req.params.id, 10);
-        const user = await userClient.findUnique({
+        const user = await prisma.user.findUnique({
             where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                // Exclude password for security
+              }
         });
         if (!user) {
             res.status(404).json({ message: 'Utilisateur non trouvé'});
@@ -49,13 +62,19 @@ export const updatedUserById = async (req: Request, res: Response) => {
         // Hachage du mdp si modifié
         const hashedPassword = password ? bcrypt.hashSync(password, 10) : undefined;
 
-        const user = await userClient.update({
+        const user = await prisma.user.update({
             where: { id: userId},
             data: {
                 email,
                 name,
                 password: hashedPassword || undefined,
             },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                // Exclude password for security
+              }
         });
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
         res.status(200).json({ data: user});
@@ -74,13 +93,20 @@ export const createUser: RequestHandler = async (req, res) => {
         // Hash the password before saving
         const hashedPassword = bcrypt.hashSync(password, 10);
         
-        const newUser = await userClient.create({
+        const newUser = await prisma.user.create({
             data: {
                 name,
                 email,
                 password: hashedPassword,
             },
-        });
+            select: {
+              id: true,
+              name: true,
+              email: true,
+              // Exclude password for security
+            }
+        }); 
+        
         
         res.status(201).json({ data: newUser });
     } catch (error) {
@@ -95,7 +121,7 @@ export const deleteUserById = async (req: Request, res: Response) => {
     try {
         const userId = parseInt(req.params.id, 10);
         
-        await userClient.delete({
+        await prisma.user.delete({
             where: { id: userId},
         });
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
