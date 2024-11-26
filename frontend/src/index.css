@@ -25,3 +25,27 @@
 .li {
 	@apply text-gray-700 px-6 text-sm text-justify mb-1;
 }
+
+.tr {
+	@apply border-t;
+}
+
+.td-title {
+	@apply p-3 font-semibold text-gray-700 w-2/5 text-sm;
+}
+
+.td-content-disabled {
+	@apply p-3 text-gray-500 w-3/5;
+}
+
+.td-content-enabled {
+	@apply text-gray-800;
+}
+
+.logo-small {
+	@apply w-4 h-4 inline-flex;
+}
+
+.logo {
+	@apply inline-flex text-blueText;
+}
