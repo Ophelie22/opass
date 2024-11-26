@@ -2,7 +2,7 @@ const { findUserPerId } = require('../queries/user.queries');
 const { app } = require('../app');
 
  ///https://www.uuidgenerator.net/ pour generer le secret
-const secret ='f80984c2-5132-4a8a-afd0-d3c9abc27
+const secret ='f80984c2-5132-4a8a-afd0-d3c9abc27'
 
 const jwt = require('jsonwebtoken');
 
