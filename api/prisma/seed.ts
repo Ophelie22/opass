@@ -4,42 +4,35 @@ const prisma = new PrismaClient();
 
 async function main() {
   // Créer des utilisateurs
-  await prisma.user.createMany({
-    data: [
-      { name: "Alicez", email: "alice@example.com", password: "password123" },
-      { name: "Bob", email: "bob@example.com", password: "password123" },
-      { name: "Charlie", email: "charlie@example.com", password: "password123" },
-    ],
-    skipDuplicates: true,
-  });
+  async function main() {
+    // Créer des utilisateurs
+    const [alice, bob, charlie] = await Promise.all([
+      prisma.user.create({ data: { name: "Alice", email: "alice@example.com", password: "password123" } }),
+      prisma.user.create({ data: { name: "Bob", email: "bob@example.com", password: "password123" } }),
+      prisma.user.create({ data: { name: "Charlie", email: "charlie@example.com", password: "password123" } }),
+    ]);
 
   // Créer des régions
-  await prisma.region.createMany({
-    data: [
-      { name: "Region Nord", email: "nord@example.com", password: "password" },
-      { name: "Region Sud", email: "sud@example.com", password: "password" },
-    ],
-    skipDuplicates: true,
-  });
-
+  const [regionNord, regionSud] = await Promise.all([
+    prisma.region.create({ data: { name: "Region Nord", email: "nord@example.com", password: "password" } }),
+    prisma.region.create({ data: { name: "Region Sud", email: "sud@example.com", password: "password" } }),
+  ]);
+// Créer des catégories de sites
+const [culture, nature, historique] = await Promise.all([
+  prisma.siteCategory.create({ data: { name: "Culture" } }),
+  prisma.siteCategory.create({ data: { name: "Nature" } }),
+  prisma.siteCategory.create({ data: { name: "Historique" } }),
+]);
   // Créer des sites
-  await prisma.site.createMany({
-    data: [
-      { name: "Site A", regionId: 1, city: "Paris" },
-      { name: "Site B", regionId: 2, city: "Marseille" },
-    ],
-    skipDuplicates: true,
-  });
+  const [siteA, siteB] = await Promise.all([
+    prisma.site.create({
+      data: { name: "Site A", regionId: regionNord.id, city: "Paris", categoryId: culture.id },
+    }),
+    prisma.site.create({
+      data: { name: "Site B", regionId: regionSud.id, city: "Marseille", categoryId: nature.id },
+    }),
+  ]);
 
-  // Créer des catégories de sites
-  await prisma.siteCategory.createMany({
-    data: [
-      { name: "Culture" },
-      { name: "Nature" },
-      { name: "Historique" },
-    ],
-    skipDuplicates: true,
-  });
 
   // Créer des événements pour chaque site
   await prisma.event.createMany({
@@ -47,14 +40,14 @@ async function main() {
       {
         name: "Concert 2024",
         description: "Un concert exceptionnel",
-        siteId: 1,
+        siteId: siteA.id, // Site B a l'id 
         startDate: new Date("2024-05-20"),
         endDate: new Date("2024-05-21"),
       },
       {
         name: "Festival Nature",
         description: "Festival en plein air",
-        siteId: 2,
+        siteId: siteB.id,
         startDate: new Date("2024-06-10"),
         endDate: new Date("2024-06-15"),
       },
