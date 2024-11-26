@@ -47,7 +47,7 @@ const Regions = () => {
 
 	// const getAllRegions = () => {
 	// 	setIsLoading(true);
-	// 	fetch(`${API_URL}/regions`)
+	// 	fetch(`${API_URL}/regions/visitors`)
 	// 		.then((response) => response.json())
 	// 		.then((data) => {
 	// 			setRegions(data);
@@ -76,7 +76,7 @@ const Regions = () => {
 					<NavLink to={`/regions/${region.id}`}>
 						<div className="card image-full h-48">
 							<figure>
-								<img src={`${region.media}`} alt={`Image de ${region.name}`} />
+								<img className="w-full" src={`${region.media}`} alt={`Image de ${region.name}`} />
 							</figure>
 							<div className="card-body items-center text-center justify-center">
 								<h3 className="card-title">{region.name}</h3>
