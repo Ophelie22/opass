@@ -62,6 +62,7 @@ model Region {
   // Relations
   sites       Site[]
   packages    Package[]
+  categories  SiteCategory[] // Relation avec les catégories de sites
 }
 
 
@@ -91,12 +92,14 @@ model Site {
 }
 model SiteCategory {
   id         Int      @id @default(autoincrement())
+  regionId   Int
   name       String
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
 
   sites       Site[]
+  region      Region  @relation(fields: [regionId], references: [id])
 }
 model Event {
   id          Int      @id @default(autoincrement())
