@@ -16,7 +16,7 @@ services:
     build:
       context: ./api
     environment:
-      DATABASE_URL: postgres://postgres:postgres@db:5432/mydatabase
+      DATABASE_URL: postgres://user:password@db:5432/mydatabase
     depends_on:
       - db
     ports:
