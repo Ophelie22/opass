@@ -30,8 +30,7 @@ services:
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
-    command: "./wait-for-it.sh db:5432 -- npm run start:dev"
-
+      
   # Service Adminer pour gérer PostgreSQL
   adminer:
     image: adminer

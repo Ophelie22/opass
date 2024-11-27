@@ -42,12 +42,12 @@ export const getSiteUserById = async (req: Request, res: Response) => {
 
 export const createSiteUser = async (req: Request, res: Response) => {
     try {
-        const { site_id, name, email, password } = req.body;
+        const {  siteId, name, email, password } = req.body;
 
         const hashedPassword = await bcrypt.hash(password, 10);
         const newSiteUser = await prisma.siteUser.create({
             data: {
-                site_id,
+                siteId,
                 name,
                 email,
                 password: hashedPassword,

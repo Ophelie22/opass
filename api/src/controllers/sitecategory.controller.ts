@@ -42,9 +42,12 @@ export const getSiteCategoryById = async (req: Request, res: Response) => {
 
 export const createSiteCategory = async (req: Request, res: Response) => {
     try {
-        const { name } = req.body;
+        const { name, regionId  } = req.body;
         const newSiteCategory = await prisma.siteCategory.create({
-            data: { name },
+            data: { 
+                name,
+                regionId,
+            },
         });
         res.status(201).json({ data: newSiteCategory });
     } catch (error) {
