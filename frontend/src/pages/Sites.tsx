@@ -18,7 +18,6 @@ const Sites = () => {
   // const [error, setError] = useState(null);
 
   const { regionId, categoryId } = useParams();
-  console.log("regionId, categoryId", regionId, categoryId);
 
   const sitesByCategory: Site[] = sites.filter(
     (site: Site) =>
