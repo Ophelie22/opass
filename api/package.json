@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node dist/index.ts",
+    "start": "npx prisma migrate dev --name init && npx prisma db push && npm run dev",
     "dev": "nodemon --exec ts-node src/index.ts"
   },
   "dependencies": {
