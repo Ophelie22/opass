@@ -10,6 +10,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d mydatabase"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
   # Service pour l'API Node.js
   api:
@@ -18,7 +23,8 @@ services:
     environment:
       DATABASE_URL: postgresql://postgres:postgres@db:5432/mydatabase
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "3000:3000"
     volumes:
