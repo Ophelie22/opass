@@ -6,10 +6,6 @@ import { Region } from "../types/Region";
 import { SiteCategory } from "../types/SiteCategory";
 
 
-
-
-
-
 const RegionDetails = () => {
 
 	// const API_URL = 'http://localhost:3000';

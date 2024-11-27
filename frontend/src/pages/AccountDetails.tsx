@@ -55,7 +55,7 @@ const AccountDetails = () => {
     setIsEditing(true);
   };
 
-  const handleSubmit = async (values: initialValues) => {
+  const handleSubmit = async (_values: initialValues) => {
     // try {
     // const response = await fetch("/users/:id", {
     //   method: "PATCH",
