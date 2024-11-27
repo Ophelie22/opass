@@ -1,15 +1,9 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { NavLink } from "react-router-dom";
 import { useParams } from "react-router-dom";
 import { sites } from "./data";
-
-interface Site {
-  id: string;
-  region_id: string;
-  category_id: string;
-  name: string;
-  media: string;
-}
+import getCategoryName from "../utils/getCategoryName";
+import { Site } from "../types/Site";
 
 const Sites = () => {
   // const API_URL = "http://localhost:3000";
@@ -23,6 +17,8 @@ const Sites = () => {
     (site: Site) =>
       site.category_id === categoryId && site.region_id === regionId
   );
+
+  const categoryName = getCategoryName(categoryId);
 
   // const getAllSitesByCategory = () => {
   // 	setIsLoading(true)
@@ -47,7 +43,7 @@ const Sites = () => {
   // if (error) return <p>Erreur: {error}</p>
   return (
     <main className="main">
-      <h1 className="h1">Les sites à visiter</h1>
+      <h1 className="h1">{categoryName} à visiter</h1>
 
       <div className="w-full flex flex-col gap-8">
         {sitesByCategory.length === 0 ? (

@@ -1,32 +1,14 @@
-import { useEffect, useState } from "react";
+// import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
 import { regions } from './data';
+import { Package } from "../types/Package";
+import { Region } from "../types/Region";
+import { SiteCategory } from "../types/SiteCategory";
 
-interface Package {
-	id: string;
-	region_id: string;
-	price: string;
-	description: string;
-	nbr_visits: string;
-	nbr_days: number;
-	media: string;
-}
 
-interface SiteCategory {
-	id: string;
-	name: string,
-	created_at: string;
-	updated_at: string;
-}
 
-interface Region {
-	id: string;
-	name: string;
-	description: string;
-	media: string;
-	packages: Package[];
-	siteCategory: SiteCategory[]
-}
+
+
 
 const RegionDetails = () => {
 

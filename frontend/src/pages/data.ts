@@ -43,19 +43,19 @@ export const regions = [
     siteCategory: [
       {
         id: "1",
-        name: "Musées1",
+        name: "Musées",
         created_at: "",
         updated_at: "",
       },
       {
         id: "2",
-        name: "Chateaux1",
+        name: "Chateaux",
         created_at: "",
         updated_at: "",
       },
       {
         id: "3",
-        name: "Parcs animaliers1",
+        name: "Parcs animaliers",
         created_at: "",
         updated_at: "",
       },
@@ -104,20 +104,20 @@ export const regions = [
     ],
     siteCategory: [
       {
-        id: "4",
-        name: "Musées2",
+        id: "1",
+        name: "Musées",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "5",
-        name: "Chateaux2",
+        id: "2",
+        name: "Chateaux",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "6",
-        name: "Parcs animaliers2",
+        id: "3",
+        name: "Parcs animaliers",
         created_at: "",
         updated_at: "",
       },
@@ -166,20 +166,20 @@ export const regions = [
     ],
     siteCategory: [
       {
-        id: "7",
-        name: "Musées3",
+        id: "1",
+        name: "Musées",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "8",
-        name: "Chateaux3",
+        id: "2",
+        name: "Chateaux",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "9",
-        name: "Parcs animaliers3",
+        id: "3",
+        name: "Parcs animaliers",
         created_at: "",
         updated_at: "",
       },
@@ -228,20 +228,20 @@ export const regions = [
     ],
     siteCategory: [
       {
-        id: "10",
-        name: "Musées4",
+        id: "1",
+        name: "Musées",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "11",
-        name: "Chateaux4",
+        id: "2",
+        name: "Chateaux",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "12",
-        name: "Parcs animaliers4",
+        id: "3",
+        name: "Parcs animaliers",
         created_at: "",
         updated_at: "",
       },
@@ -290,20 +290,20 @@ export const regions = [
     ],
     siteCategory: [
       {
-        id: "13",
-        name: "Musées5",
+        id: "1",
+        name: "Musées",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "14",
-        name: "Chateaux5",
+        id: "2",
+        name: "Chateaux",
         created_at: "",
         updated_at: "",
       },
       {
-        id: "15",
-        name: "Parcs animaliers5",
+        id: "3",
+        name: "Parcs animaliers",
         created_at: "",
         updated_at: "",
       },
@@ -335,7 +335,7 @@ export const sites = [
   {
     id: "2",
     region_id: "2",
-    category_id: "5",
+    category_id: "2",
     name: "Grand Geroldseck",
     description:
       "Falkenstein remonterait au début du XIIe siècle comme une création de la famille comtale de Lutzelbourg, issue des Mousson-Bar-Montbéliard. Les Lutzelbourg sont aussi proches parents des comtes de Ferrette. Puis une famille ministérielle des Falkenstein est mentionnée en 1205 au service des Hohenstaufen. Il s’agit de chevaliers qui deviennent plus tard vassaux des comtes de Saarwerden. Cette lignée occupe le château, entièrement ou partiellement, jusqu’au XVIe siècle.",
@@ -355,7 +355,7 @@ export const sites = [
   {
     id: "3",
     region_id: "3",
-    category_id: "8",
+    category_id: "2",
     name: "Haut Eguisheim",
     description:
       "Falkenstein remonterait au début du XIIe siècle comme une création de la famille comtale de Lutzelbourg, issue des Mousson-Bar-Montbéliard. Les Lutzelbourg sont aussi proches parents des comtes de Ferrette. Puis une famille ministérielle des Falkenstein est mentionnée en 1205 au service des Hohenstaufen. Il s’agit de chevaliers qui deviennent plus tard vassaux des comtes de Saarwerden. Cette lignée occupe le château, entièrement ou partiellement, jusqu’au XVIe siècle.",
@@ -375,7 +375,7 @@ export const sites = [
   {
     id: "4",
     region_id: "4",
-    category_id: "11",
+    category_id: "2",
     name: "Haut Ribeaupierre",
     description:
       "Falkenstein remonterait au début du XIIe siècle comme une création de la famille comtale de Lutzelbourg, issue des Mousson-Bar-Montbéliard. Les Lutzelbourg sont aussi proches parents des comtes de Ferrette. Puis une famille ministérielle des Falkenstein est mentionnée en 1205 au service des Hohenstaufen. Il s’agit de chevaliers qui deviennent plus tard vassaux des comtes de Saarwerden. Cette lignée occupe le château, entièrement ou partiellement, jusqu’au XVIe siècle.",
