@@ -47,7 +47,7 @@ const Sites = () => {
   // if (error) return <p>Erreur: {error}</p>
   return (
     <main className="main">
-      <h1 className="h1">Les trucs à visiter</h1>
+      <h1 className="h1">Les sites à visiter</h1>
 
       <div className="w-full flex flex-col gap-8">
         {sitesByCategory.length === 0 ? (
