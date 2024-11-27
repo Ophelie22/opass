@@ -24,8 +24,8 @@ export const PAGE_REGISTER = '/inscription';
 export const PAGE_ACCOUNT_DETAILS = '/mes-informations';
 export const PAGE_REGIONS = '/regions';
 export const PAGE_REGIONS_DETAILS = '/regions/:regionId';
-export const PAGE_SITES = ':categoryId';
-export const PAGE_SITE_DETAILS = ':siteId';
+export const PAGE_CATEGORY_DETAILS = '/regions/:regionId/:categoryId';
+export const PAGE_SITE_DETAILS = '/regions/:regionId/:categoryId/:siteId';
 
 function App() {
 	return (
@@ -41,15 +41,12 @@ function App() {
 				<Route path={PAGE_REGISTER} element={<Register />} />
 				<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />} />
 				<Route path={PAGE_REGIONS} element={<Regions />} />
-				<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />}>
-					<Route path={PAGE_SITES} element={<Sites />}>
-						<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
-					</Route>
-				</Route>
+				<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
+				<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
+				<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
 			</Routes>
 			<Footer />
 		</div>
 	);
-
 }
 export default App;
