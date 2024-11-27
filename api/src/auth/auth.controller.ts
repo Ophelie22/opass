@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import AuthService from "./auth.service";
 
+//Pour l'authentification il faut alle sur `/api/auth/register` et `/api/auth/login`.
 class AuthController {
   static async login(req: Request, res: Response): Promise<void> {
     try {

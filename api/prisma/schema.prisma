@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = "postgresql://postgres:postgres@db:5432/mydatabase"
+  url      = "postgres://postgres:postgres@db:5432/mydatabase"
 }
 
 model User {

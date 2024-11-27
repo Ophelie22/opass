@@ -1,6 +1,6 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import authController from './auth/auth.routes';
+import authRouter from '../src/auth/auth.routes';
 import dotenv from 'dotenv';
 import router from './routers';
 
@@ -26,8 +26,7 @@ app.get('/', (req: Request, res: Response) => {
 app.use('/api', router);
 
 
-app.use('/auth', authController);
-
+app.use('/api/auth', authRouter);
 // Error handling for 404
 app.use((req: Request, res: Response) => {
   res.status(404).json({ message: 'Route not found' });
