@@ -117,24 +117,24 @@ model Event {
 
 model SiteUser {
   id       Int    @id @default(autoincrement())
-  site_id  Int
+  siteId Int
   name     String
   email    String @unique
   password String
   
-  site     Site   @relation(fields: [site_id], references: [id])
+  site     Site   @relation(fields: [siteId], references: [id])
 }
 
 model Package {
   id            Int     @id @default(autoincrement())
-  region_id     Int?
+  regionId     Int?
   price         Decimal @db.Decimal(10,2)
   description   String?
   name          String
 
   passes        Pass []
   sitePackages  SitePackage[]
-  region        Region? @relation(fields: [region_id], references: [id])
+  region        Region? @relation(fields: [regionId], references: [id])
 }
 
 model SitePackage {

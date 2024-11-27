@@ -2,6 +2,7 @@ import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
 import authController from './auth/auth.routes';
 import dotenv from 'dotenv';
+import router from './routers';
 
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -21,9 +22,20 @@ app.get('/', (req: Request, res: Response) => {
   res.send('Hello world !');
 });
 
+// Mount all routes under /api
+app.use('/api', router);
+
+
 app.use('/auth', authController);
+
+// Error handling for 404
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 // Démarrage du serveur
 app.listen(3000, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+export default app;

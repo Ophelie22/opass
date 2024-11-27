@@ -1,3 +1,6 @@
+
+//ICI c'est ttes les routes qui commencent /api pour clarifier le code
+
 import { Router } from 'express';
 import userRouter from './user.router';
 import siteUserRouter from './siteUser.router';
