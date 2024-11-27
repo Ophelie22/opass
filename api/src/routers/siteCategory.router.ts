@@ -4,7 +4,7 @@ import {
   getAllSiteCategories,
   getSiteCategoryById,
   updateSiteCategoryById,
-} from "../controllers/siteCategory.controller";
+} from "../controllers/sitecategory.controller";
 
 const siteCategoryRouter = Router();
 
