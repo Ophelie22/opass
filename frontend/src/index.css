@@ -42,10 +42,14 @@
 	@apply text-gray-800;
 }
 
-.logo-small {
+.icon-small {
 	@apply w-4 h-4 inline-flex;
 }
 
-.logo {
+.icon-medium {
+	@apply w-5 h-5 inline-flex;
+}
+
+.icon {
 	@apply inline-flex text-blueText;
 }

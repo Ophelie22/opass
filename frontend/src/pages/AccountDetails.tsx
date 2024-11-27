@@ -1,5 +1,5 @@
 import { Form, Formik } from "formik";
-import { CalendarDays, Check, CircleCheckBig, CircleX, LockKeyhole, Mail, Pencil, UserRound, Wrench, X } from "lucide-react";
+import { CalendarDays, Check, CircleCheckBig, CircleX, LockKeyhole, Mail, Pencil, TriangleAlert, UserRound, Wrench, X } from "lucide-react";
 import { useState } from "react";
 import * as yup from "yup";
 
@@ -10,6 +10,8 @@ interface initialValues {
   password: string;
   confirmPassword: string;
 }
+
+type ToastType = "success" | "error" | "warning";
 
 const RegisterSchema = yup.object({
   name: yup
@@ -54,7 +56,6 @@ const AccountDetails = () => {
   };
 
   const handleSubmit = async (values: initialValues) => {
-    alert(JSON.stringify(values, null, 2));
     // try {
     // const response = await fetch("/users/:id", {
     //   method: "PATCH",
@@ -79,27 +80,14 @@ const AccountDetails = () => {
     showToast("warning", "Modifications annulées.");
   };
 
-  const showToast = (type: string, message: string) => {
+  const showToast = (type: ToastType, message: string) => {
     setToastType(type);
-    setToastMessage(
-      <div className="flex items-center space-x-2">
-        <div className="flex-shrink-0">
-          {type === "success" ? (
-            <CircleCheckBig className="w-6 h-6 text-green-500" />
-          ) : type === "error" ? (
-            <CircleX className="w-6 h-6 text-red-500" />
-          ) : (
-            <CircleX className="w-6 h-6 text-yellow-500" />
-          )}
-        </div>
-        <span>{message}</span>
-      </div>
-    );
+    setToastMessage(message);
 
     setTimeout(() => {
       setToastMessage(null);
       setToastType(null);
-    }, 3000);
+    }, 4000);
   };
 
   // const User = () => {
@@ -133,18 +121,35 @@ const AccountDetails = () => {
 
   return (
     <main className="main flex flex-col">
-      <h1 className="h1 flex items-center pb-8 gap-3"><UserRound className="logo" /> Mes informations</h1>
+      <h1 className="h1 flex items-center pb-8 gap-3">
+        <UserRound className="icon" />
+        Mes informations
+      </h1>
 
       {toastMessage && (
         <div className="toast toast-top toast-end">
-          <div
-            className={`alert flex items-center space-x-2 p-4 rounded-md shadow-md bg-white ${toastType === "success" ? "alert-success text-green-200" :
-              toastType === "error" ? "alert-error text-red-200" : "alert-warning text-yellow-200"}`}
-          >
-            <span>{toastMessage}</span>
-          </div>
+
+          {toastType === "success" && (
+            <div
+              className="alert flex items-center space-x-2 p-4 rounded-md shadow-md bg-white border-1">
+              <CircleCheckBig className="icon-medium text-green-500" style={{ color: "rgb(34, 197, 94)" }} /> {toastMessage}
+            </div>
+
+          )}
+          {toastType === "error" && (
+            <div className="alert flex items-center space-x-2 p-4 rounded-md shadow-md bg-white border-1">
+              <CircleX className="icon-medium text-red-500" style={{ color: "rgb(239, 68, 68)" }} /> {toastMessage}
+            </div>
+          )}
+          {toastType === "warning" && (
+            <div className="alert flex items-center space-x-2 p-4 rounded-md shadow-md bg-white border-1">
+              <TriangleAlert className="icon-medium text-yellow-500" style={{ color: "rgb(234, 179, 8)" }} /> {toastMessage}
+            </div>
+          )}
         </div>
-      )}
+      )
+      }
+
 
       <section className="flex flex-col items-center bg-white p-6 border-t rounded-lg shadow-md max-w-xl">
         <Formik
@@ -159,7 +164,7 @@ const AccountDetails = () => {
                 <table className="table-auto w-full border-collapse">
                   <tbody className="w-full">
                     <tr>
-                      <td className="td-title"><Pencil className="logo-small text-blueText" /> Prénom :</td>
+                      <td className="td-title"><Pencil className="icon-small text-blueText" /> Prénom :</td>
                       <td className="td-content-disabled">
                         <input
                           type="text"
@@ -175,7 +180,7 @@ const AccountDetails = () => {
                       </td>
                     </tr>
                     <tr className="border-t">
-                      <td className="td-title"><Mail className="logo-small text-blueText" /> E-mail :</td>
+                      <td className="td-title"><Mail className="icon-small text-blueText" /> E-mail :</td>
                       <td className="td-content-disabled">
                         <input
                           type="email"
@@ -194,7 +199,7 @@ const AccountDetails = () => {
                     </tr>
                     {isEditing &&
                       <tr className="border-t">
-                        <td className="td-title"><Mail className="logo-small text-blueText" /> Confirmation e-mail :</td>
+                        <td className="td-title"><Mail className="icon-small text-blueText" /> Confirmation e-mail :</td>
                         <td className="td-content-disabled">
                           <input
                             type="email"
@@ -213,7 +218,7 @@ const AccountDetails = () => {
                       </tr>
                     }
                     <tr className="border-t">
-                      <td className="td-title"><LockKeyhole className="logo-small text-blueText" /> Mot de passe :</td>
+                      <td className="td-title"><LockKeyhole className="icon-small text-blueText" /> Mot de passe :</td>
                       <td className="td-content-disabled">
                         <input
                           type="password"
@@ -232,7 +237,7 @@ const AccountDetails = () => {
                     </tr>
                     {isEditing &&
                       <tr className="border-t">
-                        <td className="td-title"><LockKeyhole className="logo-small text-blueText" /> Confirmation mot de passe :</td>
+                        <td className="td-title"><LockKeyhole className="icon-small text-blueText" /> Confirmation mot de passe :</td>
                         <td className="td-content-disabled">
                           <input
                             type="password"
@@ -251,7 +256,7 @@ const AccountDetails = () => {
                       </tr>
                     }
                     <tr className="border-t">
-                      <td className="td-title"><CalendarDays className="logo-small text-blueText" /> Compte créé le :</td>
+                      <td className="td-title"><CalendarDays className="icon-small text-blueText" /> Compte créé le :</td>
                       <td className="td-content-disabled">
                         12/12/2023
                       </td>
@@ -259,7 +264,7 @@ const AccountDetails = () => {
                     {/* TODO: Enregistrer la date updatedAt à aujourd'hui si on clique sur valider 
                   et mettre à jour dans la BDD */}
                     <tr className="border-t">
-                      <td className="td-title"><Wrench className="logo-small text-blueText" /> Dernière mise à jour :</td>
+                      <td className="td-title"><Wrench className="icon-small text-blueText" /> Dernière mise à jour :</td>
                       <td className="td-content-disabled">
                         12/11/2024
                       </td>
@@ -276,14 +281,14 @@ const AccountDetails = () => {
                       type="submit"
                       className="btn"
                     >
-                      <Check className="logo-small text-green" /> Valider
+                      <Check className="icon-small text-green" /> Valider
                     </button>
                     <button
                       type="button"
                       className="btn"
                       onClick={handleCancelClick}
                     >
-                      <X className="logo-small text-red-500" /> Annuler
+                      <X className="icon-small text-red-500" /> Annuler
                     </button>
                   </>
                 )}
@@ -296,7 +301,7 @@ const AccountDetails = () => {
           className="btn"
           onClick={handleEditClick}
         >
-          <Pencil className="logo-small text-blueText" />Modifier
+          <Pencil className="icon-small text-blueText" />Modifier
         </button>)}
       </section>
 
