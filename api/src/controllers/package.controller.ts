@@ -42,11 +42,11 @@ export const getPackageById = async (req: Request, res: Response) => {
 
 export const createPackage = async (req: Request, res: Response) => {
     try {
-        const { region_id, price, description, name } = req.body;
+        const { regionId, price, description, name } = req.body;
 
         const newPackage = await prisma.package.create({
             data: {
-                region_id,
+                regionId,
                 price,
                 description,
                 name,
@@ -64,12 +64,12 @@ export const createPackage = async (req: Request, res: Response) => {
 export const updatePackageById = async (req: Request, res: Response) => {
     try {
         const packageId = parseInt(req.params.id, 10);
-        const { region_id, price, description, name } = req.body;
+        const { regionId, price, description, name } = req.body;
 
         const updatedPackage = await prisma.package.update({
             where: { id: packageId },
             data: {
-                region_id,
+                regionId,
                 price,
                 description,
                 name,

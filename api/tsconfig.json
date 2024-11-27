@@ -6,6 +6,11 @@
     "rootDir": "./src",
     "strict": true,
     "esModuleInterop": true,
-    "skipLibCheck": true
-  }
+    "skipLibCheck": true,
+    "typeRoots": ["./src/types", "./node_modules/@types"], // Cherche les types personnalisés et standards.
+    "resolveJsonModule": true,     // Permet d'importer des fichiers JSON.
+    "allowSyntheticDefaultImports": true // Pour les imports par défaut non stricts.V
+  },
+  "include": ["src"],              // Inclut tout le dossier `src`.
+  "exclude": ["node_modules", "dist"] // Exclut les fichiers compilés et dépendances.
 }

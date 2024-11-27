@@ -1,13 +1,8 @@
 import express, { Request, Response } from 'express';
 import bodyParser from 'body-parser';
-import router from './routers'
-//import authController from './auth/auth.routes';
+import authRouter from '../src/auth/auth.routes';
 import dotenv from 'dotenv';
-import { Router } from "express";
-//const { signinForm, signin, signout} = require('../controllers/auth.controller');
- 
-
-const authRouter = Router();
+import router from './routers';
 
 const cookieParser = require('cookie-parser');
 const app = express();
@@ -26,12 +21,20 @@ app.use(bodyParser.json());
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello world !');
 });
+
 // Mount all routes under /api
 app.use('/api', router);
 
-//app.use('/auth', authController);
+
+app.use('/api/auth', authRouter);
+// Error handling for 404
+app.use((req: Request, res: Response) => {
+  res.status(404).json({ message: 'Route not found' });
+});
 
 // Démarrage du serveur
 app.listen(3000, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+export default app;

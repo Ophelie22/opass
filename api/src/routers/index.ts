@@ -1,6 +1,8 @@
+
+//ICI c'est ttes les routes qui commencent /api pour clarifier le code
+
 import { Router } from 'express';
 import userRouter from './user.router';
-import { UserController } from '../controllers/user.controller';
 import siteUserRouter from './siteUser.router';
 import sitePackageRouter from './sitePackage.router';
 import siteCategoryRouter from './siteCategory.router';
@@ -21,8 +23,5 @@ router.use("/region", regionRouter);
 router.use("/pass", passRouter);
 router.use("/package", packageRouter);
 router.use("/order", orderRouter);
-userRouter.get('/', UserController.getAllUsers);
-userRouter.get('/:id', UserController.getUserById);
 
 export default router;
-
