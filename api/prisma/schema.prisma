@@ -10,7 +10,7 @@ generator client {
 
 datasource db {
   provider = "postgresql"
-  url      = env("DATABASE_URL")
+  url      = "postgres://postgres:postgres@db:5432/mydatabase"
 }
 
 model User {
@@ -20,6 +20,7 @@ model User {
   password    String      
   createAt    DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
+
   orders      Order[]
 }
 
@@ -31,6 +32,8 @@ model Order {
   status    String   
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+
   user      User     @relation(fields: [userId], references: [id])
   Passes    Pass[]
 }
@@ -42,7 +45,9 @@ model Pass {
   orderId     Int
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
-  package     Package?    @relation(fields: [package_id], references: [id])
+
+
+  package     Package?    @relation(fields: [packageId], references: [id])
   order       Order       @relation(fields: [orderId], references: [id])
 }
 
@@ -57,15 +62,10 @@ model Region {
   // Relations
   sites       Site[]
   packages    Package[]
+  categories  SiteCategory[] // Relation avec les catégories de sites
 }
 
-model SiteCategory {
-  id         Int      @id @default(autoincrement())
-  name       String
-  created_at DateTime @default(now())
-  updated_at DateTime @updatedAt
-  site       Site[]   @relation(fields: [siteId], references: [id])
-}
+
 model Site {
   id            Int         @id @default(autoincrement())
   regionId      Int
@@ -82,17 +82,25 @@ model Site {
   information   String?
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
+
   region        Region      @relation(fields: [regionId], references: [id])
+  category      SiteCategory?   @relation(fields: [categoryId], references: [id])
   events        Event[]
   siteUsers     SiteUser[]
-  package       Package    @relation(fields:  [packageId], references: [id])
-  region        Region?     @relation(fields: [region_id], references: [id])
-  category      Category?   @relation(fields: [category_id], references: [id])
+  sitePackage   SitePackage[]
+  
 }
+model SiteCategory {
+  id         Int      @id @default(autoincrement())
+  regionId   Int
+  name       String
+  created_at DateTime @default(now())
+  updated_at DateTime @updatedAt
 
 
-
-
+  sites       Site[]
+  region      Region  @relation(fields: [regionId], references: [id])
+}
 model Event {
   id          Int      @id @default(autoincrement())
   siteId      Int
@@ -109,27 +117,33 @@ model Event {
 
 model SiteUser {
   id       Int    @id @default(autoincrement())
-  site_id  Int
+  siteId Int
   name     String
   email    String @unique
   password String
-  site     Site   @relation(fields: [site_id], references: [id])
+  
+  site     Site   @relation(fields: [siteId], references: [id])
 }
 
 model Package {
-  id            Int
-  region_id     Int?
+  id            Int     @id @default(autoincrement())
+  regionId     Int?
   price         Decimal @db.Decimal(10,2)
   description   String?
   name          String
+
+  passes        Pass []
   sitePackages  SitePackage[]
-  region        Region? @relation(fields: [region_id], references: [id])
+  region        Region? @relation(fields: [regionId], references: [id])
 }
 
-model sitePackage {
+model SitePackage {
   siteId      Int
   packageId   Int
+
+
   site        Site      @relation(fields: [siteId], references: [id])
   package     Package   @relation(fields: [packageId], references: [id])
-}
 
+  @@id([siteId,packageId]) // Cle primaires composites
+}
