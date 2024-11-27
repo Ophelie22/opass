@@ -392,4 +392,24 @@ export const sites = [
     updated_at: '',
     created_at: '',
   },
+  {
+    id: "5",
+    region_id: "1",
+    category_id: "2",
+    name: "Haut Ribeaupierre",
+    description:
+      "Falkenstein remonterait au début du XIIe siècle comme une création de la famille comtale de Lutzelbourg, issue des Mousson-Bar-Montbéliard. Les Lutzelbourg sont aussi proches parents des comtes de Ferrette. Puis une famille ministérielle des Falkenstein est mentionnée en 1205 au service des Hohenstaufen. Il s’agit de chevaliers qui deviennent plus tard vassaux des comtes de Saarwerden. Cette lignée occupe le château, entièrement ou partiellement, jusqu’au XVIe siècle.",
+    city: "Philippsbourg",
+    postal_code: "57230",
+    address: "7 rue de Jesaispas",
+    latitude: "49.005111",
+    longitude: "7.568910",
+    media:
+      "https://www.alsaceterredechateaux.com/wp-content/uploads/2020/10/Chateau_Haut_Ribeaupierre_DSC_1418_%C2%A9INFRA.jpg",
+    contact: "contact@tourisme-paysdebitche.fr",
+    information:
+      "Un circuit de 15 km vous est proposé dans le Guide des balades autour des châteaux forts (chap. 6, p. 30 à 35). Il  vous permet de visiter également les châteaux de  Waldeck  et de  Rothenbourg.",
+    updated_at: '',
+    created_at: '',
+  },
 ]
