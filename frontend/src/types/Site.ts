@@ -7,8 +7,8 @@ export interface Site {
     city: string;
     postal_code: string;
     address: string;
-    latitude: string;
-    longitude: string;
+    latitude: number;
+    longitude: number;
     media: string;
     contact: string;
     information: string;

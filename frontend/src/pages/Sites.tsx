@@ -50,7 +50,7 @@ const Sites = () => {
           <p>Aucun site trouvé pour cette catégorie.</p>
         ) : (
           <>
-            {sitesByCategory?.map((site) => (
+            {regionId && categoryId && sitesByCategory.map((site) => (
               <NavLink to={`/regions/${regionId}/${categoryId}/${site.id}`}>
                 <div className="card image-full h-48">
                   <figure>

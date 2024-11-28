@@ -59,6 +59,12 @@ export const regions = [
         created_at: "",
         updated_at: "",
       },
+      {
+        id: "4",
+        name: "Jardins",
+        created_at: "",
+        updated_at: "",
+      },
     ],
   },
   {
@@ -118,6 +124,12 @@ export const regions = [
       {
         id: "3",
         name: "Parcs animaliers",
+        created_at: "",
+        updated_at: "",
+      },
+      {
+        id: "4",
+        name: "Jardins",
         created_at: "",
         updated_at: "",
       },
@@ -183,6 +195,12 @@ export const regions = [
         created_at: "",
         updated_at: "",
       },
+      {
+        id: "4",
+        name: "Jardins",
+        created_at: "",
+        updated_at: "",
+      },
     ],
   },
   {
@@ -242,6 +260,12 @@ export const regions = [
       {
         id: "3",
         name: "Parcs animaliers",
+        created_at: "",
+        updated_at: "",
+      },
+      {
+        id: "4",
+        name: "Jardins",
         created_at: "",
         updated_at: "",
       },
@@ -307,6 +331,12 @@ export const regions = [
         created_at: "",
         updated_at: "",
       },
+      {
+        id: "4",
+        name: "Jardins",
+        created_at: "",
+        updated_at: "",
+      },
     ],
   },
 ];
@@ -322,8 +352,8 @@ export const sites = [
     city: "Philippsbourg",
     postal_code: "57230",
     address: "7 rue de Jesaispas",
-    latitude: "49.005111",
-    longitude: "7.568910",
+    latitude: 49.005111,
+    longitude: 7.568910,
     media:
       "https://www.chateauxfortsalsace.com/wp-content/uploads/2017/02/Falkenstein-P-Lutz-02-Web.jpg",
     contact: "contact@tourisme-paysdebitche.fr",
@@ -342,8 +372,8 @@ export const sites = [
     city: "Philippsbourg",
     postal_code: "57230",
     address: "7 rue de Jesaispas",
-    latitude: "49.005111",
-    longitude: "7.568910",
+    latitude: 49.005111,
+    longitude: 7.568910,
     media:
       "https://upload.wikimedia.org/wikipedia/commons/thumb/4/41/Ch%C3%A2teau_du_Grand-Geroldseck_01.jpg/1200px-Ch%C3%A2teau_du_Grand-Geroldseck_01.jpg",
     contact: "contact@tourisme-paysdebitche.fr",
@@ -362,8 +392,8 @@ export const sites = [
     city: "Philippsbourg",
     postal_code: "57230",
     address: "7 rue de Jesaispas",
-    latitude: "49.005111",
-    longitude: "7.568910",
+    latitude: 49.005111,
+    longitude: 7.568910,
     media:
       "https://www.visit.alsace/wp-content/uploads/lei/pictures/253000542-les-trois-chateaux-du-haut-eguisheim-5-1600x900.jpg",
     contact: "contact@tourisme-paysdebitche.fr",
@@ -382,8 +412,8 @@ export const sites = [
     city: "Philippsbourg",
     postal_code: "57230",
     address: "7 rue de Jesaispas",
-    latitude: "49.005111",
-    longitude: "7.568910",
+    latitude: 49.005111,
+    longitude: 7.568910,
     media:
       "https://www.alsaceterredechateaux.com/wp-content/uploads/2020/10/Chateau_Haut_Ribeaupierre_DSC_1418_%C2%A9INFRA.jpg",
     contact: "contact@tourisme-paysdebitche.fr",
@@ -402,8 +432,8 @@ export const sites = [
     city: "Philippsbourg",
     postal_code: "57230",
     address: "7 rue de Jesaispas",
-    latitude: "49.005111",
-    longitude: "7.568910",
+    latitude: 49.005111,
+    longitude: 7.568910,
     media:
       "https://www.alsaceterredechateaux.com/wp-content/uploads/2020/10/Chateau_Haut_Ribeaupierre_DSC_1418_%C2%A9INFRA.jpg",
     contact: "contact@tourisme-paysdebitche.fr",

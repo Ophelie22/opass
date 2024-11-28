@@ -14,6 +14,7 @@ const SiteDetails = () => {
 
   const categoryName = getCategoryName(categoryId);
 
+
   return (
     <main className="main">
       {!site ?
