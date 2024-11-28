@@ -15,13 +15,13 @@ import orderRouter from './order.router';
 const router = Router();
 
 router.use("/users", userRouter);
-router.use("/siteUser", siteUserRouter);
-router.use("/sitePackage", sitePackageRouter);
-router.use("/siteCategory", siteCategoryRouter);
-router.use("/site", siteRouter);
-router.use("/region", regionRouter);
-router.use("/pass", passRouter);
-router.use("/package", packageRouter);
-router.use("/order", orderRouter);
+router.use("/siteUsers", siteUserRouter);
+router.use("/sitePackages", sitePackageRouter);
+router.use("/siteCategories", siteCategoryRouter);
+router.use("/sites", siteRouter);
+router.use("/regions", regionRouter);
+router.use("/passes", passRouter);
+router.use("/packages", packageRouter);
+router.use("/orders", orderRouter);
 
 export default router;
