@@ -6,7 +6,7 @@ const prisma = new PrismaClient();
 export const getAllOrders = async (req: Request, res: Response) => {
     try {
         const orders = await prisma.order.findMany();
-        res.status(200).json({ data: orders });
+        res.status(200).json(orders );
     } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Erreur lors de la récupération des commandes' });

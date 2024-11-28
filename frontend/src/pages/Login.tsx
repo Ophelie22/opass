@@ -1,32 +1,59 @@
+import { useState, useEffect } from "react";
 import { Form, Formik } from "formik";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
-
-interface initialValues {
-	email: string;
-	password: string;
-}
-
-const RegisterSchema = yup.object({
-	email: yup
-		.string()
-		.email("L'e-mail n'est pas valide")
-		.required("Champ requis"),
-	password: yup.string().required("Champ requis"),
-});
-
-const initialValues: initialValues = {
-	email: "",
-	password: "",
-};
-
-const handleSubmit = (values: initialValues) => {
-	alert(JSON.stringify(values, null, 2));
-};
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
+	interface InitialValues {
+		email: string;
+		password: string;
+	}
+
+	const RegisterSchema = yup.object({
+		email: yup
+			.string()
+			.email("L'e-mail n'est pas valide")
+			.required("Champ requis"),
+		password: yup.string().required("Champ requis"),
+	});
+
+	const initialValues: InitialValues = {
+		email: "",
+		password: "",
+	};
+
+	const handleSubmit = (values: InitialValues) => {
+		login(values);
+	};
+
+	const url = import.meta.env.VITE_API_URL;
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
+
+  const navigate = useNavigate();
+
+	const login = (values: InitialValues) => {
+		setIsLoading(true);
+		fetch(`${url}/auth/login`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(values, null, 2),
+		})
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log(data);
+          navigate("/");
+        });
+      }
+    })
+	};
+
 	return (
-		<main className='main'>
+		<main className="main">
 			<Formik
 				initialValues={initialValues}
 				validationSchema={RegisterSchema}

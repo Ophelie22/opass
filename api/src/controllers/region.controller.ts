@@ -7,10 +7,7 @@ const prisma = new PrismaClient();
 
 export const getAllRegions = async (req: Request, res: Response) => {
     try {
-        const regions = await prisma.region.findMany({
-            // Inclure les sites et packages associés
-            include: { sites: true, packages: true },
-        });
+        const regions = await prisma.region.findMany();
         res.status(200).json({ data: regions });
     } catch (error) {
         console.error(error);
@@ -24,6 +21,7 @@ export const getAllRegionsForVisitors = async (req: Request, res: Response) => {
     try {
         const regions = await prisma.region.findMany({
             select: {
+                id: true,
                 name: true,
                 description: true,
                 media: true,
@@ -46,10 +44,12 @@ export const getAllRegionDetails = async (req: Request, res: Response) => {
               id: regionId,
             },
             select: {
+                id: true,
                 name: true,
                 description: true,
                 media: true,
                 packages: true,
+                categories: true
             },
           });
           res.status(200).json({ data: regionWithRelations });

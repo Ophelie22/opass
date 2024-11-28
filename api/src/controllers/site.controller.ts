@@ -9,7 +9,7 @@ const prisma = new PrismaClient();
 export const getAllSites = async (req: Request, res: Response) => {
     try {
         const sites = await prisma.site.findMany({
-            include: { region: true, category: true, events: true, siteUsers: true, sitePackage: true },
+          include: { region: true, category: true, events: true, siteUsers: true, sitePackage: true },
         });
         res.status(200).json({ data: sites})
     } catch (error) {
@@ -17,6 +17,20 @@ export const getAllSites = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erreur lors de la récupération des sites"});
     }
 };
+
+// Récuperer les sites en fonction de l'id de région et l'id de categorie
+export const getAllSitesByRegionIdAndCategoryId = async (req: Request, res: Response) => {
+  try {
+    const regionId = parseInt(req.params.regionId, 10);
+    const categoryId = parseInt(req.params.categoryId, 10);
+    const sitesByRegionIdAndCategoryId = await prisma.site.findMany({
+      where: { regionId: regionId, categoryId:categoryId },
+    });
+    res.status(200).json({ data: sitesByRegionIdAndCategoryId });
+  } catch(error) {
+    res.status(500).json({ message: "Erreur lors de la récupération des sites"})
+  }
+}
 
 // Récuperer un site par ID
 

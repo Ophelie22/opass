@@ -14,14 +14,14 @@ datasource db {
 }
 
 model User {
-  id          Int         @id @default(autoincrement())
-  name        String      
-  email       String      @unique @db.VarChar(255)
-  password    String      
-  createAt    DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique @db.VarChar(255)
+  password  String
+  createAt  DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-  orders      Order[]
+  orders Order[]
 }
 
 model Order {
@@ -29,30 +29,28 @@ model Order {
   userId    Int
   date      DateTime @default(now())
   amount    Decimal  @db.Decimal(10, 2)
-  status    String   
+  status    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-
-  user      User     @relation(fields: [userId], references: [id])
-  Passes    Pass[]
+  user   User   @relation(fields: [userId], references: [id])
+  Passes Pass[]
 }
 
 model Pass {
-  id          Int         @id @default(autoincrement())
-  packageId   Int?
-  codePass    String
-  orderId     Int
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  id        Int      @id @default(autoincrement())
+  packageId Int?
+  codePass  String
+  orderId   Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 
-
-  package     Package?    @relation(fields: [packageId], references: [id])
-  order       Order       @relation(fields: [orderId], references: [id])
+  package Package? @relation(fields: [packageId], references: [id])
+  order   Order    @relation(fields: [orderId], references: [id])
 }
 
 model Region {
-  id          Int      @id @default(autoincrement())
+  id          Int     @id @default(autoincrement())
   email       String?
   password    String?
   media       String?
@@ -60,36 +58,35 @@ model Region {
   name        String
 
   // Relations
-  sites       Site[]
-  packages    Package[]
-  categories  SiteCategory[] // Relation avec les catégories de sites
+  sites      Site[]
+  packages   Package[]
+  categories SiteCategory[] // Relation avec les catégories de sites
 }
-
 
 model Site {
-  id            Int         @id @default(autoincrement())
-  regionId      Int
-  categoryId    Int?
-  name          String
-  description   String?
-  city          String?
-  postalCode    String?
-  address       String?
-  latitude      Decimal?    @db.Decimal(10,8)
-  longitude     Decimal?    @db.Decimal(10,8)
-  media         String?
-  contact       String?
-  information   String?
-  createdAt     DateTime    @default(now())
-  updatedAt     DateTime    @updatedAt
+  id          Int      @id @default(autoincrement())
+  regionId    Int
+  categoryId  Int?
+  name        String
+  description String?
+  city        String?
+  postalCode  String?
+  address     String?
+  latitude    Decimal? @db.Decimal(10, 8)
+  longitude   Decimal? @db.Decimal(10, 8)
+  media       String?
+  contact     String?
+  information String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  region        Region      @relation(fields: [regionId], references: [id])
-  category      SiteCategory?   @relation(fields: [categoryId], references: [id])
-  events        Event[]
-  siteUsers     SiteUser[]
-  sitePackage   SitePackage[]
-  
+  region      Region        @relation(fields: [regionId], references: [id])
+  category    SiteCategory? @relation(fields: [categoryId], references: [id])
+  events      Event[]
+  siteUsers   SiteUser[]
+  sitePackage SitePackage[]
 }
+
 model SiteCategory {
   id         Int      @id @default(autoincrement())
   regionId   Int
@@ -97,10 +94,10 @@ model SiteCategory {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-
-  sites       Site[]
-  region      Region  @relation(fields: [regionId], references: [id])
+  sites  Site[]
+  region Region @relation(fields: [regionId], references: [id])
 }
+
 model Event {
   id          Int      @id @default(autoincrement())
   siteId      Int
@@ -114,36 +111,34 @@ model Event {
   site        Site     @relation(fields: [siteId], references: [id])
 }
 
-
 model SiteUser {
   id       Int    @id @default(autoincrement())
-  siteId Int
+  siteId   Int
   name     String
   email    String @unique
   password String
-  
-  site     Site   @relation(fields: [siteId], references: [id])
+
+  site Site @relation(fields: [siteId], references: [id])
 }
 
 model Package {
-  id            Int     @id @default(autoincrement())
-  regionId     Int?
-  price         Decimal @db.Decimal(10,2)
-  description   String?
-  name          String
+  id          Int     @id @default(autoincrement())
+  regionId    Int?
+  price       Decimal @db.Decimal(10, 2)
+  description String?
+  name        String
 
-  passes        Pass []
-  sitePackages  SitePackage[]
-  region        Region? @relation(fields: [regionId], references: [id])
+  passes       Pass[]
+  sitePackages SitePackage[]
+  region       Region?       @relation(fields: [regionId], references: [id])
 }
 
 model SitePackage {
-  siteId      Int
-  packageId   Int
+  siteId    Int
+  packageId Int
 
+  site    Site    @relation(fields: [siteId], references: [id])
+  package Package @relation(fields: [packageId], references: [id])
 
-  site        Site      @relation(fields: [siteId], references: [id])
-  package     Package   @relation(fields: [packageId], references: [id])
-
-  @@id([siteId,packageId]) // Cle primaires composites
+  @@id([siteId, packageId]) // Cle primaires composites
 }

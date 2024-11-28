@@ -1,50 +1,43 @@
-// import { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { NavLink, useParams } from "react-router-dom";
-import { regions } from './data';
 import { Package } from "../types/Package";
-import { Region } from "../types/Region";
-import { SiteCategory } from "../types/SiteCategory";
-
+import type { Region } from "../types/Region";
+import type { SiteCategory } from "../types/SiteCategory";
 
 const RegionDetails = () => {
-
-	// const API_URL = 'http://localhost:3000';
-	// const [region, setRegion] = useState({});
-	// const [siteCategories, setSiteCategories] = useState([]);
-	// const [isLoading, setIsLoading] = useState(false);
-	// const [isLoading1, setIsLoading1] = useState(false);
-	// const [error, setError] = useState(null);
-	// const [error1, setError1] = useState(null);
+  const url = import.meta.env.VITE_API_URL;
+	const [region, setRegion] = useState<Region>();
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
 
 	const { regionId } = useParams();
+  console.log(typeof(regionId));
 
-	const region = regions.find((region: Region) => region.id === regionId)
+	const getAllRegionDetails = () => {
+	  setIsLoading(true);
+	  fetch(`${url}/regions/${regionId}/all-relations`)
+	    .then((response) => response.json())
+	    .then((data) => {
+	      setRegion(data.data);
+        console.log(data.data);
+      })
+	    .catch((error) => {
+	      setError(error.message);
+	    })
+      .finally(() => setIsLoading(false));
+	}
 
-	// const getAllRegionDetails = () => {
-	//   setIsLoading(true);
-	//   fetch(`${API_URL}/regions/${regionId}/all-relations`)
-	//     .then((response) => response.json())
-	//     .then((data) => {
-	//       setRegion(data);
-	//       setIsLoading(false);
-	//     })
-	//     .catch((error) => {
-	//       setError(error.message);
-	//       setIsLoading(false)
-	//     })
-	// }
+	useEffect(() => {
+	  getAllRegionDetails();
+	}, [regionId])
 
-	// useEffect(() => {
-	//   getAllRegionDetails();
-	// }, [])
+	if (isLoading) return <span className="loading loading-spinner loading-md"></span>
 
-	// if (isLoading) return <span className="loading loading-spinner loading-md"></span>
-
-	// if (error) return <p>Erreur: {error}</p>
+	if (error) return <p>Erreur: {error}</p>
 
 	return (
 		<main className="main">
-			{region &&
+			{region && (
 				<>
 					<div
 						className="bg-auto bg-no-repeat bg-center w-full h-64 relative"
@@ -82,7 +75,7 @@ const RegionDetails = () => {
 					<div className="flex flex-col gap-6">
 						<h2 className="h2">Catégories de site</h2>
 
-						{region.siteCategory?.map((category: SiteCategory) => (
+						{region.categories?.map((category: SiteCategory) => (
 							<NavLink to={`/regions/${regionId}/${category.id}`}>
 								<div className="card image-full h-48">
 									<figure>
@@ -95,7 +88,8 @@ const RegionDetails = () => {
 							</NavLink>
 						))}
 					</div>
-				</>}
+				</>
+			)}
 		</main>
 	);
 };

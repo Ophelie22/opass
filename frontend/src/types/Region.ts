@@ -7,5 +7,5 @@ export interface Region {
     description: string;
     media: string;
     packages: Package[];
-    siteCategory: SiteCategory[]
+    categories: SiteCategory[]
 }
