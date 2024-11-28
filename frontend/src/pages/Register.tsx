@@ -1,53 +1,79 @@
 import { Form, Formik } from "formik";
-import { NavLink } from "react-router-dom";
+import { useState } from "react";
+import { NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
 
-interface initialValues {
-	name: string;
-	email: string;
-	confirmEmail: string;
-	password: string;
-	gcu: boolean;
-}
-
-const RegisterSchema = yup.object({
-	name: yup
-		.string()
-		.min(3, "Le prénom doit contenir au moins 3 caractères")
-		.max(50, "Le prénom ne doit pas dépasser 50 caractères")
-		.required("Champ requis"),
-	email: yup
-		.string()
-		.email("L'e-mail n'est pas valide")
-		.required("Champ requis"),
-	confirmEmail: yup
-		.string()
-		.email("L'e-mail n'est pas valide")
-		.max(255, "L'e-mail ne doit pas dépasser 255 caractères")
-		.required("Champs requis"),
-	password: yup
-		.string()
-		.min(8, "Le mot de passe doit contenir au moins 8 caractères")
-		.max(32, "Le mot de passe ne doit pas dépasser 32 caractères")
-		.required("Champ requis"),
-	gcu: yup.boolean().required("Champs requis"),
-});
-
-const initialValues: initialValues = {
-	name: "",
-	email: "",
-	confirmEmail: "",
-	password: "",
-	gcu: false,
-};
-
-const handleSubmit = (values: initialValues) => {
-	alert(JSON.stringify(values, null, 2));
-};
-
 const Register = () => {
+	interface initialValues {
+		name: string;
+		email: string;
+		confirmEmail: string;
+		password: string;
+		gcu: boolean;
+	}
+
+	const RegisterSchema = yup.object({
+		name: yup
+			.string()
+			.min(3, "Le prénom doit contenir au moins 3 caractères")
+			.max(50, "Le prénom ne doit pas dépasser 50 caractères")
+			.required("Champ requis"),
+		email: yup
+			.string()
+			.email("L'e-mail n'est pas valide")
+			.required("Champ requis"),
+		confirmEmail: yup
+			.string()
+			.email("L'e-mail n'est pas valide")
+			.max(255, "L'e-mail ne doit pas dépasser 255 caractères")
+			.required("Champs requis"),
+		password: yup
+			.string()
+			.min(8, "Le mot de passe doit contenir au moins 8 caractères")
+			.max(32, "Le mot de passe ne doit pas dépasser 32 caractères")
+			.required("Champ requis"),
+		gcu: yup.boolean().required("Champs requis"),
+	});
+
+	const initialValues: initialValues = {
+		name: "",
+		email: "",
+		confirmEmail: "",
+		password: "",
+		gcu: false,
+	};
+
+	const handleSubmit = (values: initialValues) => {
+		register(values);
+	};
+
+	const url = import.meta.env.VITE_API_URL;
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState(null);
+  
+  const navigate = useNavigate();
+
+	const register = (values: initialValues) => {
+		setIsLoading(true);
+		fetch(`${url}/auth/register`, {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+			},
+			body: JSON.stringify(values, null, 2),
+		})
+    .then((response) => {
+      if (response.ok) {
+        response.json().then((data) => {
+          console.log(data);
+          navigate("/");
+        });
+      }
+    })
+	};
+
 	return (
-		<main className='main'>
+		<main className="main">
 			<Formik
 				initialValues={initialValues}
 				validationSchema={RegisterSchema}
@@ -72,7 +98,9 @@ const Register = () => {
 								value={values.name}
 								onChange={handleChange}
 							/>
-							{errors.name && touched.name ? <span className="text-red-600 text-sm">{errors.name}</span> : null}
+							{errors.name && touched.name ? (
+								<span className="text-red-600 text-sm">{errors.name}</span>
+							) : null}
 						</label>
 
 						<label className="form-control w-full">
@@ -111,7 +139,9 @@ const Register = () => {
 								onChange={handleChange}
 							/>
 							{errors.confirmEmail && touched.confirmEmail ? (
-								<span className="text-red-600 text-sm">{errors.confirmEmail}</span>
+								<span className="text-red-600 text-sm">
+									{errors.confirmEmail}
+								</span>
 							) : null}
 						</label>
 
@@ -168,10 +198,10 @@ const Register = () => {
 							}
 							className={
 								!values.gcu ||
-									!values.name ||
-									!values.email ||
-									!values.confirmEmail ||
-									!values.password
+								!values.name ||
+								!values.email ||
+								!values.confirmEmail ||
+								!values.password
 									? "btn btn-disabled"
 									: "btn"
 							}
