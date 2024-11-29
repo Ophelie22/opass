@@ -11,7 +11,6 @@ const RegionDetails = () => {
 	const [error, setError] = useState(null);
 
 	const { regionId } = useParams();
-  console.log(typeof(regionId));
 
 	const getAllRegionDetails = () => {
 	  setIsLoading(true);
@@ -19,7 +18,6 @@ const RegionDetails = () => {
 	    .then((response) => response.json())
 	    .then((data) => {
 	      setRegion(data.data);
-        console.log(data.data);
       })
 	    .catch((error) => {
 	      setError(error.message);

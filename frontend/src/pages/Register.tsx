@@ -64,9 +64,10 @@ const Register = () => {
 		})
     .then((response) => {
       if (response.ok) {
-        response.json().then((data) => {
+        response.json()
+        .then((data) => {
           console.log(data);
-          navigate("/");
+          navigate("/connexion");
         });
       }
     })

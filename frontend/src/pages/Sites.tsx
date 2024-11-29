@@ -12,8 +12,6 @@ const Sites = () => {
 
 	const { regionId, categoryId } = useParams();
 
-	// const categoryName = getCategoryName(categoryId);
-
 	const getCategoryById = () => {
 		fetch(`${url}/siteCategories/${categoryId}`)
 			.then((response) => response.json())
@@ -31,7 +29,6 @@ const Sites = () => {
 			.then((response) => response.json())
 			.then((data) => {
 				setSites(data.data);
-				console.log(data.data);
 			})
 			.catch((error) => {
 				setError(error.message);

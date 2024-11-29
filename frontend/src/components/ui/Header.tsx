@@ -66,7 +66,6 @@ const Header: React.FC = () => {
 
             {/* condition panier (authentifié ou non) */}
             <ShoppingCart />
-
         </header>
     );
 };

@@ -1,9 +1,9 @@
 import { Form, Formik } from "formik";
 import { CalendarDays, Check, CircleCheckBig, CircleX, LockKeyhole, Mail, Pencil, TriangleAlert, UserRound, Wrench, X } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import * as yup from "yup";
 import { useAuth } from "../context/auth-context";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate } from "react-router-dom";
 
 interface initialValues {
   name: string;
@@ -122,9 +122,9 @@ const AccountDetails = () => {
   // if (error) return <p>Erreur: {error}</p>
   // }
 
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, isLoading } = useAuth();
   
-  if (isAuthenticated === null) return <p>Loading...</p>
+  if (isLoading) return <p>Loading...</p>
 
   if (isAuthenticated === false) return <Navigate to="/connexion" />
 

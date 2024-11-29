@@ -6,10 +6,8 @@ import {
     PAGE_HOME,
     PAGE_LOGIN,
     PAGE_PRIVACY_POLICY,
-    PAGE_REGIONS,
     PAGE_REGISTER
 } from "../../App";
-import logoRond from "../../assets/logo-rond.svg";
 
 const Footer: React.FC = () => {
     return (
@@ -21,9 +19,6 @@ const Footer: React.FC = () => {
                     <ul className="space-y-2 text-xs">
                         <li>
                             <NavLink to={PAGE_HOME} className="link link-hover">Accueil</NavLink>
-                        </li>
-                        <li>
-                            <NavLink to={PAGE_REGIONS} className="link link-hover">Régions</NavLink>
                         </li>
                         <li>
                             <NavLink to={PAGE_LOGIN} className="link link-hover">Se connecter</NavLink>
