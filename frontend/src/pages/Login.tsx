@@ -1,14 +1,21 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Form, Formik } from "formik";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
-const Login = () => {
-	interface InitialValues {
-		email: string;
-		password: string;
-	}
+interface InitialValues {
+	email: string;
+	password: string;
+}
+
+const Login: React.FC = () => {
+
+	const navigate = useNavigate();
+	const { login } = useAuth();
+	const [error, setError] = useState("");
+	const [isLoading, setIsLoading] = useState(false);
 
 	const RegisterSchema = yup.object({
 		email: yup
@@ -23,33 +30,22 @@ const Login = () => {
 		password: "",
 	};
 
-	const handleSubmit = (values: InitialValues) => {
-		login(values);
-	};
-
-	const url = import.meta.env.VITE_API_URL;
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-
-  const navigate = useNavigate();
-
-	const login = (values: InitialValues) => {
-		setIsLoading(true);
-		fetch(`${url}/auth/login`, {
-			method: "POST",
-			headers: {
-				"Content-Type": "application/json",
-			},
-			body: JSON.stringify(values, null, 2),
-		})
-    .then((response) => {
-      if (response.ok) {
-        response.json().then((data) => {
-          console.log(data);
-          navigate("/");
-        });
-      }
-    })
+	const handleSubmit = async (values: InitialValues) => {
+		setIsLoading(true)
+		try {
+			const { email, password } = values;
+			const success = await login(email, password);
+			if (success) {
+				navigate("/");
+				setIsLoading(false);
+			} else {
+				setError("Erreur lors de la connexion");
+			}
+		} catch (err) {
+			console.log(
+				"Erreur lors de la connexion. Veuillez vérifier vos identifiants."
+			);
+		}
 	};
 
 	return (
@@ -113,6 +109,7 @@ const Login = () => {
 					</Form>
 				)}
 			</Formik>
+			{error && <p>{error}</p>}
 		</main>
 	);
 };

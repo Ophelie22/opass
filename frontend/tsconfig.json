@@ -3,5 +3,12 @@
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
-  ]
+  ], 
+   "compilerOptions": {
+    "types": ["vite/client"],
+    "module": "ESNext",
+    "target": "ES2017",
+    "jsx": "react-jsx",
+    "strict": true
+  }
 }
