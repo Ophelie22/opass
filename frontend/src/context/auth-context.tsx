@@ -1,20 +1,18 @@
-import { createContext, ReactNode, useContext, useState } from "react";
+import { createContext, ReactNode, useContext, useEffect, useState } from "react";
 import { User } from "../types/User";
+
+// ATTENTION LE PROVIDER ENGLOBE TOUTE L'APPLI
+// CE QUI FAIT QUE LA REQUETE CHECK EST APPELLEE
+// SUR TOUTES LES PAGES. TODO...
 
 interface AuthContextInterface {
     isAuthenticated: boolean;
-    token: string | null;
-    login: (email: string, password: string) => Promise<boolean>;
     user: User | null;
-    isLoading: boolean;
 }
 
 export const AuthContext = createContext<AuthContextInterface>({
     isAuthenticated: false,
-    token: null,
-    login: async () => false,
     user: null,
-    isLoading: false
 });
 
 export const useAuth = () => {
@@ -22,50 +20,33 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-    const [user, setUser] = useState<User | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [user, setUser] = useState(null);
     const [isAuthenticated, setIsAuthenticated] = useState(false);
-    const [token, setToken] = useState<string | null>(null);
     const url = import.meta.env.VITE_API_URL;
 
-    const login = async (email: string, password: string): Promise<boolean> => {
-        try {
-            const response = await fetch(`${url}/auth/login`, {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify({
-                    email,
-                    password,
-                }),
-            });
-
-            const json = await response.json();
-
-            if (json && json.token) {
-                setToken(json.token);
-                setIsAuthenticated(true);
-                setUser(json.user);
-                return true;
+    useEffect(() => {
+        const checkAuth = async () => {
+            try {
+                const response = await fetch(`${url}/auth/check`, { credentials: 'include' });
+                if (response.ok) {
+                    const data = await response.json();
+                    setIsAuthenticated(data.authenticated);
+                } else {
+                    setIsAuthenticated(false);
+                }
+            } catch (error) {
+                setIsAuthenticated(false);
             }
-        } catch (err) {
-            console.error("Login failed:", err);
-        } finally {
-            setIsLoading(false);
-        }
-        return false;
-    };
+        };
+        checkAuth();
+    }, [])
 
 
     return (
         <AuthContext.Provider
             value={{
                 isAuthenticated,
-                token,
                 user,
-                login,
-                isLoading,
             }
             }
         >

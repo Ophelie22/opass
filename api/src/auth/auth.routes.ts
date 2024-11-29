@@ -7,6 +7,7 @@ const router = Router();
 // Routes publiques
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
+router.get("/check", AuthController.check);
 
 // Exemple de route protégée
 router.get("/profile", authenticate, async (req, res) => {

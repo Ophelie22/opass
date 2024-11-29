@@ -3,7 +3,6 @@ import { Form, Formik } from "formik";
 import { NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/auth-context";
 
 interface InitialValues {
 	email: string;
@@ -13,8 +12,8 @@ interface InitialValues {
 const Login: React.FC = () => {
 
 	const navigate = useNavigate();
-	const { login } = useAuth();
-	const [error, setError] = useState("");
+	const url = import.meta.env.VITE_API_URL;
+	const [error, setError] = useState<null | string>(null);
 	const [isLoading, setIsLoading] = useState(false);
 
 	const RegisterSchema = yup.object({
@@ -30,22 +29,40 @@ const Login: React.FC = () => {
 		password: "",
 	};
 
-	const handleSubmit = async (values: InitialValues) => {
+	const login = async (values: InitialValues) => {
 		setIsLoading(true)
+		const { email, password } = values;
 		try {
-			const { email, password } = values;
-			const success = await login(email, password);
-			if (success) {
-				navigate("/");
-				setIsLoading(false);
-			} else {
-				setError("Erreur lors de la connexion");
-			}
+			const res = await fetch(`${url}/auth/login`, {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email,
+					password,
+				},
+				),
+				credentials: "include",
+			})
+			res.json()
+			if (res.ok) navigate('/')
 		} catch (err) {
-			console.log(
-				"Erreur lors de la connexion. Veuillez vérifier vos identifiants."
-			);
+			setError(err as string)
+		} finally {
+			setIsLoading(false)
 		}
+
+		// .then((response) => {
+		// 	response.json()
+		// 	if (response.ok) navigate('/')
+		// })
+		// .catch((error) => setError(error.message))
+		// .finally(() => setIsLoading(false))
+	}
+
+	const handleSubmit = async (values: InitialValues) => {
+		login(values);
 	};
 
 	return (
@@ -104,12 +121,11 @@ const Login: React.FC = () => {
 								!values.email || !values.password ? "btn btn-disabled" : "btn"
 							}
 						>
-							Connexion
+							{!isLoading ? "Connexion" : <span className="loading loading-spinner loading-md"></span>}
 						</button>
 					</Form>
 				)}
 			</Formik>
-			{error && <p>{error}</p>}
 		</main>
 	);
 };

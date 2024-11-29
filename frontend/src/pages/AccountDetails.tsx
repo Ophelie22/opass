@@ -1,7 +1,9 @@
 import { Form, Formik } from "formik";
 import { CalendarDays, Check, CircleCheckBig, CircleX, LockKeyhole, Mail, Pencil, TriangleAlert, UserRound, Wrench, X } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as yup from "yup";
+import { useAuth } from "../context/auth-context";
+import { Navigate, useNavigate } from "react-router-dom";
 
 interface initialValues {
   name: string;
@@ -10,6 +12,7 @@ interface initialValues {
   password: string;
   confirmPassword: string;
 }
+
 
 type ToastType = "success" | "error" | "warning";
 
@@ -118,6 +121,12 @@ const AccountDetails = () => {
 
   // if (error) return <p>Erreur: {error}</p>
   // }
+
+  const { isAuthenticated } = useAuth();
+  
+  if (isAuthenticated === null) return <p>Loading...</p>
+
+  if (isAuthenticated === false) return <Navigate to="/connexion" />
 
   return (
     <main className="main flex flex-col">

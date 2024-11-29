@@ -1,7 +1,10 @@
 import { Request, Response } from "express";
 import AuthService from "./auth.service";
+import jwt from 'jsonwebtoken';
 
 // Pour l'authentification il faut aller sur /api/auth/register et /api/auth/login.
+
+const SECRET_KEY = process.env.SECRET_KEY || "default_secret";
 
 class AuthController {
   static async login(req: Request, res: Response): Promise<void> {
@@ -28,9 +31,28 @@ class AuthController {
     } catch (error) {
       res
         .status(400)
-        .json({ message: "Erreur lors de la création de l'utilisateur" }); 
+        .json({ message: "Erreur lors de la création de l'utilisateur" });
     }
   }
+
+  static async check(req: Request, res: Response): Promise<void> {
+    const token = req.cookies.token;
+
+    if (!token) {
+      res.status(401).json({ authenticated: false });
+      return;
+    }
+
+    try {
+      const decoded = jwt.verify(token, SECRET_KEY);
+      res.status(200).json({ authenticated: true, user: decoded });
+      return;
+    } catch (error) {
+      res.status(401).json({ authenticated: false });
+      return;
+    }
+  }
+
 }
 
 export default AuthController;
