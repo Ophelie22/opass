@@ -1,7 +1,8 @@
 import { Form, Formik } from "formik";
-import { useState } from "react";
-import { NavLink, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
+import { useAuth } from "../context/auth-context";
 
 const Register = () => {
 	interface initialValues {
@@ -50,6 +51,7 @@ const Register = () => {
 	const url = import.meta.env.VITE_API_URL;
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
+  const { isAuthenticated, isLoadingAuth } = useAuth();
   
   const navigate = useNavigate();
 
@@ -73,7 +75,13 @@ const Register = () => {
     })
 	};
 
-	return (
+  useEffect(() => {
+    if (isAuthenticated === true) {
+      navigate('/')
+    }
+  }, [isAuthenticated])
+
+	if (isAuthenticated === false) return (
 		<main className="main">
 			<Formik
 				initialValues={initialValues}

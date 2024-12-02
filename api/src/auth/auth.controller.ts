@@ -53,6 +53,34 @@ class AuthController {
     }
   }
 
+  static async getUserInfo(req: Request, res: Response): Promise<void> {
+    const token = req.cookies.token;
+  
+    if (!token) {
+      res.status(401).json({ message: "Non authentifié" });
+      return;
+    }
+  
+    try {
+      // Décodage du token pour extraire userId
+      const decoded = jwt.verify(token, SECRET_KEY) as { userId: number };
+  
+      // Utilisation de userId pour récupérer l'utilisateur
+      const user = await AuthService.getUserById(decoded.userId);
+  
+      if (!user) {
+        res.status(404).json({ message: "Utilisateur non trouvé" });
+        return;
+      }
+  
+      // Réponse avec les données utilisateur
+      res.status(200).json({ user });
+    } catch (error) {
+      // Gérer les erreurs (ex: token expiré ou invalide)
+      res.status(401).json({ message: "Token invalide ou expiré" });
+    }
+  }
+
 }
 
 export default AuthController;

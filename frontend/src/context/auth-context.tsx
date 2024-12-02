@@ -9,18 +9,20 @@ import { User } from "../types/User";
 
 // ATTENTION LE PROVIDER ENGLOBE TOUTE L'APPLI
 // CE QUI FAIT QUE LA REQUETE CHECK EST APPELLEE
-// SUR TOUTES LES PAGES. TODO...
+// SUR TOUTES LES PAGES, MEME CELLES QUI NE NECESSITENT PAS L'AUTH. TODO...
 
 interface AuthContextInterface {
-	isLoading: boolean;
+	isLoadingAuth: boolean;
 	isAuthenticated: boolean;
 	user: User | null;
+  loginAuth: () => void;
 }
 
 export const AuthContext = createContext<AuthContextInterface>({
-	isLoading: true,
+	isLoadingAuth: true,
 	isAuthenticated: false,
 	user: null,
+  loginAuth: () => {},
 });
 
 export const useAuth = () => {
@@ -29,9 +31,13 @@ export const useAuth = () => {
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	const [user, setUser] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const url = import.meta.env.VITE_API_URL;
+
+  const loginAuth = () => {
+    setIsAuthenticated(true);
+  }
 
 	useEffect(() => {
 		const checkAuth = async () => {
@@ -48,7 +54,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 			} catch (error) {
 				setIsAuthenticated(false);
 			} finally {
-        setIsLoading(false);
+        setIsLoadingAuth(false);
       }
 		};
 		checkAuth();
@@ -57,9 +63,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 	return (
 		<AuthContext.Provider
 			value={{
-        isLoading,
+        isLoadingAuth,
 				isAuthenticated,
 				user,
+        loginAuth
 			}}
 		>
 			{children}

@@ -4,10 +4,10 @@ import authenticate from "./auth.middleware";
 
 const router = Router();
 
-// Routes publiques
 router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 router.get("/check", AuthController.check);
+router.get("/me", AuthController.getUserInfo); 
 
 // Exemple de route protégée
 router.get("/profile", authenticate, async (req, res) => {

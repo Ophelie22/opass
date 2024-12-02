@@ -1,8 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Form, Formik } from "formik";
-import { NavLink } from "react-router-dom";
+import { Navigate, NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/auth-context";
 
 interface InitialValues {
 	email: string;
@@ -10,11 +11,11 @@ interface InitialValues {
 }
 
 const Login: React.FC = () => {
-
 	const navigate = useNavigate();
 	const url = import.meta.env.VITE_API_URL;
 	const [error, setError] = useState<null | string>(null);
 	const [isLoading, setIsLoading] = useState(false);
+	const { isAuthenticated, isLoadingAuth, loginAuth } = useAuth();
 
 	const RegisterSchema = yup.object({
 		email: yup
@@ -30,7 +31,7 @@ const Login: React.FC = () => {
 	};
 
 	const login = async (values: InitialValues) => {
-		setIsLoading(true)
+		setIsLoading(true);
 		const { email, password } = values;
 		try {
 			const res = await fetch(`${url}/auth/login`, {
@@ -41,31 +42,32 @@ const Login: React.FC = () => {
 				body: JSON.stringify({
 					email,
 					password,
-				},
-				),
+				}),
 				credentials: "include",
-			})
-			res.json()
-			if (res.ok) navigate('/')
+			});
+			res.json();
+			if (res.ok) {
+				navigate("/");
+				loginAuth();
+			}
 		} catch (err) {
-			setError(err as string)
+			setError(err as string);
 		} finally {
-			setIsLoading(false)
+			setIsLoading(false);
 		}
-
-		// .then((response) => {
-		// 	response.json()
-		// 	if (response.ok) navigate('/')
-		// })
-		// .catch((error) => setError(error.message))
-		// .finally(() => setIsLoading(false))
-	}
+	};
 
 	const handleSubmit = async (values: InitialValues) => {
 		login(values);
 	};
 
-	return (
+	useEffect(() => {
+		if (isAuthenticated === true) {
+			navigate("/");
+		}
+	}, [isAuthenticated]);
+
+	if (isAuthenticated === false) return (
 		<main className="main">
 			<Formik
 				initialValues={initialValues}
@@ -121,7 +123,11 @@ const Login: React.FC = () => {
 								!values.email || !values.password ? "btn btn-disabled" : "btn"
 							}
 						>
-							{!isLoading ? "Connexion" : <span className="loading loading-spinner loading-md"></span>}
+							{!isLoading ? (
+								"Connexion"
+							) : (
+								<span className="loading loading-spinner loading-md"></span>
+							)}
 						</button>
 					</Form>
 				)}
