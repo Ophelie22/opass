@@ -53,3 +53,7 @@
 .icon {
 	@apply inline-flex text-blueText;
 }
+
+.navbarText {
+	@apply p-2 w-full text-left text-blueText font-semibold text-sm uppercase;
+  }

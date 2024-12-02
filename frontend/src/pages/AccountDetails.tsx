@@ -16,6 +16,7 @@ import { useEffect, useState } from "react";
 import * as yup from "yup";
 import { useAuth } from "../context/auth-context";
 import { Navigate, useNavigate } from "react-router-dom";
+import { formatDateTime } from "../utils/FormatDateTime";
 
 interface User {
 	name: string;
@@ -74,7 +75,7 @@ const AccountDetails = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const { isAuthenticated, isLoadingAuth } = useAuth();
-  const navigate = useNavigate();
+	const navigate = useNavigate();
 
 	const initialValues: initialValues = {
 		name: userInfos.name || "",
@@ -124,11 +125,11 @@ const AccountDetails = () => {
 	};
 
 	useEffect(() => {
-    if (isAuthenticated === false) {
-      navigate('/connexion');
-    } else {
-      getConnectedUserInfos();
-    }
+		if (isAuthenticated === false) {
+			navigate('/connexion');
+		} else {
+			getConnectedUserInfos();
+		}
 	}, [isAuthenticated]);
 
 	if (isLoading)
@@ -202,11 +203,10 @@ const AccountDetails = () => {
 															value={values.name}
 															disabled={!isEditing}
 															onChange={handleChange}
-															className={`w-full p-2 border rounded-lg  ${
-																isEditing
+															className={`w-full p-2 border rounded-lg  ${isEditing
 																	? "td-content-enabled border-secondary"
 																	: "border-gray-300 bg-gray-100"
-															}`}
+																}`}
 														/>
 														{errors.name && touched.name ? (
 															<span className="text-red-600 text-sm">
@@ -228,11 +228,10 @@ const AccountDetails = () => {
 															value={values.email}
 															disabled={!isEditing}
 															onChange={handleChange}
-															className={`w-full p-2 border rounded-lg ${
-																isEditing
+															className={`w-full p-2 border rounded-lg ${isEditing
 																	? "td-content-enabled border-secondary"
 																	: "border-gray-300 bg-gray-100"
-															}`}
+																}`}
 														/>
 														{errors.email && touched.email ? (
 															<span className="text-red-600 text-sm">
@@ -256,11 +255,10 @@ const AccountDetails = () => {
 																	value={values.confirmEmail}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${
-																		isEditing
+																	className={`w-full p-2 border rounded-lg ${isEditing
 																			? "td-content-enabled border-secondary"
 																			: "border-gray-300 bg-gray-100"
-																	}`}
+																		}`}
 																/>
 																{errors.confirmEmail && touched.confirmEmail ? (
 																	<span className="text-red-600 text-sm">
@@ -282,11 +280,10 @@ const AccountDetails = () => {
 																	value={values.password}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${
-																		isEditing
+																	className={`w-full p-2 border rounded-lg ${isEditing
 																			? "td-content-enabled border-secondary"
 																			: "border-gray-300 bg-gray-100"
-																	}`}
+																		}`}
 																/>
 																{errors.password && touched.password ? (
 																	<span className="text-red-600 text-sm">
@@ -308,14 +305,13 @@ const AccountDetails = () => {
 																	value={values.confirmPassword}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${
-																		isEditing
+																	className={`w-full p-2 border rounded-lg ${isEditing
 																			? "td-content-enabled border-secondary"
 																			: "border-gray-300 bg-gray-100"
-																	}`}
+																		}`}
 																/>
 																{errors.confirmPassword &&
-																touched.confirmPassword ? (
+																	touched.confirmPassword ? (
 																	<span className="text-red-600 text-sm">
 																		{errors.confirmPassword}
 																	</span>
@@ -330,7 +326,7 @@ const AccountDetails = () => {
 														Compte créé le :
 													</td>
 													<td className="td-content-disabled">
-														{userInfos.createAt}
+														{formatDateTime(userInfos.createAt)}
 													</td>
 												</tr>
 												<tr className="border-t">
@@ -339,7 +335,7 @@ const AccountDetails = () => {
 														Dernière mise à jour :
 													</td>
 													<td className="td-content-disabled">
-														{userInfos.updatedAt}
+														{formatDateTime(userInfos.updatedAt)}
 													</td>
 												</tr>
 											</tbody>

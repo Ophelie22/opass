@@ -7,6 +7,7 @@ import {
 } from "../../App";
 import { useAuth } from "../../context/auth-context";
 import { useState } from "react";
+import { House, LogOut, UserRound, UserRoundPen, UserRoundPlus } from "lucide-react";
 
 const Navbar = ({
 	toggleMenu,
@@ -17,29 +18,29 @@ const Navbar = ({
 }) => {
 	const url = import.meta.env.VITE_API_URL;
 	const { isAuthenticated, logoutAuth } = useAuth();
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<null | string>(null);
 	const navigate = useNavigate();
 
-	const handleLogout = async() => {
-    setIsLoading(true)
-    try {
-      const res = await fetch(`${url}/auth/logout`, {
-        method: "POST",
-        credentials: "include",
-      })
-      res.json()
-      if (res.ok) {
-        navigate('/connexion')
-        logoutAuth();
-        toggleMenu();
-      }
-    } catch(err) {
-      setError(err as string)
-    } finally {
-      setIsLoading(false)
-    }
-		
+	const handleLogout = async () => {
+		setIsLoading(true)
+		try {
+			const res = await fetch(`${url}/auth/logout`, {
+				method: "POST",
+				credentials: "include",
+			})
+			res.json()
+			if (res.ok) {
+				navigate('/connexion')
+				logoutAuth();
+				toggleMenu();
+			}
+		} catch (err) {
+			setError(err as string)
+		} finally {
+			setIsLoading(false)
+		}
+
 	};
 
 	return (
@@ -53,9 +54,9 @@ const Navbar = ({
 			<NavLink
 				to={PAGE_HOME}
 				onClick={toggleMenu}
-				className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
+				className="navbarText"
 			>
-				Accueil
+				<House className="icon-medium text-blueText mx-2" /> Accueil
 			</NavLink>
 
 			{isAuthenticated === false ? (
@@ -63,16 +64,16 @@ const Navbar = ({
 					<NavLink
 						to={PAGE_LOGIN}
 						onClick={toggleMenu}
-						className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
+						className="navbarText"
 					>
-						Se connecter
+						<UserRound className="icon-medium mx-2" /> Se connecter
 					</NavLink>
 					<NavLink
 						to={PAGE_REGISTER}
 						onClick={toggleMenu}
-						className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
+						className="navbarText"
 					>
-						Créer son compte
+						<UserRoundPlus className="icon-medium mx-2" /> Créer son compte
 					</NavLink>
 				</>
 			) : (
@@ -80,17 +81,17 @@ const Navbar = ({
 					<NavLink
 						to={PAGE_ACCOUNT_DETAILS}
 						onClick={toggleMenu}
-						className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
+						className="navbarText"
 					>
-						Mes informations
+						<UserRoundPen className="icon-medium mx-2" />  Mes informations
 					</NavLink>
 
 					<button
-						onClick={ handleLogout
+						onClick={handleLogout
 						}
-						className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
+						className="navbarText"
 					>
-						Deconnexion
+						<LogOut className="icon-medium mx-2" /> Deconnexion
 					</button>
 				</>
 			)}
