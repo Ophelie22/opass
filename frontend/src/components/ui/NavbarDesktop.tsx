@@ -1,15 +1,38 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
 	PAGE_LOGIN,
 	PAGE_HOME,
 	PAGE_REGISTER,
 	PAGE_ACCOUNT_DETAILS,
 } from "../../App";
-import React from "react";
+import React, { useState } from "react";
 import { useAuth } from "../../context/auth-context";
 
 const NavbarDesktop: React.FC = () => {
-	const { isAuthenticated } = useAuth();
+	const url = import.meta.env.VITE_API_URL;
+	const { isAuthenticated, logoutAuth } = useAuth();
+	const [isLoading, setIsLoading] = useState(false);
+	const [error, setError] = useState<null | string>(null);
+	const navigate = useNavigate();
+
+	const handleLogout = async () => {
+		setIsLoading(true);
+		try {
+			const res = await fetch(`${url}/auth/logout`, {
+				method: "POST",
+				credentials: "include",
+			});
+			res.json();
+			if (res.ok) {
+				navigate("/");
+				logoutAuth();
+			}
+		} catch (err) {
+			setError(err as string);
+		} finally {
+			setIsLoading(false);
+		}
+	};
 
 	return (
 		<nav className="navbar flex items-center gap-8 w-full px-6 h-full">
@@ -59,7 +82,7 @@ const NavbarDesktop: React.FC = () => {
 					>
 						Mes informations
 					</NavLink>
-					<button className="text-blueText font-sans uppercase text-lg font-medium tracking-wide border-b-2 border-transparent hover:border-y-blueText">
+					<button onClick={handleLogout} className="text-blueText font-sans uppercase text-lg font-medium tracking-wide border-b-2 border-transparent hover:border-y-blueText">
 						Deconnexion
 					</button>
 				</>

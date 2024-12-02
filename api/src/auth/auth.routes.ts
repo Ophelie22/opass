@@ -8,6 +8,7 @@ router.post("/register", AuthController.register);
 router.post("/login", AuthController.login);
 router.get("/check", AuthController.check);
 router.get("/me", AuthController.getUserInfo); 
+router.post("/logout", AuthController.logout);
 
 // Exemple de route protégée
 router.get("/profile", authenticate, async (req, res) => {

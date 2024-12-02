@@ -16,6 +16,7 @@ interface AuthContextInterface {
 	isAuthenticated: boolean;
 	user: User | null;
   loginAuth: () => void;
+  logoutAuth:() => void;
 }
 
 export const AuthContext = createContext<AuthContextInterface>({
@@ -23,6 +24,8 @@ export const AuthContext = createContext<AuthContextInterface>({
 	isAuthenticated: false,
 	user: null,
   loginAuth: () => {},
+  logoutAuth: () => {},
+
 });
 
 export const useAuth = () => {
@@ -37,6 +40,10 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const loginAuth = () => {
     setIsAuthenticated(true);
+  }
+
+  const logoutAuth = () => {
+    setIsAuthenticated(false);
   }
 
 	useEffect(() => {
@@ -66,7 +73,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
         isLoadingAuth,
 				isAuthenticated,
 				user,
-        loginAuth
+        loginAuth,
+        logoutAuth
 			}}
 		>
 			{children}

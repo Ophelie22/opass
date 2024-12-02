@@ -1,4 +1,4 @@
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate } from "react-router-dom";
 import {
 	PAGE_ACCOUNT_DETAILS,
 	PAGE_HOME,
@@ -6,6 +6,7 @@ import {
 	PAGE_REGISTER,
 } from "../../App";
 import { useAuth } from "../../context/auth-context";
+import { useState } from "react";
 
 const Navbar = ({
 	toggleMenu,
@@ -14,7 +15,32 @@ const Navbar = ({
 	toggleMenu: () => void;
 	isMenuOpen: boolean;
 }) => {
-	const { isAuthenticated } = useAuth();
+	const url = import.meta.env.VITE_API_URL;
+	const { isAuthenticated, logoutAuth } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<null | string>(null);
+	const navigate = useNavigate();
+
+	const handleLogout = async() => {
+    setIsLoading(true)
+    try {
+      const res = await fetch(`${url}/auth/logout`, {
+        method: "POST",
+        credentials: "include",
+      })
+      res.json()
+      if (res.ok) {
+        navigate('/connexion')
+        logoutAuth();
+        toggleMenu();
+      }
+    } catch(err) {
+      setError(err as string)
+    } finally {
+      setIsLoading(false)
+    }
+		
+	};
 
 	return (
 		<nav
@@ -60,7 +86,8 @@ const Navbar = ({
 					</NavLink>
 
 					<button
-						onClick={toggleMenu}
+						onClick={ handleLogout
+						}
 						className="p-2 w-full text-left text-blueText font-sans uppercase text-lg font-semibold tracking-wide"
 					>
 						Deconnexion
