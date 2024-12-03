@@ -11,8 +11,9 @@ import Header from "./components/ui/Header";
 import Footer from "./components/ui/Footer";
 import PrivacyPolicy from "./pages/PrivacyPolicy";
 import Cgvu from "./pages/Cgvu";
-import AuthProvider from "./context/auth-context";
+import AuthProvider from "./context/authContext";
 import Homepage from "./pages/Homepage";
+import { CartProvider } from "./context/cartContext";
 
 export const PAGE_NOT_FOUND = "*";
 export const PAGE_HOME = "/";
@@ -28,23 +29,25 @@ export const PAGE_SITE_DETAILS = "/regions/:regionId/:categoryId/:siteId";
 
 function App() {
 	return (
-		<div className="flex flex-col h-dvh overflow-y-auto">
+		<div className="flex flex-col h-dvh overflow-y-auto drawer-content">
 			<AuthProvider>
-				<Header />
-				<Routes>
-					<Route path={PAGE_NOT_FOUND} element={<NotFound />} />
-					<Route path={PAGE_HOME} element={<Homepage />} />
-					<Route path={PAGE_CGVU} element={<Cgvu />} />
-					<Route path={PAGE_PRIVACY_POLICY} element={<PrivacyPolicy />} />
-					<Route path={PAGE_CONTACT} element={<Contact />} />
-					<Route path={PAGE_LOGIN} element={<Login />} />
-					<Route path={PAGE_REGISTER} element={<Register />} />
-					<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />} />
-					<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
-					<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
-					<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
-				</Routes>
-				<Footer />
+				<CartProvider>
+					<Header />
+					<Routes>
+						<Route path={PAGE_NOT_FOUND} element={<NotFound />} />
+						<Route path={PAGE_HOME} element={<Homepage />} />
+						<Route path={PAGE_CGVU} element={<Cgvu />} />
+						<Route path={PAGE_PRIVACY_POLICY} element={<PrivacyPolicy />} />
+						<Route path={PAGE_CONTACT} element={<Contact />} />
+						<Route path={PAGE_LOGIN} element={<Login />} />
+						<Route path={PAGE_REGISTER} element={<Register />} />
+						<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />} />
+						<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
+						<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
+						<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
+					</Routes>
+					<Footer />
+				</CartProvider>
 			</AuthProvider>
 		</div>
 	);

@@ -3,7 +3,7 @@ import { Form, Formik } from "formik";
 import { Navigate, NavLink } from "react-router-dom";
 import * as yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../context/authContext";
 
 interface InitialValues {
 	email: string;

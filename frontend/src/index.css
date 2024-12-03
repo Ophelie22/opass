@@ -55,5 +55,5 @@
 }
 
 .navbarText {
-	@apply p-2 w-full text-left text-blueText font-semibold text-sm uppercase;
+	@apply w-full text-left text-blueText text-lg flex items-center gap-3;
   }

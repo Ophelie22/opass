@@ -14,7 +14,7 @@ import {
 } from "lucide-react";
 import { useEffect, useState } from "react";
 import * as yup from "yup";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../context/authContext";
 import { Navigate, useNavigate } from "react-router-dom";
 import { formatDateTime } from "../utils/FormatDateTime";
 

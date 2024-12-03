@@ -6,7 +6,7 @@ import {
 	PAGE_ACCOUNT_DETAILS,
 } from "../../App";
 import React, { useState } from "react";
-import { useAuth } from "../../context/auth-context";
+import { useAuth } from "../../context/authContext";
 
 const NavbarDesktop: React.FC = () => {
 	const url = import.meta.env.VITE_API_URL;

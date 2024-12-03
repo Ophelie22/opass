@@ -2,7 +2,7 @@ import { Form, Formik } from "formik";
 import { useEffect, useState } from "react";
 import { Navigate, NavLink, useNavigate } from "react-router-dom";
 import * as yup from "yup";
-import { useAuth } from "../context/auth-context";
+import { useAuth } from "../context/authContext";
 
 const Register = () => {
 	interface initialValues {

@@ -1,9 +1,7 @@
 export interface Package {
-    id: string;
-    region_id: string;
-    price: string;
+    id: number;
+    name: string;
+    regionId: string;
+    price: number;
     description: string;
-    nbr_visits: string;
-    nbr_days: number;
-    media: string;
 }

@@ -1,37 +1,41 @@
 import { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import { Package } from "../types/Package";
 import type { Region } from "../types/Region";
 import type { SiteCategory } from "../types/SiteCategory";
+import { useAuth } from "../context/authContext";
 
 const RegionDetails = () => {
-  const url = import.meta.env.VITE_API_URL;
+	const url = import.meta.env.VITE_API_URL;
 	const [region, setRegion] = useState<Region>();
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const { isAuthenticated } = useAuth();
+	const navigate = useNavigate();
 
 	const { regionId } = useParams();
 
 	const getAllRegionDetails = () => {
-	  setIsLoading(true);
-	  fetch(`${url}/regions/${regionId}/all-relations`)
-	    .then((response) => response.json())
-	    .then((data) => {
-	      setRegion(data.data);
-      })
-	    .catch((error) => {
-	      setError(error.message);
-	    })
-      .finally(() => setIsLoading(false));
-	}
+		setIsLoading(true);
+		fetch(`${url}/regions/${regionId}/all-relations`)
+			.then((response) => response.json())
+			.then((data) => {
+				setRegion(data.data);
+			})
+			.catch((error) => {
+				setError(error.message);
+			})
+			.finally(() => setIsLoading(false));
+	};
 
 	useEffect(() => {
-	  getAllRegionDetails();
-	}, [regionId])
+		getAllRegionDetails();
+	}, [regionId]);
 
-	if (isLoading) return <span className="loading loading-spinner loading-md"></span>
+	if (isLoading)
+		return <span className="loading loading-spinner loading-md"></span>;
 
-	if (error) return <p>Erreur: {error}</p>
+	if (error) return <p>Erreur: {error}</p>;
 
 	return (
 		<main className="main">
@@ -54,17 +58,25 @@ const RegionDetails = () => {
 					<div className="flex flex-col gap-6 px-2">
 						<h2 className="h2">Forfaits</h2>
 						{region.packages?.map((p: Package) => (
-							<div className="card border w-full">
-								<figure>
-									<img src={p.media} alt="Illustration du package" />
-								</figure>
+							<div className="card border w-full"> 
 								<div className="card-body text-center">
 									<h3 className="text-2xl">
-										{p.nbr_days === 1 ? "Pass 24h" : `Pass ${p.nbr_days} jours`}
+										{p.name}
 									</h3>
 									<p className="p">{p.description}</p>
 									<span className="my-6 text-lg">{p.price} €</span>
-									<button className="btn">Ajouter au panier</button>
+									<button
+										onClick={() => {
+											if (isAuthenticated === false) {
+												navigate("/connexion");
+											} else {
+												alert('ajouté au panier')
+											}
+										}}
+										className="btn"
+									>
+										Ajouter au panier
+									</button>
 								</div>
 							</div>
 						))}
