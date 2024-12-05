@@ -4,6 +4,7 @@ import { Package } from "../types/Package";
 import type { Region } from "../types/Region";
 import type { SiteCategory } from "../types/SiteCategory";
 import { useAuth } from "../context/authContext";
+import { useCart } from "../context/cartContext";
 
 const RegionDetails = () => {
 	const url = import.meta.env.VITE_API_URL;
@@ -11,6 +12,7 @@ const RegionDetails = () => {
 	const [isLoading, setIsLoading] = useState(false);
 	const [error, setError] = useState(null);
 	const { isAuthenticated } = useAuth();
+  const { addToCart } = useCart();
 	const navigate = useNavigate();
 
 	const { regionId } = useParams();
@@ -66,13 +68,7 @@ const RegionDetails = () => {
 									<p className="p">{p.description}</p>
 									<span className="my-6 text-lg">{p.price} €</span>
 									<button
-										onClick={() => {
-											if (isAuthenticated === false) {
-												navigate("/connexion");
-											} else {
-												alert('ajouté au panier')
-											}
-										}}
+										onClick={() => addToCart(p)}
 										className="btn"
 									>
 										Ajouter au panier

@@ -14,6 +14,7 @@ import Cgvu from "./pages/Cgvu";
 import AuthProvider from "./context/authContext";
 import Homepage from "./pages/Homepage";
 import { CartProvider } from "./context/cartContext";
+import ShoppingCart from "./pages/ShoppingCart";
 
 export const PAGE_NOT_FOUND = "*";
 export const PAGE_HOME = "/";
@@ -26,6 +27,7 @@ export const PAGE_ACCOUNT_DETAILS = "/mes-informations";
 export const PAGE_REGIONS_DETAILS = "/regions/:regionId";
 export const PAGE_CATEGORY_DETAILS = "/regions/:regionId/:categoryId";
 export const PAGE_SITE_DETAILS = "/regions/:regionId/:categoryId/:siteId";
+export const PAGE_SHOPPING_CART = "/panier";
 
 function App() {
 	return (
@@ -45,6 +47,7 @@ function App() {
 						<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
 						<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
 						<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
+            <Route path={PAGE_SHOPPING_CART} element={<ShoppingCart />} />
 					</Routes>
 					<Footer />
 				</CartProvider>
