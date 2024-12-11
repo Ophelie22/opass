@@ -9,6 +9,7 @@ interface CartContextProps {
   removeFromCart: (id: number) => void;
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
+  createOrder: (userId: string) => Promise<void>;
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -44,14 +45,44 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCart([]);
   };
 
+  const url = import.meta.env.VITE_API_URL;
+
+  const createOrder = async (userId: string) => {
+    try {
+      const response = await fetch(`${url}/orders`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          userId: userId,
+          amount: cart.reduce((total, item) => total + item.price * item.quantity, 0),
+          items: cart.map(item => ({
+            id: item.id,
+            quantity: item.quantity
+          }))
+        }),
+        credentials: 'include' 
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create order');
+      }
+
+      clearCart();
+    } catch (error) {
+      console.error('Error creating order:', error);
+      throw error;
+    }
+  };
+
   return (
-    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart }}>
+    <CartContext.Provider value={{ cart, addToCart, removeFromCart, updateQuantity, clearCart, createOrder }}>
       {children}
     </CartContext.Provider>
   );
 };
 
-// Hook pour consommer le contexte
 export const useCart = () => {
   const context = useContext(CartContext);
   if (!context) {

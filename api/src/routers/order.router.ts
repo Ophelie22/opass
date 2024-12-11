@@ -1,5 +1,6 @@
 import { Router } from "express";
 import {
+  createOrder,
   deleteOrderById,
   getAllOrders,
   getOrderById,
@@ -10,6 +11,7 @@ const orderRouter = Router();
 
 orderRouter.get("/", getAllOrders);
 orderRouter.get("/:id", getOrderById);
+orderRouter.post("/", createOrder);
 orderRouter.put("/:id", updateOrderById);
 orderRouter.delete("/:id", deleteOrderById);
 
