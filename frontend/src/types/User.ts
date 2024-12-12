@@ -3,3 +3,13 @@ export interface User {
     email: string;
     password: string;
 }
+
+export interface UserDetails {
+	name: string;
+	email: string;
+	confirmEmail: string;
+	password: string;
+	confirmPassword: string;
+	createAt: string;
+	updatedAt: string;
+}
