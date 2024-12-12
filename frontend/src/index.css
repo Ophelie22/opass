@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 .main {
-	@apply items-center h-fit px-2 mt-12 mb-24;
+  @apply items-center h-fit px-4 mt-12 mb-24 max-w-screen-xl mx-auto;
 }
 
 .h1 {

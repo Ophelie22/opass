@@ -7,97 +7,108 @@ import { useAuth } from "../context/authContext";
 import { useCart } from "../context/cartContext";
 
 const RegionDetails = () => {
-	const url = import.meta.env.VITE_API_URL;
-	const [region, setRegion] = useState<Region>();
-	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
-	const { isAuthenticated } = useAuth();
+  const url = import.meta.env.VITE_API_URL;
+  const [region, setRegion] = useState<Region>();
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState(null);
+  const { isAuthenticated } = useAuth();
   const { addToCart } = useCart();
-	const navigate = useNavigate();
+  const navigate = useNavigate();
 
-	const { regionId } = useParams();
+  const { regionId } = useParams();
 
-	const getAllRegionDetails = () => {
-		setIsLoading(true);
-		fetch(`${url}/regions/${regionId}/all-relations`)
-			.then((response) => response.json())
-			.then((data) => {
-				setRegion(data.data);
-			})
-			.catch((error) => {
-				setError(error.message);
-			})
-			.finally(() => setIsLoading(false));
-	};
+  const getAllRegionDetails = () => {
+    setIsLoading(true);
+    fetch(`${url}/regions/${regionId}/all-relations`)
+      .then((response) => response.json())
+      .then((data) => {
+        setRegion(data.data);
+        console.log(data.data)
+      })
+      .catch((error) => {
+        setError(error.message);
+      })
+      .finally(() => setIsLoading(false));
+  };
 
-	useEffect(() => {
-		getAllRegionDetails();
-	}, [regionId]);
+  useEffect(() => {
+    getAllRegionDetails();
+  }, [regionId]);
 
-	if (isLoading)
-		return <span className="loading loading-spinner loading-md"></span>;
+  if (isLoading)
+    return <span className="loading loading-spinner loading-md"></span>;
 
-	if (error) return <p>Erreur: {error}</p>;
+  if (error) return <p>Erreur: {error}</p>;
 
-	return (
-		<main className="main">
-			{region && (
-				<>
-					<div
-						className="bg-auto bg-no-repeat bg-center w-full h-64 relative"
-						style={{ backgroundImage: `url(${region.media})` }}
-					>
-						<h1 className="text-4xl text-white bottom-0 absolute px-4 py-2">
-							{region.name}
-						</h1>
-					</div>
+  return (
+    <main className="main px-4 py-8">
+      {region && (
+        <>
+          <div
+            className="relative w-full h-64 bg-cover bg-center rounded-lg overflow-hidden"
+            style={{ backgroundImage: `url(${region.media})` }}
+          >
+            <div className="absolute bottom-4 left-4 bg-black bg-opacity-70 text-white px-6 py-3 rounded-md shadow-lg">
+              <h1 className="text-3xl md:text-4xl font-bold">{region.name}</h1>
+            </div>
+          </div>
 
-					<div>
-						<h2 className="h2">Description</h2>
-						<p className="p">{region?.description}</p>
-					</div>
+          <section className="mt-8">
+            <h2 className="text-2xl font-bold mb-4">Description</h2>
+            <p className="text-gray-700">{region?.description}</p>
+          </section>
 
-					<div className="flex flex-col gap-6 px-2">
-						<h2 className="h2">Forfaits</h2>
-						{region.packages?.map((p: Package) => (
-							<div className="card border w-full"> 
-								<div className="card-body text-center">
-									<h3 className="text-2xl">
-										{p.name}
-									</h3>
-									<p className="p">{p.description}</p>
-									<span className="my-6 text-lg">{p.price} €</span>
-									<button
-										onClick={() => addToCart(p)}
-										className="btn"
-									>
-										Ajouter au panier
-									</button>
-								</div>
-							</div>
-						))}
-					</div>
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Forfaits</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {region.packages?.map((p: Package) => (
+                <div
+                  key={p.id}
+                  className="border border-gray-300 rounded-lg p-4 shadow hover:shadow-lg transition-shadow"
+                >
+                  <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
+                  <p className="text-gray-600 mb-4">{p.description}</p>
+                  <span className="block font-bold text-lg mb-4">
+                    {p.price} €
+                  </span>
+                  <button
+                    onClick={() => addToCart(p)}
+                    className="btn w-full bg-blue-600 text-white hover:bg-blue-700"
+                  >
+                    Ajouter au panier
+                  </button>
+                </div>
+              ))}
+            </div>
+          </section>
 
-					<div className="flex flex-col gap-6">
-						<h2 className="h2">Catégories de site</h2>
-
-						{region.categories?.map((category: SiteCategory) => (
-							<NavLink to={`/regions/${regionId}/${category.id}`}>
-								<div className="card image-full h-48">
-									<figure>
-										<img className="w-full" src="" alt="" />
-									</figure>
-									<div className="card-body items-center text-center justify-center">
-										<h3 className="card-title">{category.name}</h3>
-									</div>
-								</div>
-							</NavLink>
-						))}
-					</div>
-				</>
-			)}
-		</main>
-	);
+          <section className="mt-12">
+            <h2 className="text-2xl font-bold mb-4">Catégories de site</h2>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              {region.categories?.map((category: SiteCategory) => (
+                <NavLink
+                  to={`/regions/${regionId}/${category.id}`}
+                  key={category.id}
+                  className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
+                >
+                  <figure className="h-48 bg-gray-200">
+                    <img
+                      className="w-full h-full object-cover"
+                      src={category.media}
+                      alt={category.name}
+                    />
+                  </figure>
+                  <div className="bg-white text-center p-4">
+                    <h3 className="text-lg font-bold">{category.name}</h3>
+                  </div>
+                </NavLink>
+              ))}
+            </div>
+          </section>
+        </>
+      )}
+    </main>
+  );
 };
 
 export default RegionDetails;

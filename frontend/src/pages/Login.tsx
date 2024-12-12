@@ -7,150 +7,133 @@ import { useAuth } from "../context/authContext";
 import Toast from "../components/Toast";
 
 interface InitialValues {
-	email: string;
-	password: string;
+  email: string;
+  password: string;
 }
 
 const Login: React.FC = () => {
-	const navigate = useNavigate();
-	const url = import.meta.env.VITE_API_URL;
-	const [error, setError] = useState<null | string>(null);
-	const [isLoading, setIsLoading] = useState(false);
-	const [toastMessage, setToastMessage] = useState<string | null>(null);
-	const [toastType, setToastType] = useState<"success" | "error" | "warning" | null>(null);
+  const navigate = useNavigate();
+  const url = import.meta.env.VITE_API_URL;
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const [toastType, setToastType] =
+    useState<"success" | "error" | "warning" | null>(null);
 
-	const { isAuthenticated, loginAuth } = useAuth();
+  const { isAuthenticated, loginAuth } = useAuth();
 
-	const RegisterSchema = yup.object({
-		email: yup
-			.string()
-			.email("L'e-mail n'est pas valide")
-			.required("Champ requis"),
-		password: yup.string().required("Champ requis"),
-	});
+  const LoginSchema = yup.object({
+    email: yup.string().email("L'e-mail n'est pas valide").required("Champ requis"),
+    password: yup.string().required("Champ requis"),
+  });
 
-	const initialValues: InitialValues = {
-		email: "",
-		password: "",
-	};
+  const initialValues: InitialValues = {
+    email: "",
+    password: "",
+  };
 
-	const login = async (values: InitialValues) => {
-		setIsLoading(true);
-		const { email, password } = values;
-		try {
-			const res = await fetch(`${url}/auth/login`, {
-				method: "POST",
-				headers: {
-					"Content-Type": "application/json",
-				},
-				body: JSON.stringify({
-					email,
-					password,
-				}),
-				credentials: "include",
-			});
+  const login = async (values: InitialValues) => {
+    const { email, password } = values;
+    try {
+      const res = await fetch(`${url}/auth/login`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          email,
+          password,
+        }),
+        credentials: "include",
+      });
 
-			res.json();
+      if (res.ok) {
+        setToastMessage("Connexion réussie !");
+        setToastType("success");
+        loginAuth();
+        navigate("/");
+      } else {
+        setToastMessage("Erreur de connexion. Veuillez réessayer.");
+        setToastType("error");
+      }
+    } catch {
+      setToastMessage("Une erreur est survenue.");
+      setToastType("error");
+    }
+  };
 
-			if (res.ok) {
-				setToastMessage("Connexion réussie !");
-				setToastType("success");
-				navigate("/");
-				loginAuth();
+  const handleSubmit = async (values: InitialValues) => {
+    login(values);
+  };
 
-			}
+  useEffect(() => {
+    if (isAuthenticated) navigate("/");
+  }, [isAuthenticated]);
 
-		} catch (err) {
-			setError(err as string);
-			setToastMessage("Une erreur est survenue. Veuillez réessayer.");
-			setToastType("error");
-		} finally {
-			setIsLoading(false);
-		}
-	};
+  if (!isAuthenticated)
+    return (
+      <main className="main flex justify-center items-center">
+        <div className="w-full max-w-lg bg-white shadow-lg rounded-lg p-6">
+          {toastType && toastMessage && (
+            <Toast type={toastType} message={toastMessage} />
+          )}
 
-	const handleSubmit = async (values: InitialValues) => {
-		login(values);
-	};
+          <Formik
+            initialValues={initialValues}
+            validationSchema={LoginSchema}
+            onSubmit={handleSubmit}
+          >
+            {({ errors, touched, values, handleChange }) => (
+              <Form className="flex flex-col gap-6">
+                <h1 className="text-2xl font-bold text-center mb-4">Connexion</h1>
 
-	useEffect(() => {
-		if (isAuthenticated === true) {
-			navigate("/");
-		}
-	}, [isAuthenticated]);
+                <label className="flex flex-col gap-2">
+                  <span className="font-medium">E-mail</span>
+                  <input
+                    type="email"
+                    name="email"
+                    id="email"
+                    placeholder="exemple@mail.com"
+                    className="input input-bordered"
+                    onChange={handleChange}
+                    value={values.email}
+                  />
+                  {errors.email && touched.email && (
+                    <span className="text-red-600 text-sm">{errors.email}</span>
+                  )}
+                </label>
 
-	if (!isAuthenticated)
-		return (
-			<main className="main">
-				{toastType && toastMessage && (
-					<Toast type={toastType} message={toastMessage} />
-				)}
+                <label className="flex flex-col gap-2">
+                  <span className="font-medium">Mot de passe</span>
+                  <input
+                    type="password"
+                    name="password"
+                    id="password"
+                    placeholder="Mot de passe"
+                    className="input input-bordered"
+                    onChange={handleChange}
+                    value={values.password}
+                  />
+                  {errors.password && touched.password && (
+                    <span className="text-red-600 text-sm">{errors.password}</span>
+                  )}
+                </label>
 
-				<Formik
-					initialValues={initialValues}
-					validationSchema={RegisterSchema}
-					onSubmit={handleSubmit}
-				>
-					{({ errors, touched, values, handleChange }) => (
-						<Form className="flex flex-col gap-4 items-center">
-							<h1 className="h1">Page de connexion</h1>
+                <NavLink to="/inscription" className="text-blue-600 text-sm">
+                  Je n'ai pas de compte
+                </NavLink>
 
-							<label className="form-control w-full">
-								<div className="label">
-									<span className="label-text">E-mail</span>
-								</div>
-								<input
-									type="email"
-									name="email"
-									id="email"
-									placeholder="exemple@mail.com"
-									className="input input-bordered w-full"
-									onChange={handleChange}
-									value={values.email}
-								/>
-								{errors.email && touched.email ? (
-									<span className="text-red-600 text-sm">{errors.email}</span>
-								) : null}
-							</label>
-
-							<label className="form-control w-full">
-								<div className="label">
-									<span className="label-text">Mot de passe</span>
-								</div>
-								<input
-									type="password"
-									name="password"
-									id="password"
-									placeholder="Mot de passe"
-									className="input input-bordered w-full"
-									onChange={handleChange}
-									value={values.password}
-								/>
-								{errors.password && touched.password ? (
-									<span className="text-red-600 text-sm">{errors.password}</span>
-								) : null}
-							</label>
-
-							<NavLink to="/inscription">Je n'ai pas de compte</NavLink>
-
-							<button
-								type="submit"
-								disabled={!values.email || !values.password}
-								className={
-									!values.email || !values.password ? "btn btn-disabled" : "btn"
-								}
-							>
-								{!isLoading ? (
-									"Connexion"
-								) : (
-									<span className="loading loading-spinner loading-md"></span>
-								)}
-							</button>
-						</Form>
-					)}
-				</Formik>
-			</main>
-		);
+                <button
+                  type="submit"
+                  className="btn btn-primary w-full"
+                  disabled={!values.email || !values.password}
+                >
+                  Connexion
+                </button>
+              </Form>
+            )}
+          </Formik>
+        </div>
+      </main>
+    );
 };
 
 export default Login;
