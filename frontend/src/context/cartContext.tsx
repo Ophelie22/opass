@@ -48,8 +48,6 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
     setCart([]);
   };
 
-  const url = import.meta.env.VITE_API_URL;
-
   const createOrder = async (userId: string) => {
     try {
       const response = await fetch(`${url}/orders`, {

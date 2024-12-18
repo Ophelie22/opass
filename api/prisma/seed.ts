@@ -76,6 +76,118 @@ async function main() {
               media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
           },
       }),
+      prisma.region.upsert({
+        where: { email: "bretagne@example.com" },
+        update: {
+          name: "Bretagne",
+          password: bcrypt.hashSync("password123"),
+          description: "Située à l'extrême ouest de la France, la Bretagne est réputée pour ses côtes sauvages, ses légendes celtiques et sa culture maritime.",
+          media: "https://cdn.prod.website-files.com/5fe9ad4805bc9a4cf17e4a6a/64c785f6bc292279fac9a0dd_petit-minou_prairy_Production-Perig.jpg",
+        },
+        create: {
+          name: "Bretagne",
+          email: "bretagne@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Située à l'extrême ouest de la France, la Bretagne est réputée pour ses côtes sauvages, ses légendes celtiques et sa culture maritime.",
+          media: "https://cdn.prod.website-files.com/5fe9ad4805bc9a4cf17e4a6a/64c785f6bc292279fac9a0dd_petit-minou_prairy_Production-Perig.jpg",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "normandie@example.com" },
+        update: {
+          name: "Normandie",
+          password: bcrypt.hashSync("password123"),
+          description: "Célèbre pour ses plages du Débarquement, ses falaises d'Étretat et son riche patrimoine historique.",
+          media: "https://www.caenlamer-tourisme.fr/wp-content/uploads/2019/01/le-mont-saint-michel-crdits-pixabay-1500x844.jpg",
+        },
+        create: {
+          name: "Normandie",
+          email: "normandie@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Célèbre pour ses plages du Débarquement, ses falaises d'Étretat et son riche patrimoine historique.",
+          media: "https://www.caenlamer-tourisme.fr/wp-content/uploads/2019/01/le-mont-saint-michel-crdits-pixabay-1500x844.jpg",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "aquitaine@example.com" },
+        update: {
+          name: "Nouvelle-Aquitaine",
+          password: bcrypt.hashSync("password123"),
+          description: "La plus grande région de France, connue pour ses vignobles bordelais, ses plages atlantiques et ses sites préhistoriques.",
+          media: "https://resize.prod.femina.ladmedia.fr/rblr/1200,806/img/var/2023-03/meilleures-villes-nouvelle-aquitaine.jpg",
+        },
+        create: {
+          name: "Nouvelle-Aquitaine",
+          email: "aquitaine@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "La plus grande région de France, connue pour ses vignobles bordelais, ses plages atlantiques et ses sites préhistoriques.",
+          media: "https://resize.prod.femina.ladmedia.fr/rblr/1200,806/img/var/2023-03/meilleures-villes-nouvelle-aquitaine.jpg",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "occitanie@example.com" },
+        update: {
+          name: "Occitanie",
+          password: bcrypt.hashSync("password123"),
+          description: "Mélange de montagnes, de plages méditerranéennes et de villes historiques comme Toulouse et Montpellier.",
+          media: "https://lopinion.com/storage/articles/8ethGIx5sbJHepLUvoeW0Ve1cLpQbxQ9XCdUAIib.webp",
+        },
+        create: {
+          name: "Occitanie",
+          email: "occitanie@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Mélange de montagnes, de plages méditerranéennes et de villes historiques comme Toulouse et Montpellier.",
+          media: "https://lopinion.com/storage/articles/8ethGIx5sbJHepLUvoeW0Ve1cLpQbxQ9XCdUAIib.webp",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "paysdeloire@example.com" },
+        update: {
+          name: "Pays de la Loire",
+          password: bcrypt.hashSync("password123"),
+          description: "Connue pour ses châteaux majestueux, ses vignobles et la ville dynamique de Nantes.",
+          media: "https://publitour-voyages.fr/wp-content/uploads/2023/01/chateau-g526174887_1920-1-e1672765166364.jpg",
+        },
+        create: {
+          name: "Pays de la Loire",
+          email: "paysdeloire@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Connue pour ses châteaux majestueux, ses vignobles et la ville dynamique de Nantes.",
+          media: "https://publitour-voyages.fr/wp-content/uploads/2023/01/chateau-g526174887_1920-1-e1672765166364.jpg",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "bourgogne@example.com" },
+        update: {
+          name: "Bourgogne-Franche-Comté",
+          password: bcrypt.hashSync("password123"),
+          description: "Célèbre pour ses vins prestigieux, sa gastronomie et ses paysages vallonnés.",
+          media: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/266000/266467-Burgundy.jpg",
+        },
+        create: {
+          name: "Bourgogne-Franche-Comté",
+          email: "bourgogne@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Célèbre pour ses vins prestigieux, sa gastronomie et ses paysages vallonnés.",
+          media: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/266000/266467-Burgundy.jpg",
+        },
+      }),
+      prisma.region.upsert({
+        where: { email: "auvergne@example.com" },
+        update: {
+          name: "Auvergne-Rhône-Alpes",
+          password: bcrypt.hashSync("password123"),
+          description: "Région montagneuse abritant le Massif central et les Alpes, idéale pour les amateurs de nature et de sports d'hiver.",
+          media: "https://www.auvergne-destination.com/wp-content/uploads/2019/06/denis-pourcher-1600x900.jpg",
+        },
+        create: {
+          name: "Auvergne-Rhône-Alpes",
+          email: "auvergne@example.com",
+          password: bcrypt.hashSync("password123"),
+          description: "Région montagneuse abritant le Massif central et les Alpes, idéale pour les amateurs de nature et de sports d'hiver.",
+          media: "https://www.auvergne-destination.com/wp-content/uploads/2019/06/denis-pourcher-1600x900.jpg",
+        },
+      }),
   ]);
 
     // Créer des catégories de sites
