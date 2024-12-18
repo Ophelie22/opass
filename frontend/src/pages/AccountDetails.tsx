@@ -51,22 +51,30 @@ const RegisterSchema = yup.object({
 	confirmEmail: yup
 		.string()
 		.email("L'e-mail n'est pas valide")
-		.oneOf([yup.ref("email"), undefined], "Les e-mails ne correspondent pas"),
+		.oneOf([yup.ref("email"), undefined], "Les e-mails ne correspondent pas")
+		.when("email", {
+			is: (email: string) => !!email, // Nécessaire seulement si un email est renseigné
+			then: yup.string().required("Confirmation de l'email requise"),
+		}),
 	password: yup
 		.string()
 		.min(8, "Le mot de passe doit contenir au moins 8 caractères")
 		.max(32, "Le mot de passe ne doit pas dépasser 32 caractères")
-		.required("Champ requis"),
+		.required("Le mot de passe actuel est requis"),
 	newPassword: yup
 		.string()
-		.min(8, "Le mot de passe doit contenir au moins 8 caractères")
-		.max(32, "Le mot de passe ne doit pas dépasser 32 caractères"),
+		.min(8, "Le nouveau mot de passe doit contenir au moins 8 caractères")
+		.max(32, "Le nouveau mot de passe ne doit pas dépasser 32 caractères"),
 	confirmPassword: yup
 		.string()
 		.oneOf(
 			[yup.ref("newPassword"), undefined],
 			"Les mots de passe ne correspondent pas"
 		)
+		.when("newPassword", {
+			is: (newPassword: string) => !!newPassword,
+			then: yup.string().required("Confirmation du nouveau mot de passe requise"),
+		}),
 });
 
 const AccountDetails = () => {
@@ -76,7 +84,7 @@ const AccountDetails = () => {
 	const [isEditing, setIsEditing] = useState(false);
 	const [userInfos, setUserInfos] = useState<Partial<UserDetails>>({});
 	const [isLoading, setIsLoading] = useState(false);
-	const [error, setError] = useState(null);
+	const [error, setError] = useState<string | null>(null);
 	const { isAuthenticated } = useAuth();
 	const navigate = useNavigate();
 
@@ -91,20 +99,25 @@ const AccountDetails = () => {
 
 	const handleEditClick = () => {
 		setIsEditing(true);
+		setToastMessage(null);
+		setError(null);
 	};
 
 	const handleSubmit = async (values: initialValues) => {
-		setIsEditing(false);
-
 		try {
 			setIsLoading(true);
+			setError(null);
+			setToastMessage(null);
 
-			const payload = {
+			// Préparation du payload
+			const payload: any = {
 				name: values.name,
-				email: values.email,
-				password: values.password ? values.password : undefined,
+				email: values.email !== userInfos.email ? values.email : undefined,
+				password: values.password,
+				newPassword: values.newPassword || undefined,
 			};
 
+			// Requête PUT pour mettre à jour les informations utilisateur
 			const res = await fetch(`${url}/users/${userInfos.id}`, {
 				method: "PUT",
 				headers: {
@@ -122,7 +135,10 @@ const AccountDetails = () => {
 
 			setToastMessage("Les informations ont été mises à jour avec succès !");
 			setToastType("success");
+			setIsEditing(false);
 
+			// Rafraîchissement des données utilisateur après une mise à jour réussie
+			getConnectedUserInfos();
 		} catch (error: any) {
 			setError(error.message);
 			setToastMessage("Une erreur est survenue. Veuillez réessayer.");
@@ -130,7 +146,6 @@ const AccountDetails = () => {
 		} finally {
 			setIsLoading(false);
 		}
-
 	};
 
 	const handleCancelClick = () => {
@@ -139,25 +154,25 @@ const AccountDetails = () => {
 		setToastType("warning");
 	};
 
-	const getConnectedUserInfos = () => {
-		fetch(`${url}/auth/me`, {
-			method: "GET",
-			credentials: "include",
-		})
-			.then((response) => response.json())
-			.then((data) => {
-				setUserInfos(data.user);
-			})
-			.catch((error) => {
-				setError(error.message)
-				setToastMessage("La récupération des données utilisateur a échoué.");
-				setToastType("error");
+	const getConnectedUserInfos = async () => {
+		try {
+			const res = await fetch(`${url}/auth/me`, {
+				method: "GET",
+				credentials: "include",
 			});
+			if (!res.ok) throw new Error("Impossible de récupérer les données utilisateur.");
+			const data = await res.json();
+			setUserInfos(data.user);
+		} catch (error: any) {
+			setError(error.message);
+			setToastMessage("La récupération des données utilisateur a échoué.");
+			setToastType("error");
+		}
 	};
 
 	useEffect(() => {
 		if (!isAuthenticated) {
-			navigate('/connexion');
+			navigate("/connexion");
 		} else {
 			getConnectedUserInfos();
 		}
@@ -167,7 +182,6 @@ const AccountDetails = () => {
 		return <span className="loading loading-spinner loading-md"></span>;
 
 	if (error) return <p>Erreur: {error}</p>;
-
 	return (
 		<main className="main flex flex-col">
 			{userInfos && (
@@ -175,12 +189,12 @@ const AccountDetails = () => {
 					{toastType && toastMessage && (
 						<Toast type={toastType} message={toastMessage} />
 					)}
-
+	
 					<h1 className="h1 flex items-center pb-8 gap-3">
 						<UserRound className="icon" />
 						Mes informations
 					</h1>
-
+	
 					<section className="flex flex-col items-center bg-white p-6 border-t rounded-lg shadow-md max-w-xl">
 						<Formik
 							initialValues={initialValues}
@@ -206,10 +220,11 @@ const AccountDetails = () => {
 															value={values.name}
 															disabled={!isEditing}
 															onChange={handleChange}
-															className={`w-full p-2 border rounded-lg  ${isEditing
-																? "td-content-enabled border-secondary"
-																: "border-gray-300 bg-gray-100"
-																}`}
+															className={`w-full p-2 border rounded-lg ${
+																isEditing
+																	? "td-content-enabled border-secondary"
+																	: "border-gray-300 bg-gray-100"
+															}`}
 														/>
 														{errors.name && touched.name ? (
 															<span className="text-red-600 text-sm">
@@ -220,8 +235,7 @@ const AccountDetails = () => {
 												</tr>
 												<tr className="border-t">
 													<td className="td-title">
-														<Mail className="icon-small text-blueText" /> E-mail
-														:
+														<Mail className="icon-small text-blueText" /> E-mail :
 													</td>
 													<td className="td-content-disabled">
 														<input
@@ -231,10 +245,11 @@ const AccountDetails = () => {
 															value={values.email}
 															disabled={!isEditing}
 															onChange={handleChange}
-															className={`w-full p-2 border rounded-lg ${isEditing
-																? "td-content-enabled border-secondary"
-																: "border-gray-300 bg-gray-100"
-																}`}
+															className={`w-full p-2 border rounded-lg ${
+																isEditing
+																	? "td-content-enabled border-secondary"
+																	: "border-gray-300 bg-gray-100"
+															}`}
 														/>
 														{errors.email && touched.email ? (
 															<span className="text-red-600 text-sm">
@@ -258,10 +273,11 @@ const AccountDetails = () => {
 																	value={values.confirmEmail}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${isEditing
-																		? "td-content-enabled border-secondary"
-																		: "border-gray-300 bg-gray-100"
-																		}`}
+																	className={`w-full p-2 border rounded-lg ${
+																		isEditing
+																			? "td-content-enabled border-secondary"
+																			: "border-gray-300 bg-gray-100"
+																	}`}
 																/>
 																{errors.confirmEmail && touched.confirmEmail ? (
 																	<span className="text-red-600 text-sm">
@@ -283,10 +299,11 @@ const AccountDetails = () => {
 																	value={values.password}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${isEditing
-																		? "td-content-enabled border-secondary"
-																		: "border-gray-300 bg-gray-100"
-																		}`}
+																	className={`w-full p-2 border rounded-lg ${
+																		isEditing
+																			? "td-content-enabled border-secondary"
+																			: "border-gray-300 bg-gray-100"
+																	}`}
 																/>
 																{errors.password && touched.password ? (
 																	<span className="text-red-600 text-sm">
@@ -308,10 +325,11 @@ const AccountDetails = () => {
 																	value={values.newPassword}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${isEditing
-																		? "td-content-enabled border-secondary"
-																		: "border-gray-300 bg-gray-100"
-																		}`}
+																	className={`w-full p-2 border rounded-lg ${
+																		isEditing
+																			? "td-content-enabled border-secondary"
+																			: "border-gray-300 bg-gray-100"
+																	}`}
 																/>
 																{errors.newPassword && touched.newPassword ? (
 																	<span className="text-red-600 text-sm">
@@ -333,13 +351,14 @@ const AccountDetails = () => {
 																	value={values.confirmPassword}
 																	disabled={!isEditing}
 																	onChange={handleChange}
-																	className={`w-full p-2 border rounded-lg ${isEditing
-																		? "td-content-enabled border-secondary"
-																		: "border-gray-300 bg-gray-100"
-																		}`}
+																	className={`w-full p-2 border rounded-lg ${
+																		isEditing
+																			? "td-content-enabled border-secondary"
+																			: "border-gray-300 bg-gray-100"
+																	}`}
 																/>
 																{errors.confirmPassword &&
-																	touched.confirmPassword ? (
+																touched.confirmPassword ? (
 																	<span className="text-red-600 text-sm">
 																		{errors.confirmPassword}
 																	</span>
@@ -359,13 +378,14 @@ const AccountDetails = () => {
 																type="password"
 																name="password"
 																id="password"
-																value='*********'
+																value="*********"
 																disabled={!isEditing}
 																onChange={handleChange}
-																className={`w-full p-2 border rounded-lg ${isEditing
-																	? "td-content-enabled border-secondary"
-																	: "border-gray-300 bg-gray-100"
-																	}`}
+																className={`w-full p-2 border rounded-lg ${
+																	isEditing
+																		? "td-content-enabled border-secondary"
+																		: "border-gray-300 bg-gray-100"
+																}`}
 															/>
 															{errors.password && touched.password ? (
 																<span className="text-red-600 text-sm">
@@ -426,6 +446,6 @@ const AccountDetails = () => {
 			)}
 		</main>
 	);
-};
+}
 
 export default AccountDetails;
