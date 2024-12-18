@@ -2,6 +2,8 @@ export interface User {
     name: string;
     email: string;
     password: string;
+
+
 }
 
 export interface UserDetails {
@@ -12,4 +14,5 @@ export interface UserDetails {
 	confirmPassword: string;
 	createAt: string;
 	updatedAt: string;
+	orders: Order[]
 }

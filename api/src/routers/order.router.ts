@@ -5,14 +5,16 @@ import {
   getAllOrders,
   getOrderById,
   updateOrderById,
+  getOrdersByUserId
 } from "../controllers/order.controller";
 
 const orderRouter = Router();
 
-orderRouter.get("/", getAllOrders);
-orderRouter.get("/:id", getOrderById);
 orderRouter.post("/", createOrder);
-orderRouter.put("/:id", updateOrderById);
-orderRouter.delete("/:id", deleteOrderById);
+orderRouter.get("/", getAllOrders);
+orderRouter.get("/:orderId", getOrderById);
+orderRouter.put("/:orderId", updateOrderById);
+orderRouter.delete("/:orderId", deleteOrderById);
+orderRouter.get("/user/:userId", getOrdersByUserId);
 
 export default orderRouter;
