@@ -3,9 +3,9 @@
 
 import { Router } from 'express';
 import userRouter from './user.router';
-import siteUserRouter from './siteuser.router';
-import sitePackageRouter from './sitepackage.router';
-import siteCategoryRouter from './sitecategory.router';
+import siteUserRouter from './siteUser.router';
+import sitePackageRouter from './sitePackage.router';
+import siteCategoryRouter from './siteCategory.router';
 import siteRouter from './site.router';
 import regionRouter from './region.router';
 import passRouter from './pass.router';

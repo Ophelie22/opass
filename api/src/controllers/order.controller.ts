@@ -71,7 +71,7 @@ export const createOrder = async (req: Request, res: Response) => {
         userId: parseInt(userId, 10),
         amount,
         status: "pending",
-        Passes: {
+        passes: {
           create: items.flatMap((item: CartItem) => 
             Array.from({ length: item.quantity }, () => ({
               packageId: item.id,
@@ -81,7 +81,7 @@ export const createOrder = async (req: Request, res: Response) => {
         }
       },
       include: {
-        Passes: true
+        passes: true
       }
     });
     res.json(order);
