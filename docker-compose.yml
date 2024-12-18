@@ -30,15 +30,36 @@ services:
     volumes:
       - ./api:/usr/src/app
       - /usr/src/app/node_modules
+    healthcheck:
+      test: ["CMD-SHELL", "curl -f http://api:3000/ || exit 1"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
       
   # Service Adminer pour gérer PostgreSQL
   adminer:
     image: adminer
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     ports:
       - "8080:8080"
 
+# Service Frontend Backoffice
+  backoffice:
+    build:
+      context: ./backoffice
+    environment:
+    - REACT_APP_API_URL=http://api:3000/api/authregion
+    - PORT=3002
+    depends_on:
+      api:
+        condition: service_healthy
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./backoffice:/usr/src/app
+      - /usr/src/app/node_modules
 
 volumes:
   postgres_data:
