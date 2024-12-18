@@ -9,7 +9,7 @@ import { PassList, PassDetails } from './pages/PassesPages'
 import PackagePage from './pages/PackagePage';
 import SitesPage from './pages/SitesPage';
 
-const App: React.FC = () => {
+export const App: React.FC = () => {
     return (
         <Router>
             <Navbar />
@@ -61,4 +61,5 @@ const App: React.FC = () => {
         </Router>
     );
 };
+
 export default App;
