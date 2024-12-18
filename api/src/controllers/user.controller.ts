@@ -10,22 +10,22 @@ const prisma = new PrismaClient();
 
 export const getAllUsers = async (req: Request, res: Response) => {
     try {
-      const allUsers = await prisma.user.findMany({
-        select: {
-          id: true,
-          name: true,
-          email: true,
-          // Exclude password for security
+        const allUsers = await prisma.user.findMany({
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                // Exclude password for security
 
-        },
-    });
-      // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
-      res.status(200).json({ data: allUsers });
+            },
+        });
+        // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
+        res.status(200).json({ data: allUsers });
     } catch (error) {
-      console.log(error);
-      res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs'});
+        console.log(error);
+        res.status(500).json({ message: 'Erreur lors de la récupération des utilisateurs' });
     }
-  }
+}
 
 // Infos un seul utilisateur
 
@@ -39,20 +39,52 @@ export const getUserById = async (req: Request, res: Response) => {
                 name: true,
                 email: true,
                 // Exclude password for security
-              }
+            }
         });
         if (!user) {
-            res.status(404).json({ message: 'Utilisateur non trouvé'});
+            res.status(404).json({ message: 'Utilisateur non trouvé' });
         }
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
-        res.status(200).json({ data: user});
+        res.status(200).json({ data: user });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Erreur lors de la récupération de l’utilisateur'});
+        res.status(500).json({ message: 'Erreur lors de la récupération de l’utilisateur' });
     }
 }
 
+export const getCurrentUserProfile = async (req: Request, res: Response) => {
+    try {
+        const userId = req.userId; // This is set by the authenticate middleware
+        if (!userId) {
+            return res.status(401).json({ message: 'Utilisateur non authentifié' });
+        }
+
+        const user = await prisma.user.findUnique({
+            where: { id: userId },
+            select: {
+                id: true,
+                name: true,
+                email: true,
+                createAt: true,
+                updatedAt: true,
+                // Exclude password for security
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: 'Utilisateur non trouvé' });
+        }
+
+        res.status(200).json(user);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Erreur lors de la récupération du profil utilisateur' });
+    }
+};
+
+
 // Mettre à jour un utilisateur par ID
+
 
 export const updatedUserById = async (req: Request, res: Response) => {
     try {
@@ -63,7 +95,7 @@ export const updatedUserById = async (req: Request, res: Response) => {
         const hashedPassword = password ? bcrypt.hashSync(password, 10) : undefined;
 
         const user = await prisma.user.update({
-            where: { id: userId},
+            where: { id: userId },
             data: {
                 email,
                 name,
@@ -74,13 +106,13 @@ export const updatedUserById = async (req: Request, res: Response) => {
                 name: true,
                 email: true,
                 // Exclude password for security
-              }
+            }
         });
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
-        res.status(200).json({ data: user});
+        res.status(200).json({ data: user });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'utilisateur'});
+        res.status(500).json({ message: 'Erreur lors de la mise à jour de l\'utilisateur' });
     }
 }
 
@@ -89,10 +121,10 @@ export const updatedUserById = async (req: Request, res: Response) => {
 export const createUser: RequestHandler = async (req, res) => {
     try {
         const { name, email, password } = req.body;
-        
+
         // Hash the password before saving
         const hashedPassword = bcrypt.hashSync(password, 10);
-        
+
         const newUser = await prisma.user.create({
             data: {
                 name,
@@ -100,14 +132,14 @@ export const createUser: RequestHandler = async (req, res) => {
                 password: hashedPassword,
             },
             select: {
-              id: true,
-              name: true,
-              email: true,
-              // Exclude password for security
+                id: true,
+                name: true,
+                email: true,
+                // Exclude password for security
             }
-        }); 
-        
-        
+        });
+
+
         res.status(201).json({ data: newUser });
     } catch (error) {
         console.error(error);
@@ -120,14 +152,14 @@ export const createUser: RequestHandler = async (req, res) => {
 export const deleteUserById = async (req: Request, res: Response) => {
     try {
         const userId = parseInt(req.params.id, 10);
-        
+
         await prisma.user.delete({
-            where: { id: userId},
+            where: { id: userId },
         });
         // Gestions des erreurs 200 : OK | 500 : Erreur interne lors du traitement de la requête | 404 : Le serveur ne retrouve pas la ressource demandé
-        res.status(200).json({ message: 'Utilisateur supprimé avec succès'});
+        res.status(200).json({ message: 'Utilisateur supprimé avec succès' });
     } catch (error) {
         console.error(error);
-        res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur'});
+        res.status(500).json({ message: 'Erreur lors de la suppression de l\'utilisateur' });
     }
 }

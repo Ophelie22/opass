@@ -9,6 +9,8 @@ export interface Package {
   regionId: string;
   price: number;
   description: string;
+  passes: Pass[];
+  //sitePackages: SitePackage [];
 }
 
 export interface Pass {
@@ -90,7 +92,28 @@ export const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Erreur lors de la création de la commande' });
   }
 };
-
+export const getOrdersByUserId = async (req: Request, res: Response) => {
+  try {
+    const userId = parseInt(req.params.userId, 10);
+    const orders = await prisma.order.findMany({
+      where: { userId: userId },
+      include: {
+        passes: {
+          include: {
+            package: true
+          }
+        }
+      },
+      orderBy: {
+        date: 'desc'
+      }
+    });
+    res.status(200).json(orders);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Erreur lors de la récupération des commandes de l\'utilisateur' });
+  }
+};
 export const updateOrderById = async (req: Request, res: Response) => {
     try {
         const orderId = parseInt(req.params.id, 10);
