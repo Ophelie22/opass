@@ -9,41 +9,74 @@ async function main() {
     // Créer des utilisateurs
 
     const [alice, bob, charlie] = await Promise.all([
-        prisma.user.create({ data: { name: "Alice", email: "alice@example.com", password: bcrypt.hashSync("password") } }),
-        prisma.user.create({ data: { name: "Bob", email: "bob@example.com", password: bcrypt.hashSync("password") } }),
-        prisma.user.create({ data: { name: "Charlie", email: "charlie@example.com", password: bcrypt.hashSync("password") } }),
-    ]);
+      prisma.user.upsert({
+          where: { email: "alice@example.com" }, // Identifier l'utilisateur existant par son email
+          update: { name: "Alice", password: bcrypt.hashSync("password", 10) },
+          create: { name: "Alice", email: "alice@example.com", password: bcrypt.hashSync("password", 10) },
+      }),
+      prisma.user.upsert({
+          where: { email: "bob@example.com" },
+          update: { name: "Bob", password: bcrypt.hashSync("password", 10) },
+          create: { name: "Bob", email: "bob@example.com", password: bcrypt.hashSync("password", 10) },
+      }),
+      prisma.user.upsert({
+          where: { email: "charlie@example.com" },
+          update: { name: "Charlie", password: bcrypt.hashSync("password", 10) },
+          create: { name: "Charlie", email: "charlie@example.com", password: bcrypt.hashSync("password", 10) },
+      }),
+  ]);
 
     // Créer des régions
     const [regionAlsace, regionIledeFrance, regionProvence] = await Promise.all([
-        prisma.region.create({
-            data: {
-                name: "Alsace",
-                email: "alsace@example.com",
-                password: bcrypt.hashSync("password123"),
-                description: "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
-                media: "https://a.cdn-hotels.com/gdcs/production9/d314/551f2674-6301-42c1-90f1-ce47fadbc229.jpg",
-            },
-        }),
-        prisma.region.create({
-            data: {
-                name: "Île-de-France",
-                email: "iledefrance@example.com",
-                password: bcrypt.hashSync("password123"),
-                description: "Région de la capitale française, elle abrite Paris et des sites emblématiques comme la Tour Eiffel et le Château de Versailles.",
-                media: "https://cdn1.matadornetwork.com/blogs/1/2020/09/Loire-Valley-France-castle-over-river-1200x853.jpg",
-            },
-        }),
-        prisma.region.create({
-            data: {
-                name: "Provence-Alpes-Côte d'Azur",
-                email: "provence@example.com",
-                password: bcrypt.hashSync("password123"),
-                description: "Réputée pour son littoral méditerranéen, ses champs de lavande et ses villages pittoresques comme Saint-Tropez et Gordes.",
-                media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
-            },
-        }),
-    ]);
+      prisma.region.upsert({
+          where: { email: "alsace@example.com" }, // Identifier la région existante par son email
+          update: {
+              name: "Alsace",
+              password: bcrypt.hashSync("password123"),
+              description: "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
+              media: "https://a.cdn-hotels.com/gdcs/production9/d314/551f2674-6301-42c1-90f1-ce47fadbc229.jpg",
+          }, // Mise à jour si existant
+          create: {
+              name: "Alsace",
+              email: "alsace@example.com",
+              password: bcrypt.hashSync("password123"),
+              description: "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
+              media: "https://a.cdn-hotels.com/gdcs/production9/d314/551f2674-6301-42c1-90f1-ce47fadbc229.jpg",
+          }, // Création si absent
+      }),
+      prisma.region.upsert({
+          where: { email: "iledefrance@example.com" },
+          update: {
+              name: "Île-de-France",
+              password: bcrypt.hashSync("password123"),
+              description: "Région de la capitale française, elle abrite Paris et des sites emblématiques comme la Tour Eiffel et le Château de Versailles.",
+              media: "https://cdn1.matadornetwork.com/blogs/1/2020/09/Loire-Valley-France-castle-over-river-1200x853.jpg",
+          },
+          create: {
+              name: "Île-de-France",
+              email: "iledefrance@example.com",
+              password: bcrypt.hashSync("password123"),
+              description: "Région de la capitale française, elle abrite Paris et des sites emblématiques comme la Tour Eiffel et le Château de Versailles.",
+              media: "https://cdn1.matadornetwork.com/blogs/1/2020/09/Loire-Valley-France-castle-over-river-1200x853.jpg",
+          },
+      }),
+      prisma.region.upsert({
+          where: { email: "provence@example.com" },
+          update: {
+              name: "Provence-Alpes-Côte d'Azur",
+              password: bcrypt.hashSync("password123"),
+              description: "Réputée pour son littoral méditerranéen, ses champs de lavande et ses villages pittoresques comme Saint-Tropez et Gordes.",
+              media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
+          },
+          create: {
+              name: "Provence-Alpes-Côte d'Azur",
+              email: "provence@example.com",
+              password: bcrypt.hashSync("password123"),
+              description: "Réputée pour son littoral méditerranéen, ses champs de lavande et ses villages pittoresques comme Saint-Tropez et Gordes.",
+              media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
+          },
+      }),
+  ]);
 
     // Créer des catégories de sites
     const [culture, nature, gastronomie, sport, patrimoine] = await Promise.all([
