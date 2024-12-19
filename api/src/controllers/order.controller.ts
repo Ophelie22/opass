@@ -92,6 +92,8 @@ export const createOrder = async (req: Request, res: Response) => {
     res.status(500).json({ message: 'Erreur lors de la création de la commande' });
   }
 };
+
+
 export const getOrdersByUserId = async (req: Request, res: Response) => {
   try {
     const userId = parseInt(req.params.userId, 10);

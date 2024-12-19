@@ -43,6 +43,7 @@ model Pass {
   packageId   Int?
   codePass    String  
   orderId     Int
+  isActive    Boolean     @default(true)
   createdAt   DateTime    @default(now())
   updatedAt   DateTime    @updatedAt
 

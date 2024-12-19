@@ -55,6 +55,26 @@ export const createPass = async (req: Request, res: Response) => {
     }
 };
 
+// Afficher les pass actifs
+export const getActivePasses = async (req: Request, res: Response) => {
+    try {
+        const userId = parseInt(req.params.id, 10);
+        const passes = await prisma.pass.findMany({
+            where: {
+                isActive: true,
+                userId,
+            },
+        });
+        if (!passes) {
+            res.status(404).json({ message: "Aucun pass actif trouvé" })
+        }
+        res.status(200).json({ data: passes });
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: "Erreur lors de la récupération des pass actifs" });
+    }
+};
+
 // Mettre à jour un pass par ID
 export const updatePassById = async (req: Request, res: Response) => {
     try {
