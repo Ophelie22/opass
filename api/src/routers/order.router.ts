@@ -16,5 +16,6 @@ orderRouter.get("/:orderId", getOrderById);
 orderRouter.put("/:orderId", updateOrderById);
 orderRouter.delete("/:orderId", deleteOrderById);
 orderRouter.get("/user/:userId", getOrdersByUserId);
+orderRouter.get("/user/:userId/order", getOrdersByUserId);
 
 export default orderRouter;

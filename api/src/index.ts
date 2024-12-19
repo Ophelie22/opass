@@ -4,42 +4,77 @@ import authRouter from "../src/auth/auth.routes";
 import dotenv from "dotenv";
 import router from "./routers";
 import cors from 'cors';
+import authregionRouter from "./authRegion/authregion.routes";
 
 const cookieParser = require("cookie-parser");
 const app = express();
-//exports.app = app;
-
-// Chargement des variables d'environnement
 dotenv.config();
 
-const PORT = process.env.PORT || 3000;
 
-const corsOptions = {
-	origin: "http://localhost:5173", 
-	credentials: true, 
-};
+const allowedOrigins = [
+	'http://localhost:3002', // Backend
+	'http://localhost:3000', // Backend local ou autre service
+	'http://api:3000',       // Frontend dans Docker (depuis le réseau interne Docker)
+	'https://votre-domaine.com', // Domaine de production
+	"http://localhost:5173",//frontennd
+];
+
+// Configuration CORS
+app.use(cors({
+	origin: (origin, callback) => {
+		if (!origin || allowedOrigins.includes(origin)) {
+			callback(null, true);
+		} else {
+			callback(new Error('Not allowed by CORS'));
+		}
+	},
+	methods: ['GET', 'POST', 'PUT', 'DELETE'], // Méthodes HTTP autorisées
+	credentials: true,
+}));
+
+// Middleware pour gérer les requêtes prévolantes (OPTIONS)
+app.options('*', cors());
+
 
 // Partie Middleware
+app.use(express.json());
 app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(cors(corsOptions));
+//app.use(cors(corsOptions)); // voir si on commente cette ligne
 
-// Routes
-app.get("/", (req: Request, res: Response) => {
-	res.send("Hello world !");
+
+// Logging des requêtes pour debug
+app.use((req, res, next) => {
+	console.log('Request Origin:', req.headers.origin);
+	console.log('Request Method:', req.method);
+	console.log('Request Headers:', req.headers);
+	next();
 });
 
-// Mount all routes under /api
-app.use("/api", router);
+const path = require('path');
 
-app.use("/api/auth", authRouter);
-// Error handling for 404
+// Middleware pour rendre le dossier "uploads" public
+app.use('/uploads', express.static(path.join(__dirname, '..', 'uploads')));
+//enregistrements des medias des sites dans le dossier sites
+app.use('/uploads/sites', express.static(path.join(__dirname, '..', 'uploads', 'sites')));
+
+
+// Routes
+app.get('/', (req: Request, res: Response) => {
+	res.send('Hello world !');
+});
+app.use('/api', router);
+app.use('/api/authregion', authregionRouter);
+app.use('/api/auth', authRouter);
+
+// Gestion des erreurs 404
 app.use((req: Request, res: Response) => {
-	res.status(404).json({ message: "Route not found" });
+	res.status(404).json({ message: 'Route not found' });
 });
 
 // Démarrage du serveur
-app.listen(3000, () => {
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
 	console.log(`Server is running on http://localhost:${PORT}`);
 });
 
