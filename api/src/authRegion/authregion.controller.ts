@@ -100,6 +100,7 @@ class AuthRegionController {
                 data: {
                     name,
                     price,
+                    media: media ? media.filename : null,
                     description,
                     region: {
                         connect: { id: regionId }, // Lien avec la région
