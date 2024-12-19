@@ -16,6 +16,11 @@ import Homepage from "./pages/Homepage";
 import { CartProvider } from "./context/cartContext";
 import ShoppingCart from "./pages/ShoppingCart";
 
+// Import new components
+import OrderHistoryTab from "./components/OrderHistoryTab";
+import ProfileTab from "./components/ProfileTab";
+import ActivePassesTab from "./components/ActivePassesTab";
+
 export const PAGE_NOT_FOUND = "*";
 export const PAGE_HOME = "/";
 export const PAGE_CGVU = "/cgvu";
@@ -28,6 +33,11 @@ export const PAGE_REGIONS_DETAILS = "/regions/:regionId";
 export const PAGE_CATEGORY_DETAILS = "/regions/:regionId/:categoryId";
 export const PAGE_SITE_DETAILS = "/regions/:regionId/:categoryId/:siteId";
 export const PAGE_SHOPPING_CART = "/panier";
+
+// New constants for account details sub-routes
+export const PAGE_ACCOUNT_PROFILE = "/mes-informations/profil";
+export const PAGE_ACCOUNT_ACTIVE_PASSES = "/mes-informations/pass-actifs";
+export const PAGE_ACCOUNT_ORDER_HISTORY = "/mes-informations/historique-commandes";
 
 function App() {
 	return (
@@ -44,7 +54,12 @@ function App() {
 							<Route path={PAGE_CONTACT} element={<Contact />} />
 							<Route path={PAGE_LOGIN} element={<Login />} />
 							<Route path={PAGE_REGISTER} element={<Register />} />
-							<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />} />
+							<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />}>
+								<Route index element={<ProfileTab />} />
+								<Route path="profil" element={<ProfileTab />} />
+								<Route path="pass-actifs" element={<ActivePassesTab />} />
+								<Route path="historique-commandes" element={<OrderHistoryTab />} />
+							</Route>
 							<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
 							<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
 							<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />
@@ -57,4 +72,6 @@ function App() {
 		</div>
 	);
 }
+
 export default App;
+

@@ -11,6 +11,6 @@
     "resolveJsonModule": true,     // Permet d'importer des fichiers JSON.
     "allowSyntheticDefaultImports": true // Pour les imports par défaut non stricts.V
   },
-  "include": ["src"],              // Inclut tout le dossier `src`.
+  "include": ["src", "**/*.ts"],              // Inclut tout le dossier `src`.
   "exclude": ["node_modules", "dist"] // Exclut les fichiers compilés et dépendances.
 }

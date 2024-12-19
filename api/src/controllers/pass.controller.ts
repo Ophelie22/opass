@@ -55,19 +55,31 @@ export const createPass = async (req: Request, res: Response) => {
     }
 };
 
-// Afficher les pass actifs
+// Afficher les pass actifsimport { Request, Response } from "express";
+
 export const getActivePasses = async (req: Request, res: Response) => {
     try {
         const userId = parseInt(req.params.id, 10);
+
         const passes = await prisma.pass.findMany({
             where: {
                 isActive: true,
-                userId,
+                order: {
+                    userId: userId,
+                },
             },
+            include: {
+                order: true
+            }
         });
-        if (!passes) {
-            res.status(404).json({ message: "Aucun pass actif trouvé" })
+
+        if (!passes || passes.length === 0) {
+            res.status(404).json({ message: "Aucun pass actif trouvé" });
+            return;
         }
+
+        // Ne pas faire "return res.status(200).json({ data: passes });"
+        // Juste appeler res:
         res.status(200).json({ data: passes });
     } catch (error) {
         console.error(error);
