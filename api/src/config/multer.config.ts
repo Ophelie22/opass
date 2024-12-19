@@ -70,4 +70,8 @@ export const uploadSiteMedia: Multer = multer({
     limits,
     fileFilter: imageFileFilter,
 });
+<<<<<<< HEAD
 export default upload;
+=======
+export default upload;
+>>>>>>> 5bbb2ec506d34f8887bc667e0ab32d257e272d0e
