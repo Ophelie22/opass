@@ -36,16 +36,19 @@ export const getPassById = async (req: Request, res: Response) => {
 };
 
 
+
 // Créer un nouveau pass
 export const createPass = async (req: Request, res: Response) => {
     try {
-        const { packageId, codePass, orderId } = req.body;
+        const { name, packageId, codePass, orderId, userId } = req.body; // Ajoute `name` et `userId` si nécessaires
 
         const pass = await prisma.pass.create({
             data: {
-                codePass,
-                orderId,
-                packageId,
+                name,          // Nom du pass 
+                packageId,      // Référence au package       
+                codePass,       // Code unique,
+                orderId,          // Référence à l'ID de la commande
+                userId,        // Référence à l'utilisateur (si nécessaire dans ton modèle)
             },
         });
         res.status(201).json({ data: pass });
@@ -58,28 +61,18 @@ export const createPass = async (req: Request, res: Response) => {
 // Afficher les pass actifsimport { Request, Response } from "express";
 
 export const getActivePasses = async (req: Request, res: Response) => {
+    console.log(parseInt(req.params.id, 10));
     try {
         const userId = parseInt(req.params.id, 10);
-
         const passes = await prisma.pass.findMany({
             where: {
                 isActive: true,
-                order: {
-                    userId: userId,
-                },
+                userId,
             },
-            include: {
-                order: true
-            }
         });
-
-        if (!passes || passes.length === 0) {
-            res.status(404).json({ message: "Aucun pass actif trouvé" });
-            return;
+        if (!passes) {
+            res.status(404).json({ message: "Aucun pass actif trouvé" })
         }
-
-        // Ne pas faire "return res.status(200).json({ data: passes });"
-        // Juste appeler res:
         res.status(200).json({ data: passes });
     } catch (error) {
         console.error(error);

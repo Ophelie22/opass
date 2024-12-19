@@ -54,12 +54,11 @@ function App() {
 							<Route path={PAGE_CONTACT} element={<Contact />} />
 							<Route path={PAGE_LOGIN} element={<Login />} />
 							<Route path={PAGE_REGISTER} element={<Register />} />
-							<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />}>
-								<Route index element={<ProfileTab />} />
-								<Route path="profil" element={<ProfileTab />} />
-								<Route path="pass-actifs" element={<ActivePassesTab />} />
-								<Route path="historique-commandes" element={<OrderHistoryTab />} />
-							</Route>
+							<Route path={PAGE_ACCOUNT_DETAILS} element={<AccountDetails />} >
+                                <Route path="profile" element={<ProfileTab />} />
+                                <Route path="active-pass" element={<ActivePassesTab />} />
+                                <Route path="pass-history" element={<OrderHistoryTab />} />
+                            </ Route>
 							<Route path={PAGE_REGIONS_DETAILS} element={<RegionDetails />} />
 							<Route path={PAGE_CATEGORY_DETAILS} element={<Sites />} />
 							<Route path={PAGE_SITE_DETAILS} element={<SiteDetails />} />

@@ -1,96 +1,102 @@
-import React, { useState, useEffect } from 'react';
-import { CalendarDays,Info, Package } from 'lucide-react';
+import React, { useEffect, useState } from "react";
+import { useAuth } from "../context/authContext";
+import { useNavigate } from "react-router-dom";
 import { formatDateTime } from "../utils/FormatDateTime";
-
-interface Package {
-    id: number;
-    name: string;
-    description?: string;
-    price: number;
-}
-
-interface Pass {
-    id: number;
-    packageId?: number;
-    codePass: string;
-    isActive: boolean;
-    package?: Package;
-    createdAt: Date;
-}
-
+import { Pass } from "../types/Pass";
+import { LockKeyhole, CalendarDays, Wrench, TicketCheck } from "lucide-react";
 
 const ActivePassesTab: React.FC = () => {
-    const [passes, setPasses] = useState<Pass[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [activePasses, setActivePasses] = useState<Pass[]>([]);
     const [error, setError] = useState<string | null>(null);
+    const { isAuthenticated, user } = useAuth();
+    const navigate = useNavigate();
+    const url = import.meta.env.VITE_API_URL;
 
     useEffect(() => {
-        const fetchActivePasses = async () => {
-            try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/passes/active`, {
-                    headers: {
-                        'Authorization': `Bearer ${localStorage.getItem('token')}`,
-                    },
-                    credentials: 'include'
-                });
+        if (!isAuthenticated) {
+            navigate('/connexion');
+        } else {
+            fetchActivePasses();
+        }
+    }, [isAuthenticated]);
 
-                if (!response.ok) {
-                    throw new Error('Échec de la récupération des passes actifs');
-                }
+    const fetchActivePasses = async () => {
+        try {
+            const res = await fetch(`${url}/passes/active-passes/${user?.id}`, {
+                credentials: "include",
+            });
 
-                const data = await response.json();
-                setPasses(data);
-            } catch (err) {
-                setError('Erreur lors de la récupération des passes actifs. Veuillez réessayer plus tard.');
-            } finally {
-                setIsLoading(false);
+            if (!res.ok) {
+
+                const data = await res.json();
+                throw new Error(data.message || "Une erreur est survenue.");
             }
-        };
 
-        fetchActivePasses();
-    }, []);
+            const { data } = await res.json();
+            setActivePasses(data);
+
+        } catch (error: any) {
+            setError(error.message);
+        }
+    };
+
+    if (error) return <p>Erreur: {error}</p>;
 
     return (
-        <div className="space-y-8">
-            <h2 className="text-2xl font-bold mb-4">Mes Pass Actifs</h2>
-            {passes.length > 0 ? (
-                <ul className="space-y-6">
-                    {passes.map((pass) => (
-                        <li key={pass.id} className="bg-white p-6 rounded-lg shadow-md border border-gray-100">
-                            <div className="flex justify-between items-start">
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2">{pass.package?.name || 'Pass sans nom'}</h3>
-                                    <p className="text-sm text-gray-600 mb-4">{pass.package?.description || 'Aucune description disponible'}</p>
-                                </div>
-                                <span className="px-3 py-1 bg-green-100 text-green-800 rounded-full text-sm font-medium">
-                                    Actif
-                                </span>
-                            </div>
-                            <div className="space-y-2">
-                                <p className="flex items-center gap-2 text-sm text-gray-600">
-                                    <Package className="w-4 h-4" />
-                                    Code du pass: {pass.codePass}
-                                </p>
-                                <p className="flex items-center gap-2 text-sm text-gray-600">
-                                    <CalendarDays className="w-4 h-4" />
-                                    Activé le: {formatDateTime(pass.createdAt)}
-                                </p>
-                                {pass.package?.price && (
-                                    <p className="flex items-center gap-2 text-sm text-gray-600">
-                                        <Info className="w-4 h-4" />
-                                        Prix: {pass.package.price.toFixed(2)} €
-                                    </p>
-                                )}
-                            </div>
-                        </li>
-                    ))}
-                </ul>
-            ) : (
-                <div className="text-center p-8 bg-gray-50 rounded-lg">
-                    <p className="text-gray-500">Vous n'avez aucun pass actif pour le moment.</p>
-                </div>
-            )}
-        </div>
+        <>
+            <h1 className="h1 flex items-center justify-center pb-8 gap-3">
+                <TicketCheck className="icon" />
+                Mes pass actifs
+            </h1>
+            <section className="flex flex-col items-center bg-white p-6 border-t rounded-lg shadow-md  w-full">
+                {activePasses?.length === 0 ? (
+                    <p className="p">Aucun pass actif trouvé.</p>
+                ) : (
+                    <div className="overflow-x-auto w-full">
+                        <table className="table-auto w-full border-collapse">
+                            <thead>
+                                <tr>
+                                    <th className="td-title px-4 py-2 w-1/4 sm:w-1/5 md:w-1/5 text-left">
+                                        <div className="flex items-center gap-2">
+                                            <LockKeyhole className="icon-small-bis text-blueText" />
+                                            Code du pass
+                                        </div>
+                                    </th>
+                                    <th className="td-title px-4 py-2 w-1/2 sm:w-2/5 md:w-1/3 text-left">
+                                        <div className="flex items-center gap-2">
+                                            <TicketCheck className="icon-small-bis text-blueText" />
+                                            Nom du pass
+                                        </div>
+                                    </th>
+                                    <th className="td-title px-4 py-2 w-1/4 sm:w-1/5 md:w-1/4 text-left">
+                                        <div className="flex items-center gap-2">
+                                            <CalendarDays className="icon-small-bis text-blueText" />
+                                            Date de création
+                                        </div>
+                                    </th>
+                                    <th className="td-title px-4 py-2 w-1/4 sm:w-1/5 md:w-1/4 text-left">
+                                        <div className="flex items-center gap-2">
+                                            <Wrench className="icon-small-bis text-blueText" />
+                                            Dernière mise à jour
+                                        </div>
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {activePasses?.map((pass) => (
+                                    <tr key={pass.id} className="border-t">
+                                        <td className="td-content px-4 py-2 text-sm">{pass.codePass}</td>
+                                        <td className="td-content px-4 py-2 text-sm">{pass.name || "Non défini"}</td>
+                                        <td className="td-content px-4 py-2 text-sm">{formatDateTime(pass.createdAt)}</td>
+                                        <td className="td-content px-4 py-2 text-sm">{formatDateTime(pass.updatedAt)}</td>
+                                    </tr>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                )}
+            </section>
+        </>
     );
 };
 

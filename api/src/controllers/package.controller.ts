@@ -42,13 +42,14 @@ export const getPackageById = async (req: Request, res: Response) => {
 
 export const createPackage = async (req: Request, res: Response) => {
     try {
-        const { regionId, price, description, name } = req.body;
+        const { regionId, price, description, media, name, } = req.body; // Inclure mediaId
 
         const newPackage = await prisma.package.create({
             data: {
                 regionId,
                 price,
                 description,
+                media,
                 name,
             },
         });
@@ -58,6 +59,7 @@ export const createPackage = async (req: Request, res: Response) => {
         res.status(500).json({ message: "Erreur lors de la création du package" });
     }
 };
+
 
 // Mettre à jour un package par ID
 

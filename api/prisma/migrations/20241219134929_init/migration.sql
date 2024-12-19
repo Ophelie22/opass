@@ -26,9 +26,12 @@ CREATE TABLE "Order" (
 -- CreateTable
 CREATE TABLE "Pass" (
     "id" SERIAL NOT NULL,
+    "name" TEXT NOT NULL,
     "packageId" INTEGER,
     "codePass" TEXT NOT NULL,
     "orderId" INTEGER NOT NULL,
+    "userId" INTEGER NOT NULL,
+    "isActive" BOOLEAN NOT NULL DEFAULT true,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updatedAt" TIMESTAMP(3) NOT NULL,
 
@@ -38,8 +41,8 @@ CREATE TABLE "Pass" (
 -- CreateTable
 CREATE TABLE "Region" (
     "id" SERIAL NOT NULL,
-    "email" VARCHAR(255) NOT NULL,
-    "password" TEXT NOT NULL,
+    "email" TEXT,
+    "password" TEXT,
     "media" TEXT,
     "description" TEXT,
     "name" TEXT NOT NULL,
@@ -75,6 +78,7 @@ CREATE TABLE "SiteCategory" (
     "id" SERIAL NOT NULL,
     "regionId" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
+    "media" TEXT,
     "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
     "updated_at" TIMESTAMP(3) NOT NULL,
 
@@ -113,8 +117,8 @@ CREATE TABLE "Package" (
     "regionId" INTEGER,
     "price" DECIMAL(10,2) NOT NULL,
     "description" TEXT,
-    "media" VARCHAR(255),
     "name" TEXT NOT NULL,
+    "media" TEXT NOT NULL,
 
     CONSTRAINT "Package_pkey" PRIMARY KEY ("id")
 );
@@ -131,10 +135,25 @@ CREATE TABLE "SitePackage" (
 CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
-CREATE UNIQUE INDEX "Region_email_key" ON "Region"("email");
+CREATE UNIQUE INDEX "Order_userId_key" ON "Order"("userId");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Region_name_key" ON "Region"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Site_name_key" ON "Site"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SiteCategory_name_key" ON "SiteCategory"("name");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SiteUser_name_key" ON "SiteUser"("name");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "SiteUser_email_key" ON "SiteUser"("email");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "SitePackage_siteId_key" ON "SitePackage"("siteId");
 
 -- AddForeignKey
 ALTER TABLE "Order" ADD CONSTRAINT "Order_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
@@ -144,6 +163,9 @@ ALTER TABLE "Pass" ADD CONSTRAINT "Pass_packageId_fkey" FOREIGN KEY ("packageId"
 
 -- AddForeignKey
 ALTER TABLE "Pass" ADD CONSTRAINT "Pass_orderId_fkey" FOREIGN KEY ("orderId") REFERENCES "Order"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE "Pass" ADD CONSTRAINT "Pass_userId_fkey" FOREIGN KEY ("userId") REFERENCES "User"("id") ON DELETE RESTRICT ON UPDATE CASCADE;
 
 -- AddForeignKey
 ALTER TABLE "Site" ADD CONSTRAINT "Site_regionId_fkey" FOREIGN KEY ("regionId") REFERENCES "Region"("id") ON DELETE RESTRICT ON UPDATE CASCADE;

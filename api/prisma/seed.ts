@@ -26,205 +26,134 @@ async function main() {
       }),
   ]);
 
-    // Créer des régions
-    const [regionAlsace, regionIledeFrance, regionProvence] = await Promise.all([
-      prisma.region.upsert({
-          where: { email: "alsace@example.com" }, // Identifier la région existante par son email
-          update: {
-              name: "Alsace",
-              password: bcrypt.hashSync("password123"),
-              description: "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
-              media: "https://a.cdn-hotels.com/gdcs/production9/d314/551f2674-6301-42c1-90f1-ce47fadbc229.jpg",
-          }, // Mise à jour si existant
-          create: {
-              name: "Alsace",
-              email: "alsace@example.com",
-              password: bcrypt.hashSync("password123"),
-              description: "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
-              media: "https://a.cdn-hotels.com/gdcs/production9/d314/551f2674-6301-42c1-90f1-ce47fadbc229.jpg",
-          }, // Création si absent
-      }),
-      prisma.region.upsert({
-          where: { email: "iledefrance@example.com" },
-          update: {
-              name: "Île-de-France",
-              password: bcrypt.hashSync("password123"),
-              description: "Région de la capitale française, elle abrite Paris et des sites emblématiques comme la Tour Eiffel et le Château de Versailles.",
-              media: "https://cdn1.matadornetwork.com/blogs/1/2020/09/Loire-Valley-France-castle-over-river-1200x853.jpg",
-          },
-          create: {
-              name: "Île-de-France",
-              email: "iledefrance@example.com",
-              password: bcrypt.hashSync("password123"),
-              description: "Région de la capitale française, elle abrite Paris et des sites emblématiques comme la Tour Eiffel et le Château de Versailles.",
-              media: "https://cdn1.matadornetwork.com/blogs/1/2020/09/Loire-Valley-France-castle-over-river-1200x853.jpg",
-          },
-      }),
-      prisma.region.upsert({
-          where: { email: "provence@example.com" },
-          update: {
-              name: "Provence-Alpes-Côte d'Azur",
-              password: bcrypt.hashSync("password123"),
-              description: "Réputée pour son littoral méditerranéen, ses champs de lavande et ses villages pittoresques comme Saint-Tropez et Gordes.",
-              media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
-          },
-          create: {
-              name: "Provence-Alpes-Côte d'Azur",
-              email: "provence@example.com",
-              password: bcrypt.hashSync("password123"),
-              description: "Réputée pour son littoral méditerranéen, ses champs de lavande et ses villages pittoresques comme Saint-Tropez et Gordes.",
-              media: "https://i.pinimg.com/originals/36/53/82/36538200011d9039593e7b57bb7cbd0c.jpg",
-          },
-      }),
-      prisma.region.upsert({
-        where: { email: "bretagne@example.com" },
-        update: {
-          name: "Bretagne",
-          password: bcrypt.hashSync("password123"),
-          description: "Située à l'extrême ouest de la France, la Bretagne est réputée pour ses côtes sauvages, ses légendes celtiques et sa culture maritime.",
-          media: "https://cdn.prod.website-files.com/5fe9ad4805bc9a4cf17e4a6a/64c785f6bc292279fac9a0dd_petit-minou_prairy_Production-Perig.jpg",
-        },
-        create: {
-          name: "Bretagne",
-          email: "bretagne@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Située à l'extrême ouest de la France, la Bretagne est réputée pour ses côtes sauvages, ses légendes celtiques et sa culture maritime.",
-          media: "https://cdn.prod.website-files.com/5fe9ad4805bc9a4cf17e4a6a/64c785f6bc292279fac9a0dd_petit-minou_prairy_Production-Perig.jpg",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "normandie@example.com" },
-        update: {
-          name: "Normandie",
-          password: bcrypt.hashSync("password123"),
-          description: "Célèbre pour ses plages du Débarquement, ses falaises d'Étretat et son riche patrimoine historique.",
-          media: "https://www.caenlamer-tourisme.fr/wp-content/uploads/2019/01/le-mont-saint-michel-crdits-pixabay-1500x844.jpg",
-        },
-        create: {
-          name: "Normandie",
-          email: "normandie@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Célèbre pour ses plages du Débarquement, ses falaises d'Étretat et son riche patrimoine historique.",
-          media: "https://www.caenlamer-tourisme.fr/wp-content/uploads/2019/01/le-mont-saint-michel-crdits-pixabay-1500x844.jpg",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "aquitaine@example.com" },
-        update: {
-          name: "Nouvelle-Aquitaine",
-          password: bcrypt.hashSync("password123"),
-          description: "La plus grande région de France, connue pour ses vignobles bordelais, ses plages atlantiques et ses sites préhistoriques.",
-          media: "https://resize.prod.femina.ladmedia.fr/rblr/1200,806/img/var/2023-03/meilleures-villes-nouvelle-aquitaine.jpg",
-        },
-        create: {
-          name: "Nouvelle-Aquitaine",
-          email: "aquitaine@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "La plus grande région de France, connue pour ses vignobles bordelais, ses plages atlantiques et ses sites préhistoriques.",
-          media: "https://resize.prod.femina.ladmedia.fr/rblr/1200,806/img/var/2023-03/meilleures-villes-nouvelle-aquitaine.jpg",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "occitanie@example.com" },
-        update: {
-          name: "Occitanie",
-          password: bcrypt.hashSync("password123"),
-          description: "Mélange de montagnes, de plages méditerranéennes et de villes historiques comme Toulouse et Montpellier.",
-          media: "https://lopinion.com/storage/articles/8ethGIx5sbJHepLUvoeW0Ve1cLpQbxQ9XCdUAIib.webp",
-        },
-        create: {
-          name: "Occitanie",
-          email: "occitanie@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Mélange de montagnes, de plages méditerranéennes et de villes historiques comme Toulouse et Montpellier.",
-          media: "https://lopinion.com/storage/articles/8ethGIx5sbJHepLUvoeW0Ve1cLpQbxQ9XCdUAIib.webp",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "paysdeloire@example.com" },
-        update: {
-          name: "Pays de la Loire",
-          password: bcrypt.hashSync("password123"),
-          description: "Connue pour ses châteaux majestueux, ses vignobles et la ville dynamique de Nantes.",
-          media: "https://publitour-voyages.fr/wp-content/uploads/2023/01/chateau-g526174887_1920-1-e1672765166364.jpg",
-        },
-        create: {
-          name: "Pays de la Loire",
-          email: "paysdeloire@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Connue pour ses châteaux majestueux, ses vignobles et la ville dynamique de Nantes.",
-          media: "https://publitour-voyages.fr/wp-content/uploads/2023/01/chateau-g526174887_1920-1-e1672765166364.jpg",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "bourgogne@example.com" },
-        update: {
-          name: "Bourgogne-Franche-Comté",
-          password: bcrypt.hashSync("password123"),
-          description: "Célèbre pour ses vins prestigieux, sa gastronomie et ses paysages vallonnés.",
-          media: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/266000/266467-Burgundy.jpg",
-        },
-        create: {
-          name: "Bourgogne-Franche-Comté",
-          email: "bourgogne@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Célèbre pour ses vins prestigieux, sa gastronomie et ses paysages vallonnés.",
-          media: "https://a.travel-assets.com/findyours-php/viewfinder/images/res70/266000/266467-Burgundy.jpg",
-        },
-      }),
-      prisma.region.upsert({
-        where: { email: "auvergne@example.com" },
-        update: {
-          name: "Auvergne-Rhône-Alpes",
-          password: bcrypt.hashSync("password123"),
-          description: "Région montagneuse abritant le Massif central et les Alpes, idéale pour les amateurs de nature et de sports d'hiver.",
-          media: "https://www.auvergne-destination.com/wp-content/uploads/2019/06/denis-pourcher-1600x900.jpg",
-        },
-        create: {
-          name: "Auvergne-Rhône-Alpes",
-          email: "auvergne@example.com",
-          password: bcrypt.hashSync("password123"),
-          description: "Région montagneuse abritant le Massif central et les Alpes, idéale pour les amateurs de nature et de sports d'hiver.",
-          media: "https://www.auvergne-destination.com/wp-content/uploads/2019/06/denis-pourcher-1600x900.jpg",
-        },
-      }),
+  const [
+    regionAlsace,
+    regionIledeFrance,
+    regionProvence,
+    regionBretagne,
+    regionSavoie,
+    regionLoire,
+  ] = await Promise.all([
+    prisma.region.upsert({
+      where: { name: "Alsace" },
+      update: {},
+      create: {
+        id: 1,
+        name: "Alsace",
+        email: "alsace@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
+        media: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
+      },
+    }),
+    prisma.region.upsert({
+      where: { name: "Île-de-France" },
+      update: {},
+      create: {
+        id: 2,
+        name: "Île-de-France",
+        email: "iledefrance@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "L'Île-de-France, autour de Paris, est un centre culturel, économique et historique important de la France.",
+        media: "https://images.unsplash.com/photo-1519147544180-d07d1609fe1a",
+      },
+    }),
+    prisma.region.upsert({
+      where: { name: "Provence-Alpes-Côte d'Azur" },
+      update: {},
+      create: {
+        id: 3,
+        name: "Provence-Alpes-Côte d'Azur",
+        email: "provence@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "La région Provence-Alpes-Côte d'Azur est connue pour ses paysages spectaculaires, ses plages et ses villages pittoresques.",
+        media: "https://images.unsplash.com/photo-1560564674-96a68db06338",
+      },
+    }),
+    prisma.region.upsert({
+      where: { name: "Bretagne" },
+      update: {},
+      create: {
+        id: 4,
+        name: "Bretagne",
+        email: "bretagne@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "La Bretagne est célèbre pour ses côtes sauvages, ses traditions et son riche patrimoine historique.",
+        media: "https://images.unsplash.com/photo-1516710330042-dc1be5b9b3e2",
+      },
+    }),
+    prisma.region.upsert({
+      where: { name: "Savoie" },
+      update: {},
+      create: {
+        id: 5,
+        name: "Savoie",
+        email: "savoie@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "La Savoie est une région montagneuse, idéale pour le ski et offrant des paysages alpins spectaculaires.",
+        media: "https://images.unsplash.com/photo-1553463127-68268232b66d",
+      },
+    }),
+    prisma.region.upsert({
+      where: { name: "Loire" },
+      update: {},
+      create: {
+        id: 6,
+        name: "Loire",
+        email: "loire@example.com",
+        password: bcrypt.hashSync("password123"),
+        description:
+          "La Loire est connue pour ses châteaux majestueux, ses paysages verdoyants et son patrimoine historique unique.",
+        media: "https://images.unsplash.com/photo-1583718332074-7b7789a6c7fe",
+      },
+    }),
   ]);
 
     // Créer des catégories de sites
-    const [culture, nature, gastronomie, sport, patrimoine] = await Promise.all([
+    const [
+        culture,
+        nature,
+        gastronomie,
+        sport,
+        patrimoine,
+      ] = await Promise.all([
         prisma.siteCategory.create({
-            data: {
-                name: "Culture",
-                regionId: regionAlsace.id, // Référence à l'Alsace
-            },
+          data: {
+            name: "Culture",
+            regionId: regionAlsace.id, // Référence à l'Alsace
+          },
         }),
         prisma.siteCategory.create({
-            data: {
-                name: "Nature",
-                regionId: regionProvence.id, // Référence à la Provence-Alpes-Côte d'Azur
-            },
+          data: {
+            name: "Nature",
+            regionId: regionProvence.id, // Référence à la Provence-Alpes-Côte d'Azur
+          },
         }),
         prisma.siteCategory.create({
-            data: {
-                name: "Gastronomie",
-                regionId: regionAlsace.id, // Référence à l'Alsace
-            },
+          data: {
+            name: "Gastronomie",
+            regionId: regionAlsace.id, // Référence à l'Alsace
+          },
         }),
         prisma.siteCategory.create({
-            data: {
-                name: "Sport et Loisirs",
-                regionId: regionIledeFrance.id, // Référence à l'Île-de-France
-            },
+          data: {
+            name: "Sport et Loisirs",
+            regionId: regionIledeFrance.id, // Référence à l'Île-de-France
+          },
         }),
         prisma.siteCategory.create({
-            data: {
-                name: "Patrimoine",
-                regionId: regionIledeFrance.id, // Référence à l'Île-de-France
-            },
+          data: {
+            name: "Patrimoine",
+            regionId: regionIledeFrance.id, // Référence à l'Île-de-France
+          },
         }),
-    ]);
-    // Créer des sites
-    const [ecomuseeAlsace, chateauVersailles, calanquesMarseille] = await Promise.all([
+      ]);
+      const [_ecomuseeAlsace, chateauVersailles, _calanquesMarseille] = await Promise.all([
         prisma.site.create({
             data: {
                 name: "Écomusée d'Alsace",
@@ -275,118 +204,129 @@ async function main() {
         }),
     ]);
 
-    // Créer des événements pour chaque site
-    await prisma.event.createMany({
-        data: [
-            {
-                name: "Concert 2024",
-                description: "Un concert exceptionnel",
-                siteId: ecomuseeAlsace.id, // Référence correcte au site
-                startDate: new Date("2024-05-20"),
-                endDate: new Date("2024-05-21"),
-            },
-            {
-                name: "Festival Nature",
-                description: "Festival en plein air",
-                siteId: calanquesMarseille.id, // Référence correcte au site
-                startDate: new Date("2024-06-10"),
-                endDate: new Date("2024-06-15"),
-            },
-        ],
-        skipDuplicates: true,
-    });
-    // Créer des packages pour chaque région
-    const [packAlsaceDecouverte, packAlsaceGourmet, packVIPProvence, packFamilleIDF] = await Promise.all([
-        prisma.package.create({
-            data: {
-                name: "Pack Découverte Alsace",
-                regionId: regionAlsace.id, // Référence à l'Alsace
-                price: 39.99,
-                description: "Découvrez les villages pittoresques, musées et traditions alsaciennes avec ce pack tout inclus.",
-                //media: "https://static.visit.alsace/wp-content/uploads/lei/pictures/223008552-batorama-decouverte-de-strasbourg-en-bateau-1-1600x900.jpg",
-            },
-        }),
-        prisma.package.create({
-            data: {
-                name: "Pack Gourmet Alsace",
-                regionId: regionAlsace.id, // Référence à l'Alsace
-                price: 49.99,
-                description: "Explorez les saveurs de l'Alsace avec des dégustations de vins et des spécialités locales.",
-                //media: "https://www.civitatis.com/f/francia/ungersheim/pass-alsace-589x392.jpg",
-            },
-        }),
-        prisma.package.create({
-            data: {
-                name: "Pack VIP Provence",
-                regionId: regionProvence.id, // Référence à la Provence-Alpes-Côte d'Azur
-                price: 89.99,
-                description: "Accédez à des expériences exclusives comme des croisières privées dans les calanques et des dégustations de rosé.",
-                //media: "https://cdn.getyourguide.com/img/tour/5b44dfd8f3979.jpeg/146.jpg",
-            },
-        }),
-        prisma.package.create({
-            data: {
-                name: "Pack Famille Île-de-France",
-                regionId: regionIledeFrance.id, // Référence à l'Île-de-France
-                price: 59.99,
-                description: "Parfait pour une journée en famille, avec accès à des parcs d'attractions et des monuments emblématiques.",
-                //media: "https://cdn.civitatis.com/francia/eguisheim/pass-alsace.jpg",
-            },
-        }),
-    ]);
 
-    // Générer un numéro de pass aléatoire 
-    const generateUniquePassCode = () => `PASS-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+// Créer des événements pour chaque site
+await prisma.event.createMany({
+    data: [
+      {
+        name: "Concert 2024",
+        description: "Un concert exceptionnel",
+        siteId: _ecomuseeAlsace.id, // Référence au site Écomusée d'Alsace
+        startDate: new Date("2024-05-20"),
+        endDate: new Date("2024-05-21"),
+      },
+      {
+        name: "Festival Nature",
+        description: "Festival en plein air",
+        siteId: _calanquesMarseille.id, // Référence au site Calanques de Marseille
+        startDate: new Date("2024-06-10"),
+        endDate: new Date("2024-06-15"),
+      },
+    ],
+    skipDuplicates: true,
+  });
+  
+  // Créer des packages pour chaque région
+  const [packAlsaceDecouverte, packAlsaceGourmet, packVIPProvence, packFamilleIDF] = await Promise.all([
+    prisma.package.create({
+      data: {
+        name: "Pack Découverte Alsace",
+        regionId: regionAlsace.id, // Référence à l'Alsace
+        price: 39.99,
+        description:
+          "Découvrez les villages pittoresques, musées et traditions alsaciennes avec ce pack tout inclus.",
+        media: "https://static.visit.alsace/wp-content/uploads/lei/pictures/223008552-batorama-decouverte-de-strasbourg-en-bateau-1-1600x900.jpg",
+      },
+    }),
+    prisma.package.create({
+      data: {
+        name: "Pack Gourmet Alsace",
+        regionId: regionAlsace.id, // Référence à l'Alsace
+        price: 49.99,
+        description:
+          "Explorez les saveurs de l'Alsace avec des dégustations de vins et des spécialités locales.",
+        media: "https://www.civitatis.com/f/francia/ungersheim/pass-alsace-589x392.jpg",
+      },
+    }),
+    prisma.package.create({
+      data: {
+        name: "Pack VIP Provence",
+        regionId: regionProvence.id, // Référence à la Provence-Alpes-Côte d'Azur
+        price: 89.99,
+        description:
+          "Accédez à des expériences exclusives comme des croisières privées dans les calanques et des dégustations de rosé.",
+        media: "https://cdn.getyourguide.com/img/tour/5b44dfd8f3979.jpeg/146.jpg",
+      },
+    }),
+    prisma.package.create({
+      data: {
+        name: "Pack Famille Île-de-France",
+        regionId: regionIledeFrance.id, // Référence à l'Île-de-France
+        price: 59.99,
+        description:
+          "Parfait pour une journée en famille, avec accès à des parcs d'attractions et des monuments emblématiques.",
+        media: "https://cdn.civitatis.com/francia/eguisheim/pass-alsace.jpg",
+      },
+    }),
+  ]);
 
-    const [order1, order2] = await Promise.all([
-        prisma.order.create({
-            data: {
-                userId: alice.id,
-                amount: 89.99,
-                status: "paid", // PASS-ABCDE123 : "Pack Découverte Alsace" || PASS-FGHIJ456 : "Pack Gourmet Alsace"
-                passes: {
-                    create: [
-                        {
-                            codePass: generateUniquePassCode(), // Code unique pour le pass
-                            packageId: packAlsaceDecouverte.id, // Référence au package
-                        },
-                        {
-                            codePass: generateUniquePassCode(), // Un autre pass pour la même commande
-                            packageId: packAlsaceGourmet.id, // Référence à un autre package
-                        },
-                    ],
-                },
+  // Générer un numéro de pass aléatoire
+const generateUniquePassCode = () => `PASS-${Math.random().toString(36).substring(2, 10).toUpperCase()}`;
+
+const [order1, order2] = await Promise.all([
+    prisma.order.create({
+        data: {
+            userId: alice.id,
+            amount: 89.99,
+            status: "paid",
+            passes: {
+                create: [
+                    {
+                        name: "Pass Découverte Alsace", // Nom pour le pass
+                        codePass: generateUniquePassCode(), // Code unique pour le pass
+                        userId: alice.id, // ID de l'utilisateur associé
+                        packageId: packAlsaceDecouverte.id, // Référence au package
+                    },
+                    {
+                        name: "Pass Gourmet Alsace", // Nom pour le pass
+                        codePass: generateUniquePassCode(),
+                        userId: alice.id,
+                        packageId: packAlsaceGourmet.id,
+                    },
+                ],
             },
-        }),
-        prisma.order.create({
-            data: {
-                userId: bob.id, // PASS-KLMNO789 : "Pack VIP Provence" || 
-                amount: 59.99,
-                status: "pending",
-                passes: {
-                    create: [
-                        {
-                            codePass: generateUniquePassCode(), // Code unique
-                            packageId: packVIPProvence.id, // Référence au package VIP
-                        },
-                    ],
-                },
-
+        },
+    }),
+    prisma.order.create({
+        data: {
+            userId: bob.id,
+            amount: 59.99,
+            status: "pending",
+            passes: {
+                create: [
+                    {
+                        name: "Pass VIP Provence", // Nom pour le pass
+                        codePass: generateUniquePassCode(),
+                        userId: bob.id,
+                        packageId: packVIPProvence.id,
+                    },
+                ],
             },
-        }),
-    ]);
+        },
+    }),
+]);
 
-    // Associer des utilisateurs à des sites (SiteUser)
-    // Créer des utilisateurs associés à des sites
-    // Créer des utilisateurs associés à des sites
+
+// Créer les utilisateurs et les associer aux sites
+try {
     await Promise.all([
         prisma.siteUser.create({
             data: {
                 name: "Alice Responsable",
                 email: "alice.responsable@ecomusee.com",
-                password: bcrypt.hashSync("password"),
+                password: bcrypt.hashSync("password", 10), // Utilisation d'un salt de 10
                 site: {
-                    connect: { id: ecomuseeAlsace.id }, // Référence au site "Écomusée d'Alsace"
+                    connect: { id: _ecomuseeAlsace.id }, // Vérification préalable que ecomuseeAlsace.id existe
                 },
             },
         }),
@@ -394,9 +334,9 @@ async function main() {
             data: {
                 name: "Bob Gestionnaire",
                 email: "bob.gestionnaire@chateauversailles.com",
-                password: bcrypt.hashSync("password"),
+                password: bcrypt.hashSync("password", 10), // Hashage avec un salt de 10
                 site: {
-                    connect: { id: chateauVersailles.id }, // Référence au site "Château de Versailles"
+                    connect: { id: chateauVersailles.id }, // Vérification préalable que chateauVersailles.id existe
                 },
             },
         }),
@@ -404,41 +344,48 @@ async function main() {
             data: {
                 name: "Charlie Animateur",
                 email: "charlie.animateur@calanques.com",
-                password: bcrypt.hashSync("password"),
+                password: bcrypt.hashSync("password", 10), // Hashage avec un salt de 10
                 site: {
-                    connect: { id: calanquesMarseille.id }, // Référence au site "Calanques de Marseille"
+                    connect: { id: _calanquesMarseille.id }, // Vérification préalable que calanquesMarseille.id existe
                 },
             },
         }),
     ]);
-    ///Site Package
+} catch (error) {
+    console.error("Erreur lors de la création des utilisateurs:", error);
+}
+
+// Associer des packages aux sites
+try {
     await Promise.all([
         prisma.sitePackage.create({
             data: {
-                siteId: ecomuseeAlsace.id, // Référence au site "Écomusée d'Alsace"
-                packageId: packAlsaceDecouverte.id, // Référence au package "Pack Découverte Alsace"
+                siteId: _ecomuseeAlsace.id, // Vérification préalable que ecomuseeAlsace.id existe
+                packageId: packAlsaceDecouverte.id, // Vérification préalable que packAlsaceDecouverte.id existe
             },
         }),
         prisma.sitePackage.create({
             data: {
-                siteId: ecomuseeAlsace.id, // Même site "Écomusée d'Alsace"
-                packageId: packAlsaceGourmet.id, // Référence au package "Pack Gourmet Alsace"FP
+                siteId: _ecomuseeAlsace.id, // Même site "Écomusée d'Alsace"
+                packageId: packAlsaceGourmet.id, // Vérification préalable que packAlsaceGourmet.id existe
             },
         }),
         prisma.sitePackage.create({
             data: {
-                siteId: chateauVersailles.id, // Référence au site "Château de Versailles"
-                packageId: packFamilleIDF.id, // Référence au package "Pack Famille Île-de-France"
+                siteId: chateauVersailles.id, // Vérification préalable que chateauVersailles.id existe
+                packageId: packFamilleIDF.id, // Vérification préalable que packFamilleIDF.id existe
             },
         }),
         prisma.sitePackage.create({
             data: {
-                siteId: calanquesMarseille.id, // Référence au site "Calanques de Marseille"
-                packageId: packVIPProvence.id, // Référence au package "Pack VIP Provence"
+                siteId: _calanquesMarseille.id, // Vérification préalable que calanquesMarseille.id existe
+                packageId: packVIPProvence.id, // Vérification préalable que packVIPProvence.id existe
             },
         }),
     ]);
-
+} catch (error) {
+    console.error("Erreur lors de l'association des packages aux sites:", error);
+}
 
     console.log("Données de seed insérées avec succès");
 }
