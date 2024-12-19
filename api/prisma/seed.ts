@@ -57,7 +57,7 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "L'Île-de-France, autour de Paris, est un centre culturel, économique et historique important de la France.",
-        media: "https://images.unsplash.com/photo-1519147544180-d07d1609fe1a",
+        media: "https://voyagesmicheline.com/wp-content/uploads/2021/06/Journee-11-Versailles-scaled.jpeg",
       },
     }),
     prisma.region.upsert({
@@ -70,7 +70,7 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "La région Provence-Alpes-Côte d'Azur est connue pour ses paysages spectaculaires, ses plages et ses villages pittoresques.",
-        media: "https://images.unsplash.com/photo-1560564674-96a68db06338",
+        media: "https://www.voyageavecnous.fr/wp-content/uploads/2021/06/calanque-den-vau.jpg",
       },
     }),
     prisma.region.upsert({
@@ -83,7 +83,7 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "La Bretagne est célèbre pour ses côtes sauvages, ses traditions et son riche patrimoine historique.",
-        media: "https://images.unsplash.com/photo-1516710330042-dc1be5b9b3e2",
+        media: "https://france3-regions.francetvinfo.fr/image/vLPdhwWwks11dGjwVSpmaIAADiI/2048x1152/regions/2020/06/09/5edf4332a367a_saint_mathieu_avec_les_armeries_yann_quiviger-3215501.jpg",
       },
     }),
     prisma.region.upsert({
@@ -96,7 +96,7 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "La Savoie est une région montagneuse, idéale pour le ski et offrant des paysages alpins spectaculaires.",
-        media: "https://images.unsplash.com/photo-1553463127-68268232b66d",
+        media: "https://www.grenier-alpin.com/blog/wp-content/uploads/2017/08/lac-montagne.jpg",
       },
     }),
     prisma.region.upsert({
@@ -109,7 +109,7 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "La Loire est connue pour ses châteaux majestueux, ses paysages verdoyants et son patrimoine historique unique.",
-        media: "https://images.unsplash.com/photo-1583718332074-7b7789a6c7fe",
+        media: "https://www.roannais-tourisme.com/wp-content/uploads/2021/05/roanne-tourisme-saint-priest-la-roche-loire-245-1600x900.jpg",
       },
     }),
   ]);
