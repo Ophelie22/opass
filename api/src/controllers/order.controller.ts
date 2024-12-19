@@ -72,10 +72,12 @@ export const createOrder = async (req: Request, res: Response) => {
       data: {
         userId: parseInt(userId, 10),
         amount,
-        status: "pending",
+        status: "paid",
         passes: {
           create: items.flatMap((item: CartItem) => 
             Array.from({ length: item.quantity }, () => ({
+              name: item.name,
+              userId: parseInt(userId, 10),
               packageId: item.id,
               codePass: generateUniquePassCode()
             }))

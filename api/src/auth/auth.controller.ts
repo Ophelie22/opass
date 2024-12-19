@@ -9,12 +9,15 @@ const SECRET_KEY = process.env.SECRET_KEY || "default_secret";
 class AuthController {
 	static async login(req: Request, res: Response): Promise<void> {
 		try {
-			const token = await AuthService.login(req.body.email, req.body.password);
+			const response = await AuthService.login(req.body.email, req.body.password);
+			const token = response.token;
+			const user = response.user;
+
 			res.cookie("token", token, {
 				httpOnly: true,
 				secure: process.env.NODE_ENV === "production",
 			});
-			res.status(200).json({ message: "Connexion réussie" });
+			res.status(200).json({ user, message: "Connexion réussie" });
 		} catch (error) {
 			res.status(401).json({ message: "Identifiants invalides" });
 		}

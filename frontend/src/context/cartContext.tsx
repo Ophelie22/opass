@@ -1,7 +1,6 @@
 import React, { createContext, useContext, useState, ReactNode } from 'react';
 import { Package } from "../types/Package";
 import { CartItem } from "../types/ShoppingCart";
-import { Order } from "../types/Order"; // Make sure to create this type
 
 
 interface CartContextProps {
@@ -11,7 +10,6 @@ interface CartContextProps {
   updateQuantity: (id: number, quantity: number) => void;
   clearCart: () => void;
   createOrder: (userId: string) => Promise<void>;
-  fetchUserOrders: () => Promise<Order[]>
 }
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
@@ -60,6 +58,7 @@ export const CartProvider: React.FC<{ children: ReactNode }> = ({ children }) =>
           userId: userId,
           amount: cart.reduce((total, item) => total + item.price * item.quantity, 0),
           items: cart.map(item => ({
+            name: item.name,
             id: item.id,
             quantity: item.quantity
           }))

@@ -48,7 +48,10 @@ const Login: React.FC = () => {
       if (res.ok) {
         setToastMessage("Connexion réussie !");
         setToastType("success");
-        loginAuth();
+        const data = await res.json();
+        if (data.user) {
+          loginAuth(data.user);
+        }
         navigate("/");
       } else {
         setToastMessage("Erreur de connexion. Veuillez réessayer.");

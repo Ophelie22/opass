@@ -15,7 +15,7 @@ interface AuthContextInterface {
 	isLoadingAuth: boolean;
 	isAuthenticated: boolean;
 	user: User | null;
-  loginAuth: () => void;
+  loginAuth: (user: User) => void;
   logoutAuth:() => void;
 }
 
@@ -33,13 +33,14 @@ export const useAuth = () => {
 };
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
-	const [user, setUser] = useState(null);
-  const [isLoadingAuth, setIsLoadingAuth] = useState(true);
+	const [user, setUser] = useState<User | null>(null);
+ 	const [isLoadingAuth, setIsLoadingAuth] = useState(true);
 	const [isAuthenticated, setIsAuthenticated] = useState(false);
 	const url = import.meta.env.VITE_API_URL;
 
-  const loginAuth = () => {
+  const loginAuth = (user: User) => {
     setIsAuthenticated(true);
+	setUser(user);
   }
 
   const logoutAuth = () => {

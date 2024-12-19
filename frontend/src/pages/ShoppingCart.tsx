@@ -7,10 +7,10 @@ const ShoppingCart: React.FC = () => {
   const url = import.meta.env.VITE_API_URL;
   const { cart, removeFromCart, updateQuantity, clearCart, createOrder } =
     useCart();
-  const { isAuthenticated } = useAuth();
-  const [userId, setUserId] = useState("");
+  const { isAuthenticated, user } = useAuth();
   const [error, setError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const userId = user?.id
 
   const getTotalPrice = () =>
     cart.reduce((total, item) => total + item.price * item.quantity, 0);
@@ -26,26 +26,9 @@ const ShoppingCart: React.FC = () => {
     }
   };
 
-  const getConnectedUserInfos = () => {
-    fetch(`${url}/auth/me`, {
-      method: "GET",
-      credentials: "include",
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        setUserId(data.user.id.toString());
-      })
-      .catch((error) => {
-        setError(error.message);
-      });
-  };
-
   useEffect(() => {
     if (!isAuthenticated) {
       navigate("/connexion");
-    } else {
-      getConnectedUserInfos();
-
     }
   }, [isAuthenticated]);
 
@@ -104,7 +87,7 @@ const ShoppingCart: React.FC = () => {
                 Vider le panier
               </button>
               <button
-                onClick={() => handleOrder(userId)}
+                onClick={() => handleOrder(userId!)}
                 className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
               >
                 Commander

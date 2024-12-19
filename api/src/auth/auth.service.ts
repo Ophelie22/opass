@@ -21,7 +21,7 @@ class AuthService {
 	}
 
 	// Fonction de connexion
-	static async login(email: string, password: string): Promise<string> {
+	static async login(email: string, password: string): Promise<{ token: string, user: object }> {
 		const user = await AuthService.validateUser(email, password);
 		if (!user) {
 			throw new Error("Invalid credentials");
@@ -31,7 +31,7 @@ class AuthService {
 		const token = jwt.sign({ email: user.email, userId: user.id }, SECRET_KEY, {
 			expiresIn: "1h",
 		});
-		return token;
+		return { token, user};
 	}
 
 	// Fonction d'inscription

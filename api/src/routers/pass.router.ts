@@ -13,6 +13,6 @@ passRouter.get("/", getAllPasses);
 passRouter.get("/:id", getPassById);
 passRouter.put("/:id", updatePassById);
 passRouter.delete("/:id", deletePassById);
-passRouter.get('/active', getActivePasses);
+passRouter.get("/active-passes/:id", getActivePasses);
 
 export default passRouter;
