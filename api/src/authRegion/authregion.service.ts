@@ -3,7 +3,6 @@ import jwt from 'jsonwebtoken';
 import { PrismaClient, Region } from '@prisma/client';
 
 const prisma = new PrismaClient();
-<<<<<<< HEAD
 const SECRET_KEY = process.env.JWT_SECRET  || "default_secret";
 
 class RegionService {
@@ -49,7 +48,6 @@ class RegionService {
       throw new Error('Registration failed: Unknown error occurred');
     }
   }
-=======
 const SECRET_KEY = process.env.JWT_SECRET || "default_secret";
 
 class RegionService {
@@ -95,7 +93,6 @@ class RegionService {
             throw new Error('Registration failed: Unknown error occurred');
         }
     }
->>>>>>> 5bbb2ec506d34f8887bc667e0ab32d257e272d0e
 }
 
 export default RegionService;
