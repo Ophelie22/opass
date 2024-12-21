@@ -59,7 +59,7 @@ const RegionDetails = () => {
           </section>
 
           <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Forfaits</h2>
+            <h2 className="text-2xl font-bold mb-4">Packages</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {region.packages?.map((p: Package) => (
                 <div
@@ -68,7 +68,15 @@ const RegionDetails = () => {
                 >
                   <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
                   <p className="text-gray-600 mb-4">{p.description}</p>
-                  <p className="text-gray-600 mb-4">{p.media}</p>
+                  {p.media ? (
+                  <img src={`http://localhost:3000/uploads/${p.media}`} alt={p.name} 
+                  className="mb-4 w-full h-48 object-cover rounded-lg"
+                  />
+                  ): (
+                    <div className="mb-4 w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg">
+                    <span className="text-gray-500">Image non disponible</span>
+                  </div>
+                )}
                   <span className="block font-bold text-lg mb-4">
                     {p.price} €
                   </span>

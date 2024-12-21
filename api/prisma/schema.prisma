@@ -19,8 +19,8 @@ model User {
   createAt  DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  orders    Order[]
-  passes    Pass[]
+  orders Order[]
+  passes Pass[]
 }
 
 model Order {
@@ -32,8 +32,8 @@ model Order {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  user      User     @relation(fields: [userId], references: [id])
-  passes    Pass[]
+  user   User   @relation(fields: [userId], references: [id])
+  passes Pass[]
 }
 
 model Pass {
@@ -47,46 +47,43 @@ model Pass {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  package   Package? @relation(fields: [packageId], references: [id])
-  order     Order    @relation(fields: [orderId], references: [id])
-  user      User     @relation(fields: [userId], references: [id])
+  package Package? @relation(fields: [packageId], references: [id])
+  order   Order    @relation(fields: [orderId], references: [id])
+  user    User     @relation(fields: [userId], references: [id])
 }
 
-
 model Region {
-  id          Int            @id @default(autoincrement())
-  email       String?        @unique
+  id          Int      @id @default(autoincrement())
+  email       String?  @unique
   password    String?
   media       String?
   description String?
-  name        String         @unique
+  name        String   @unique
   createAt    DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-
   // Relations
-  sites       Site[]
-  packages    Package[]
-  categories  SiteCategory[] // Relation avec les catégories de sites
+  sites      Site[]
+  packages   Package[]
+  categories SiteCategory[] // Relation avec les catégories de sites
 }
 
 model Site {
-  id          Int           @id @default(autoincrement())
+  id          Int      @id @default(autoincrement())
   regionId    Int
   categoryId  Int?
-  name        String        @unique
+  name        String   @unique
   description String?
   city        String?
   postalCode  String?
   address     String?
-  latitude    Decimal?      @db.Decimal(10, 8)
-  longitude   Decimal?      @db.Decimal(10, 8)
+  latitude    Decimal? @db.Decimal(10, 8)
+  longitude   Decimal? @db.Decimal(10, 8)
   media       String?
   contact     String?
   information String?
-  createdAt   DateTime      @default(now())
-  updatedAt   DateTime      @updatedAt
-
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   region      Region        @relation(fields: [regionId], references: [id])
   category    SiteCategory? @relation(fields: [categoryId], references: [id])
@@ -103,8 +100,8 @@ model SiteCategory {
   created_at DateTime @default(now())
   updated_at DateTime @updatedAt
 
-  sites      Site[]
-  region     Region   @relation(fields: [regionId], references: [id])
+  sites  Site[]
+  region Region @relation(fields: [regionId], references: [id])
 }
 
 model Event {
@@ -118,7 +115,7 @@ model Event {
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
 
-  site        Site     @relation(fields: [siteId], references: [id])
+  site Site @relation(fields: [siteId], references: [id])
 }
 
 model SiteUser {
@@ -128,18 +125,16 @@ model SiteUser {
   email    String @unique
   password String
 
-  site     Site   @relation(fields: [siteId], references: [id])
+  site Site @relation(fields: [siteId], references: [id])
 }
 
 model Package {
-  
-  id           Int           @id @default(autoincrement())
-  regionId     Int?
-  name         String
-  price        Decimal       @db.Decimal(10, 2)
-  description  String?
-  media        String?
-
+  id          Int     @id @default(autoincrement())
+  regionId    Int?
+  name        String
+  price       Decimal @db.Decimal(10, 2)
+  description String?
+  media       String?
 
   passes       Pass[]
   sitePackages SitePackage[]
