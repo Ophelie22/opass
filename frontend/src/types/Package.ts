@@ -4,4 +4,6 @@ export interface Package {
     regionId: string;
     price: number;
     description: string;
+    media: string | null;
+    
 }

@@ -68,6 +68,7 @@ const RegionDetails = () => {
                 >
                   <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
                   <p className="text-gray-600 mb-4">{p.description}</p>
+                  <p className="text-gray-600 mb-4">{p.media}</p>
                   <span className="block font-bold text-lg mb-4">
                     {p.price} €
                   </span>
