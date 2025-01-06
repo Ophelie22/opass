@@ -20,7 +20,7 @@ module.exports = {
         yellow: '#F4B942',
       },
       fontFamily: {
-        sans: ['"Public Sans"', 'sans-serif'], // Définition de Public Sans comme police par défaut
+        sans: ['Public Sans', 'sans-serif'], // Définition de Public Sans comme police par défaut
       },
     },
   },
