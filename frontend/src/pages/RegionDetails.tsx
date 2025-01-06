@@ -68,15 +68,11 @@ const RegionDetails = () => {
                 >
                   <h3 className="text-xl font-semibold mb-2">{p.name}</h3>
                   <p className="text-gray-600 mb-4">{p.description}</p>
-                  {p.media ? (
+                  {p.media  &&(
                   <img src={`http://localhost:3000/uploads/${p.media}`} alt={p.name} 
                   className="mb-4 w-full h-48 object-cover rounded-lg"
                   />
-                  ): (
-                    <div className="mb-4 w-full h-48 bg-gray-200 flex items-center justify-center rounded-lg">
-                    <span className="text-gray-500">Image non disponible</span>
-                  </div>
-                )}
+                  ) }
                   <span className="block font-bold text-lg mb-4">
                     {p.price} €
                   </span>
