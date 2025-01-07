@@ -40,12 +40,12 @@ const Footer: React.FC = () => {
 
     return (
         <footer className="bg-lightGray text-blueText w-full">
-            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 py-8 px-6">
+            <div className="container mx-auto grid grid-cols-1 md:grid-cols-3 gap-8 py-8 px-6 text-center md:text-left">
 
                 {!isAuthenticated ? (
                     <div>
-                        <h6 className="footer-title text-sm font-semibold mb-4">Liens utiles</h6>
-                        <ul className="space-y-2 text-xs">
+                        <h6 className="text-lg font-bold mb-4 uppercase tracking-wide">Liens utiles</h6>
+                        <ul className="space-y-2 ">
                             <li>
                                 <NavLink to={PAGE_HOME} className="link link-hover">Accueil</NavLink>
                             </li>
@@ -59,7 +59,7 @@ const Footer: React.FC = () => {
                     </div>
                 ) : (
                     <div>
-                        <h6 className="footer-title text-sm font-semibold mb-4">Liens utiles</h6>
+                        <h6 className="ftext-center py-4 border-t border-gray-300 mt-6">Liens utiles</h6>
                         <ul className="space-y-2 text-xs">
                             <li>
                                 <NavLink to={PAGE_HOME} className="link link-hover">Accueil</NavLink>
@@ -75,8 +75,8 @@ const Footer: React.FC = () => {
                 )}
 
                 <div>
-                    <h6 className="footer-title text-sm font-semibold mb-4">Support</h6>
-                    <ul className="space-y-2 text-xs">
+                    <h6 className="text-lg font-bold mb-4 uppercase tracking-wide">Support</h6>
+                    <ul className="space-y-2">
                         <li>
                             <NavLink to={PAGE_CONTACT} className="link link-hover">Contact</NavLink>
                         </li>
@@ -90,8 +90,8 @@ const Footer: React.FC = () => {
                 </div>
             </div>
 
-            <div className="text-center py-4 border-t border-gray-300">
-                <p className="text-xs text-gray-500">
+            <div className="text-center py-4 border-t border-gray-300 mt-6">
+                <p className="text-sm text-gray-500">
                     © 2024 O'Pass. Tous droits réservés.
                 </p>
             </div>

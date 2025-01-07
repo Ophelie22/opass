@@ -34,7 +34,7 @@ class AuthController {
 		} catch (error) {
 			res
 				.status(400)
-				.json({ message: "Erreur lors de la création de l'utilisateur" });
+				.json({ message: "Votre email ou votre identifiant existe déja" });
 		}
 	}
 

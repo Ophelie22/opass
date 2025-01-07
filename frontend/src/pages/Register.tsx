@@ -59,13 +59,18 @@ const Register: React.FC = () => {
         },
         body: JSON.stringify(values),
       });
+      const data = await response.json(); // Récupérer la réponse JSON
 
       if (response.ok) {
         setToastMessage("Inscription réussie ! Redirection...");
         setToastType("success");
         setTimeout(() => navigate("/connexion"), 2000);
+      } else if (response.status === 409) {
+        // Vérifiez si l'erreur est un e-mail déjà utilisé (code 409 Conflict)
+        setToastMessage("Cet e-mail est déjà utilisé. Essayez un autre.");
+        setToastType("error");
       } else {
-        setToastMessage("Erreur lors de l'inscription.");
+        setToastMessage(data.message ||"Erreur lors de l'inscription.");
         setToastType("error");
       }
     } catch {
