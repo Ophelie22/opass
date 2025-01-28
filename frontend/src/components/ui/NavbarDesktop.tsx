@@ -12,7 +12,7 @@ const NavbarDesktop: React.FC = () => {
   const url = import.meta.env.VITE_API_URL;
   const { isAuthenticated, logoutAuth } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState<null | string>(null);
+  const [, setError] = useState<null | string>(null);
   const navigate = useNavigate();
 
   const handleLogout = async () => {

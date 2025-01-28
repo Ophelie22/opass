@@ -5,12 +5,12 @@ import { NavLink } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Menu, ShoppingCart } from "lucide-react";
 import NavbarDesktop from "./NavbarDesktop";
-import { useAuth } from "../../context/authContext";
+//import { useAuth } from "../../context/authContext";
 import { useCart } from "../../context/cartContext";
 
 const Header: React.FC = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  const { isAuthenticated } = useAuth();
+  //const { isAuthenticated } = useAuth();
   const { cart } = useCart();
 
   useEffect(() => {
