@@ -14,7 +14,7 @@ import { useAuth } from "../../context/authContext";
 const Footer: React.FC = () => {
     const url = import.meta.env.VITE_API_URL;
     const { isAuthenticated, logoutAuth } = useAuth();
-    const [isLoading, setIsLoading] = useState(false);
+    const [isLoading, setIsLoading]  = useState(false);
     const [error, setError] = useState<null | string>(null);
     const navigate = useNavigate();
 
@@ -31,7 +31,7 @@ const Footer: React.FC = () => {
                 logoutAuth();
             }
         } catch (err) {
-            setError(err as string);
+            setError((err as Error).message);
         } finally {
             setIsLoading(false);
         }
@@ -95,6 +95,9 @@ const Footer: React.FC = () => {
                     © 2024 O'Pass. Tous droits réservés.
                 </p>
             </div>
+              {/* Affichage des erreurs et du chargement */}
+            {isLoading && <p className="text-center text-blue-500">Déconnexion en cours...</p>}
+            {error && <p className="text-center text-red-500">{error}</p>}
         </footer >
     );
 }
