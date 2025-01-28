@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink,  useParams } from "react-router-dom";
 import { Package } from "../types/Package";
 import type { Region } from "../types/Region";
 import type { SiteCategory } from "../types/SiteCategory";
-import { useAuth } from "../context/authContext";
+//import { useAuth } from "../context/authContext";
 import { useCart } from "../context/cartContext";
 
 const RegionDetails = () => {
@@ -11,9 +11,9 @@ const RegionDetails = () => {
   const [region, setRegion] = useState<Region>();
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
-  const { isAuthenticated } = useAuth();
+  //const { isAuthenticated } = useAuth();
   const { addToCart } = useCart();
-  const navigate = useNavigate();
+  //const navigate = useNavigate();
 
   const { regionId } = useParams();
 

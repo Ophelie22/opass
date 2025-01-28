@@ -4,7 +4,7 @@ import { useAuth } from "../context/authContext";
 import { useNavigate } from "react-router-dom";
 
 const ShoppingCart: React.FC = () => {
-  const url = import.meta.env.VITE_API_URL;
+  //const url = import.meta.env.VITE_API_URL;
   const { cart, removeFromCart, updateQuantity, clearCart, createOrder } =
     useCart();
   const { isAuthenticated, user } = useAuth();
