@@ -6,6 +6,8 @@ on:
     branches:
       - main
       - develop
+      - SitesBackoffice
+      - frontend-context
   # Action manuel pour éxecuter l'action
   # workflow_dispatch:
   #  branches:

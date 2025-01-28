@@ -70,7 +70,7 @@ const SitesPage: React.FC = () => {
             }
 
             await axios.post(
-                `${process.env.REACT_APP_API_URL}/4/sites`,
+                `${process.env.REACT_APP_API_URL}/5/sites`,
                 formData,
                 {
                     headers: {
