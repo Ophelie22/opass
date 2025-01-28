@@ -122,7 +122,7 @@ const Contact = () => {
               id="message"
               name="message"
               className="form-input"
-              rows="5"
+              rows={5}
               placeholder="Décrivez votre demande"
               required
             ></textarea>
