@@ -55,8 +55,8 @@ const RegisterSchema = yup.object({
 // sur "Valider les modifications" car on est obligés de recharger la page à la main.
 const ProfileTab: React.FC = () => {
     const url = import.meta.env.VITE_API_URL;
-    const [toastMessage, setToastMessage] = useState<string | null>(null);
-    const [toastType, setToastType] = useState<"success" | "error" | "warning" | null>(null);
+    const [, setToastMessage] = useState<string | null>(null);
+    const [, setToastType] = useState<"success" | "error" | "warning" | null>(null);
     const [isEditing, setIsEditing] = useState(false);
     const [userInfos, setUserInfos] = useState<Partial<UserDetails>>({});
     const [isLoading, setIsLoading] = useState(false);
