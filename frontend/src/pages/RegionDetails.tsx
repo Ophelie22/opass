@@ -87,29 +87,32 @@ const RegionDetails = () => {
             </div>
           </section>
 
-          <section className="mt-12">
-            <h2 className="text-2xl font-bold mb-4">Catégories de site</h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {region.categories?.map((category: SiteCategory) => (
-                <NavLink
-                  to={`/regions/${regionId}/${category.id}`}
-                  key={category.id}
-                  className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
-                >
-                  <figure className="h-48 bg-gray-200">
-                    <img
-                      className="w-full h-full object-cover"
-                      src={category.media}
-                      alt={category.name}
-                    />
-                  </figure>
-                  <div className="bg-white text-center p-4">
-                    <h3 className="text-lg font-bold">{category.name}</h3>
-                  </div>
-                </NavLink>
-              ))}
-            </div>
-          </section>
+           {/* ✅ Vérification avant d'afficher les catégories */}
+          {region.categories && region.categories.length > 0 && (
+            <section className="mt-12">
+              <h2 className="text-2xl font-bold mb-4">Catégories de site</h2>
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                {region.categories.map((category: SiteCategory) => (
+                  <NavLink
+                    to={`/regions/${regionId}/${category.id}`}
+                    key={category.id}
+                    className="block rounded-lg overflow-hidden shadow hover:shadow-lg transition-shadow"
+                  >
+                    <figure className="h-48 bg-gray-200">
+                      <img
+                        className="w-full h-full object-cover"
+                        src={category.media}
+                        alt={category.name}
+                      />
+                    </figure>
+                    <div className="bg-white text-center p-4">
+                      <h3 className="text-lg font-bold">{category.name}</h3>
+                    </div>
+                  </NavLink>
+                ))}
+              </div>
+            </section>
+          )}
         </>
       )}
     </main>
