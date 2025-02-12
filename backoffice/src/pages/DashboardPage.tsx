@@ -15,8 +15,8 @@ const DashboardPage: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             // Récupérer les données des packages et des sites
-            const packages = await fetchPackages(2, token!); // Récupérer les packages pour la région 5
-            const sites = await fetchSites(2, token!); // Récupérer les sites pour la région 5
+            const packages = await fetchPackages(5, token!); // Récupérer les packages pour la région 5
+            const sites = await fetchSites(5, token!); // Récupérer les sites pour la région 5
 
             // Calculer le nombre de packages
             setPackagesCount(packages.length);
