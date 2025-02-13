@@ -6,7 +6,9 @@
     "prisma:generate": "node_modules/.bin/prisma generate",
     "prisma:seed": "npx prisma db seed",
     "start:dev": "npm run prisma:migrate && npm run prisma:generate && npm run prisma:seed && npm run dev",
-    "dev": "nodemon --exec ts-node src/index.ts"
+    "dev": "nodemon --exec ts-node src/index.ts",
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "dependencies": {
     "@prisma/client": "^5.22.0",
