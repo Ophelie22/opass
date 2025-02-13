@@ -128,3 +128,36 @@ Backoffice (local) : http://localhost:3002</strong>
 ### Notes
 
 Assurez-vous de bien suivre les étapes de nettoyage pour éviter les conflits entre les branches et les bases de données.
+
+Pour crée une région admin sur l'id 5 :
+```
+PS C:\Users\ydzbi\Documents\projet-08-o-pass> curl.exe -X POST "http://localhost:3000/api/authregion/register" `
+>> -H "Content-Type: application/json" `
+>> -d '{\"name\": \"Region Test\", \"email\": \"region@test.com\", \"password\": \"testpassword\", \"media\": \"http://example.com/image.jpg\", \"description\": \"Une région touristique\"}'
+{"message":"Erreur lors de la création de la région"}
+PS C:\Users\ydzbi\Documents\projet-08-o-pass> curl.exe -X POST "http://localhost:3000/api/authregion/register" `
+>> -H "Content-Type: application/json" `
+>> -d '{\"name\": \"Region Test\", \"email\": \"region@test.com\", \"password\": \"testpassword\", \"media\": \"http://example.com/image.jpg\", \"description\": \"Une région touristique\"}'
+{"id":5,"email":"region@test.com","password":"$2a$10$mZL58t1FO9oUTLMl4kO9nOJdLpMEvn7vwe3mtJ/rgk8r7I2GNDMZi","media":"Une région touristique","description":"http://example.com/image.jpg","name":"Region Test","createAt":"2025-02-12T17:57:20.115Z","updatedAt":"2025-02-12T17:57:20.115Z"}
+```
+
+Faire cette commande :
+
+```
+curl.exe -X POST "http://localhost:3000/api/authregion/register" `
+-H "Content-Type: application/json" `
+-d '{\"name\": \"Region Test\", \"email\": \"region@test.com\", \"password\": \"testpassword\", \"media\": \"http://example.com/image.jpg\", \"description\": \"Une région touristique\"}'
+```
+
+Puis cette commande
+```
+curl.exe -X POST "http://localhost:3000/api/authregion/register" `
+-H "Content-Type: application/json" `
+-d '{\"name\": \"Région Démo\", \"email\": \"demo.region@test.com\", \"password\": \"demomotdepasse\", \"media\": \"http://example.com/demoimage.jpg\", \"description\": \"Une région de démonstration touristique\"}'
+```
+
+Pour se connecter
+```
+Email: demo.region@test.com
+Mot de passe: demomotdepasse
+```
