@@ -1,5 +1,38 @@
 # Projet OPASS - README
+O'Pass est une plateforme innovante qui regroupe tous vos pass touristiques en un seul endroit. 🎟️ 
+Elle vous permet de découvrir et d'acheter facilement des billets pour des attractions locales, qu'il s'agisse de musées, parcs ou monuments. 🏛️ Que vous exploriez une nouvelle région ou revisitez une ville, O'Pass vous offre une expérience fluide, intuitive et pratique pour profiter pleinement de vos découvertes. 
+## Prérequis
+Assurez-vous d'avoir les éléments suivants installés sur votre machine :
+- Docker
+- Docker Compose
+## Languages & Tools
+![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white)
 
+![Express.js](https://img.shields.io/badge/express.js-%23404d59.svg?style=for-the-badge&logo=express&logoColor=%2361DAFB)
+
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+
+![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
+
+![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
+
+## Branches de developpement
+
+Actuellement le projet étant en cours de construction
+il existe plusieurs branches de développement.
+La parties back fonctionne sur la branche SitesBackoffice
+pour la lancer il suffit de faire un  docker compose up --build db api adminer
+ 
+ puis il faut creer des comptes clients "regions" il faudra utiliser celui qui a l'identifiant 5 car pour le dev nous avons mis un id par defaut 
+ il esxiste 2 facons de le creer soit via adminder 'soit en ligne de commande via une commande CURL 
+ Attention tte fois cette commande varie si vous etes sur Windows ou Linux (voir le README.md et la doc dans le dossier api)
+ Pour lancer le back office il faudra faire npm start
+
+ Pour le frontEnd  il faudra se poser sur la branch frontend context
+ et lancer les commande docker indiquer ci dessous
+ 
 ## Prérequis
 Assurez-vous d'avoir les éléments suivants installés sur votre machine :
 - Docker

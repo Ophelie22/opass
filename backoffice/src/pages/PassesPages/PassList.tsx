@@ -24,7 +24,7 @@ const PassList: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/2/passes`,
+                `${process.env.REACT_APP_API_URL}/5/passes`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setPasses(response.data.data);
@@ -43,7 +43,7 @@ const PassList: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/2/passes/${searchCode}`, // Rechercher par ID ou Code
+                `${process.env.REACT_APP_API_URL}/5/passes/${searchCode}`, // Rechercher par ID ou Code
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setSinglePass(response.data.data); // Résultat de la recherche

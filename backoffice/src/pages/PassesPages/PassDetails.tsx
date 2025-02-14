@@ -24,7 +24,7 @@ const PassDetails: React.FC = () => {
         const token = localStorage.getItem('token');
         try {
             const response = await axios.get(
-                `${process.env.REACT_APP_API_URL}/2/passes/${id}`,
+                `${process.env.REACT_APP_API_URL}/5/passes/${id}`,
                 { headers: { Authorization: `Bearer ${token}` } }
             );
             setPass(response.data.data); // Adapter selon votre API

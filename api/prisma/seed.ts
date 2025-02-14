@@ -44,8 +44,8 @@ async function main() {
         password: bcrypt.hashSync("password123"),
         description:
           "Située à l'est de la France, l'Alsace est célèbre pour ses villages pittoresques, ses vins blancs et son patrimoine culturel riche.",
-        //media: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
-        media:"https://unsplash.com/fr/photos/coucher-de-soleil-colore-dans-la-region-de-la-petite-france-dans-la-ville-de-strasbourg-celebres-maisons-a-colombages-la-riviere-ill-et-le-pont-de-saint-martin-destinations-touristiques-populaires-en-europe-4fAL_g5XHOE"
+        media: "https://images.unsplash.com/photo-1502602898657-3e91760cbb34",
+        //media:"https://unsplash.com/fr/photos/coucher-de-soleil-colore-dans-la-region-de-la-petite-france-dans-la-ville-de-strasbourg-celebres-maisons-a-colombages-la-riviere-ill-et-le-pont-de-saint-martin-destinations-touristiques-populaires-en-europe-4fAL_g5XHOE"
       },
     }),
     prisma.region.upsert({
