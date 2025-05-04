@@ -145,7 +145,7 @@ Backend : http://localhost:8080</strong>
 "scripts": {
     "start": "cross-env PORT=3002 react-scripts start",
 ```
-
+ker
 #### 5.4 Test de connexion
 
 Connectez-vous avec l'utilisateur ayant l'ID 5 (administrateur) pour tester les fonctionnalités de connexion.
